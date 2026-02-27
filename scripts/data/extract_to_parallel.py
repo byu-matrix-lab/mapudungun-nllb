@@ -180,18 +180,24 @@ def process_directory_to_parallel_texts(input_directory, output_basename, output
         traceback.print_exc(file=sys.stderr)
 
 # --- How to use the script ---
+# Usage: python extract_to_parallel.py --input <dir> --output <basename>
+# Example:
+#   python extract_to_parallel.py \
+#     --input /home/it238/nobackup/autodelete/mapudungun/data \
+#     --output /home/it238/nobackup/autodelete/mapudungun/data-processed/parallel_corpus
 
-# 1. Set the input directory containing your .txt files
-input_dir = 'Mapudungun Data/AUDIO'  # Your example input
+import argparse
 
-# 2. Set the base name for your output files.
-# For example, if 'parallel_corpus', it will create 'parallel_corpus.arn.txt' and 'parallel_corpus.es.txt'
-output_base = 'parallel_corpus'  # Your example output base name
+parser = argparse.ArgumentParser(
+    description='Extract parallel Mapudungun–Spanish text from M:/C: transcript files.'
+)
+parser.add_argument('--input', required=True,
+                    help='Root directory containing .txt transcript files (searched recursively)')
+parser.add_argument('--output', required=True,
+                    help='Base path for output files (e.g. /path/to/parallel_corpus '
+                         'produces parallel_corpus.arn and parallel_corpus.es)')
+parser.add_argument('--encoding', default='utf-8',
+                    help='Output encoding (default: utf-8)')
+args = parser.parse_args()
 
-# 3. Define the output encoding (UTF-8 is generally recommended)
-output_encoding_type = 'utf-8'
-
-# Run the processing function
-process_directory_to_parallel_texts(input_dir,
-                                    output_base,
-                                    output_encoding=output_encoding_type)
+process_directory_to_parallel_texts(args.input, args.output, output_encoding=args.encoding)
