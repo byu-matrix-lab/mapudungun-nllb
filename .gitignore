@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# SLURM outputs
+*.out
+*.err
+slurm-*.out
+
+# Model checkpoints and large files
+*.bin
+*.pt
+*.pth
+*.safetensors
+*.ckpt
+
+# Sentencepiece models
+*.model
+*.vocab
+
+# Data files (large; kept in nobackup)
+data/cleaned_duan/
+data/raw/
+*.tsv
+*.arn
+*.es
+*.tmx
+
+# But keep small processed files in data/
+!data/splits/*.txt
+!data/cleaned_local/**
+!data/char_sets/**
+
+# Results (large outputs stay local; commit only summary metrics)
+results/*/checkpoint-*/
+results/*/runs/
+results/**/*.bin
+results/**/*.safetensors
+
+# HuggingFace cache
+.cache/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets / credentials
+.env
+*.key

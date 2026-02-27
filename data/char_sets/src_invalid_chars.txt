@@ -1,0 +1,9 @@
+INVALID CHARACTERS FOR SRC LANGUAGE - STRICT
+char  dec     name                                         count    
++     43      PLUS SIGN                                    1631    
+Û     219     LATIN CAPITAL LETTER U WITH CIRCUMFLEX       1       
+ç     231     LATIN SMALL LETTER C WITH CEDILLA            3       
+ï     239     LATIN SMALL LETTER I WITH DIAERESIS          2       
+û     251     LATIN SMALL LETTER U WITH CIRCUMFLEX         1       
+́     769     COMBINING ACUTE ACCENT                       10      
+̃     771     COMBINING TILDE                              1       

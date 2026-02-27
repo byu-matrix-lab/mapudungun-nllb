@@ -1,0 +1,117 @@
+VALID CHARACTERS FOR TGT LANGUAGE - STRICT
+char  dec     name                                         count    
+      32      SPACE                                        1002670 
+!     33      EXCLAMATION MARK                             4177    
+"     34      QUOTATION MARK                               718     
+#     35      NUMBER SIGN                                  0       
+$     36      DOLLAR SIGN                                  5       
+%     37      PERCENT SIGN                                 16      
+&     38      AMPERSAND                                    1       
+'     39      APOSTROPHE                                   29      
+(     40      LEFT PARENTHESIS                             550     
+)     41      RIGHT PARENTHESIS                            550     
+,     44      COMMA                                        43207   
+-     45      HYPHEN-MINUS                                 1271    
+.     46      FULL STOP                                    83762   
+/     47      SOLIDUS                                      156     
+0     48      DIGIT ZERO                                   55      
+1     49      DIGIT ONE                                    42      
+2     50      DIGIT TWO                                    22      
+3     51      DIGIT THREE                                  7       
+4     52      DIGIT FOUR                                   9       
+5     53      DIGIT FIVE                                   9       
+6     54      DIGIT SIX                                    10      
+7     55      DIGIT SEVEN                                  12      
+8     56      DIGIT EIGHT                                  10      
+9     57      DIGIT NINE                                   14      
+:     58      COLON                                        155     
+;     59      SEMICOLON                                    870     
+<     60      LESS-THAN SIGN                               0       
+=     61      EQUALS SIGN                                  0       
+>     62      GREATER-THAN SIGN                            3       
+?     63      QUESTION MARK                                11820   
+@     64      COMMERCIAL AT                                28      
+A     65      LATIN CAPITAL LETTER A                       17434   
+B     66      LATIN CAPITAL LETTER B                       675     
+C     67      LATIN CAPITAL LETTER C                       5413    
+D     68      LATIN CAPITAL LETTER D                       2996    
+E     69      LATIN CAPITAL LETTER E                       12474   
+F     70      LATIN CAPITAL LETTER F                       338     
+G     71      LATIN CAPITAL LETTER G                       410     
+H     72      LATIN CAPITAL LETTER H                       2757    
+I     73      LATIN CAPITAL LETTER I                       213     
+J     74      LATIN CAPITAL LETTER J                       215     
+K     75      LATIN CAPITAL LETTER K                       81      
+L     76      LATIN CAPITAL LETTER L                       3789    
+M     77      LATIN CAPITAL LETTER M                       3202    
+N     78      LATIN CAPITAL LETTER N                       8121    
+O     79      LATIN CAPITAL LETTER O                       503     
+P     80      LATIN CAPITAL LETTER P                       6902    
+Q     81      LATIN CAPITAL LETTER Q                       1714    
+R     82      LATIN CAPITAL LETTER R                       981     
+S     83      LATIN CAPITAL LETTER S                       13657   
+T     84      LATIN CAPITAL LETTER T                       4163    
+U     85      LATIN CAPITAL LETTER U                       1037    
+V     86      LATIN CAPITAL LETTER V                       757     
+W     87      LATIN CAPITAL LETTER W                       69      
+X     88      LATIN CAPITAL LETTER X                       0       
+Y     89      LATIN CAPITAL LETTER Y                       4309    
+Z     90      LATIN CAPITAL LETTER Z                       24      
+[     91      LEFT SQUARE BRACKET                          1       
+\     92      REVERSE SOLIDUS                              0       
+]     93      RIGHT SQUARE BRACKET                         1       
+^     94      CIRCUMFLEX ACCENT                            1       
+_     95      LOW LINE                                     18      
+`     96      GRAVE ACCENT                                 11      
+a     97      LATIN SMALL LETTER A                         534731  
+b     98      LATIN SMALL LETTER B                         73214   
+c     99      LATIN SMALL LETTER C                         156329  
+d     100     LATIN SMALL LETTER D                         172735  
+e     101     LATIN SMALL LETTER E                         647120  
+f     102     LATIN SMALL LETTER F                         26261   
+g     103     LATIN SMALL LETTER G                         42374   
+h     104     LATIN SMALL LETTER H                         91645   
+i     105     LATIN SMALL LETTER I                         218792  
+j     106     LATIN SMALL LETTER J                         28149   
+k     107     LATIN SMALL LETTER K                         1294    
+l     108     LATIN SMALL LETTER L                         187713  
+m     109     LATIN SMALL LETTER M                         174475  
+n     110     LATIN SMALL LETTER N                         322294  
+o     111     LATIN SMALL LETTER O                         438556  
+p     112     LATIN SMALL LETTER P                         111810  
+q     113     LATIN SMALL LETTER Q                         39314   
+r     114     LATIN SMALL LETTER R                         241734  
+s     115     LATIN SMALL LETTER S                         370232  
+t     116     LATIN SMALL LETTER T                         176285  
+u     117     LATIN SMALL LETTER U                         182709  
+v     118     LATIN SMALL LETTER V                         45120   
+w     119     LATIN SMALL LETTER W                         861     
+x     120     LATIN SMALL LETTER X                         2319    
+y     121     LATIN SMALL LETTER Y                         42890   
+z     122     LATIN SMALL LETTER Z                         12063   
+¡     161     INVERTED EXCLAMATION MARK                    4293    
+¿     191     INVERTED QUESTION MARK                       11167   
+Á     193     LATIN CAPITAL LETTER A WITH ACUTE            4       
+È     200     LATIN CAPITAL LETTER E WITH GRAVE            1       
+É     201     LATIN CAPITAL LETTER E WITH ACUTE            61      
+Ñ     209     LATIN CAPITAL LETTER N WITH TILDE            57      
+Ò     210     LATIN CAPITAL LETTER O WITH GRAVE            0       
+Ó     211     LATIN CAPITAL LETTER O WITH ACUTE            0       
+Ú     218     LATIN CAPITAL LETTER U WITH ACUTE            5       
+á     225     LATIN SMALL LETTER A WITH ACUTE              18156   
+ã     227     LATIN SMALL LETTER A WITH TILDE              0       
+ä     228     LATIN SMALL LETTER A WITH DIAERESIS          0       
+è     232     LATIN SMALL LETTER E WITH GRAVE              32      
+é     233     LATIN SMALL LETTER E WITH ACUTE              25116   
+í     237     LATIN SMALL LETTER I WITH ACUTE              53608   
+ñ     241     LATIN SMALL LETTER N WITH TILDE              11251   
+ò     242     LATIN SMALL LETTER O WITH GRAVE              16      
+ó     243     LATIN SMALL LETTER O WITH ACUTE              13491   
+õ     245     LATIN SMALL LETTER O WITH TILDE              0       
+ö     246     LATIN SMALL LETTER O WITH DIAERESIS          1       
+ø     248     LATIN SMALL LETTER O WITH STROKE             0       
+ù     249     LATIN SMALL LETTER U WITH GRAVE              7       
+ú     250     LATIN SMALL LETTER U WITH ACUTE              1907    
+ü     252     LATIN SMALL LETTER U WITH DIAERESIS          1833    
+–     8211    EN DASH                                      0       
+—     8212    EM DASH                                      0       

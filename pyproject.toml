@@ -1,0 +1,20 @@
+[project]
+name = "mapudungun-mt"
+version = "0.1.0"
+description = "Fine-tuning NLLB-200 for Mapudungun–Spanish machine translation"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.1.0",
+    "transformers>=4.40.0",
+    "datasets>=2.18.0",
+    "accelerate>=0.28.0",
+    "sentencepiece>=0.2.0",
+    "morfessor>=2.0.6",
+    "sacrebleu>=2.4.0",
+    "pandas>=2.0.0",
+    "tqdm>=4.66.0",
+    "pyyaml>=6.0.0",
+    "matplotlib>=3.8.0",
+    "seaborn>=0.13.0",
+    "jupyter>=1.0.0",
+]

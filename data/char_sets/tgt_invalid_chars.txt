@@ -1,0 +1,14 @@
+INVALID CHARACTERS FOR TGT LANGUAGE - STRICT
+char  dec     name                                         count    
++     43      PLUS SIGN                                    7       
+Ç     199     LATIN CAPITAL LETTER C WITH CEDILLA          1       
+Í     205     LATIN CAPITAL LETTER I WITH ACUTE            8       
+Ï     207     LATIN CAPITAL LETTER I WITH DIAERESIS        1       
+Ü     220     LATIN CAPITAL LETTER U WITH DIAERESIS        10      
+à     224     LATIN SMALL LETTER A WITH GRAVE              24      
+ç     231     LATIN SMALL LETTER C WITH CEDILLA            4       
+ì     236     LATIN SMALL LETTER I WITH GRAVE              131     
+ï     239     LATIN SMALL LETTER I WITH DIAERESIS          18      
+û     251     LATIN SMALL LETTER U WITH CIRCUMFLEX         3       
+́     769     COMBINING ACUTE ACCENT                       23      
+̈     776     COMBINING DIAERESIS                          1       
