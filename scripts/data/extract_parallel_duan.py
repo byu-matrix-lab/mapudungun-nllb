@@ -59,12 +59,6 @@ def parse_args():
     return parser.parse_args()
 
 
-def strip_inline_tags(text: str) -> str:
-    """Remove ELAN-style tags like <*SPA>, <*noises>, <overlap>, etc."""
-    text = re.sub(r"<[^>]+>", "", text)
-    return text.strip()
-
-
 def parse_file(filepath: Path) -> list[tuple[str, str]]:
     """
     Parse one translation-clean .txt file and return a list of (mapudungun, spanish) pairs.
@@ -86,13 +80,11 @@ def parse_file(filepath: Path) -> list[tuple[str, str]]:
         if APPROACH == "lines":
             # Positional pairing: zip M: lines with C: lines
             for m, c in zip(current_m_lines, current_c_lines):
-                m_clean = strip_inline_tags(m)
-                c_clean = strip_inline_tags(c)
-                if m_clean and c_clean:
-                    pairs.append((m_clean, c_clean))
+                if m and c:
+                    pairs.append((m, c))
         else:  # blocks
-            m_text = " ".join(strip_inline_tags(l) for l in current_m_lines).strip()
-            c_text = " ".join(strip_inline_tags(l) for l in current_c_lines).strip()
+            m_text = " ".join(current_m_lines)
+            c_text = " ".join(current_c_lines)
             if m_text and c_text:
                 pairs.append((m_text, c_text))
 
