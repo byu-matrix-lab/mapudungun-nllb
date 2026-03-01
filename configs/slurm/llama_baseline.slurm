@@ -1,0 +1,56 @@
+#!/bin/bash
+# =============================================================================
+# Llama-3.1-8B-Instruct few-shot baseline for Mapudungun–Spanish translation.
+#
+# Submit one job per direction (approach defaults to lines):
+#   SRC=arn TGT=es sbatch configs/slurm/llama_baseline.slurm
+#   SRC=es  TGT=arn sbatch configs/slurm/llama_baseline.slurm
+#
+# Optionally override approach:
+#   APPROACH=blocks SRC=arn TGT=es sbatch configs/slurm/llama_baseline.slurm
+# =============================================================================
+
+#SBATCH --time=6:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --gpus=1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=64G
+#SBATCH --qos=matrix
+#SBATCH --job-name="llama-${APPROACH:-lines}-${SRC:-arn}-${TGT:-es}"
+#SBATCH --output=logs/%x_%j.out
+
+echo "========================================================="
+echo "SLURM JOB ID : $SLURM_JOB_ID"
+echo "NODE         : $SLURM_JOB_NODELIST"
+echo "APPROACH     : ${APPROACH:-lines}"
+echo "DIRECTION    : ${SRC} -> ${TGT}"
+echo "========================================================="
+
+if [[ -z "$SRC" || -z "$TGT" ]]; then
+    echo "ERROR: SRC and TGT must be set before calling sbatch."
+    exit 1
+fi
+
+export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
+export TRANSFORMERS_OFFLINE=1
+export HF_DATASETS_OFFLINE=1
+export HF_HUB_OFFLINE=1
+
+PROJECT_DIR="/home/$(whoami)/projects/mapudungun/mapudungun-mt"
+DATA_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/data-processed"
+OUTPUT_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/results/llama"
+
+cd "${PROJECT_DIR}"
+mkdir -p logs "${OUTPUT_DIR}"
+
+srun uv run python scripts/eval/llama_baseline.py \
+    --model        "meta-llama/Meta-Llama-3.1-8B-Instruct" \
+    --approach     "${APPROACH:-lines}" \
+    --src          "${SRC}" \
+    --tgt          "${TGT}" \
+    --data-dir     "${DATA_DIR}" \
+    --output-dir   "${OUTPUT_DIR}" \
+    --num-shots    5 \
+    --batch-size   4 \
+    --max-new-tokens 200
