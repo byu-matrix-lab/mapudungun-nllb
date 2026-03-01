@@ -240,7 +240,7 @@ def main():
         args=training_args,
         train_dataset=tokenized["train"],
         eval_dataset=tokenized["dev"],
-        tokenizer=tokenizer,
+        processing_class=tokenizer,
         data_collator=data_collator,
         compute_metrics=build_compute_metrics(tokenizer),
         callbacks=[EarlyStoppingCallback(early_stopping_patience=args.early_stopping_patience)],
