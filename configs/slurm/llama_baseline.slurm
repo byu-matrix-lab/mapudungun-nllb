@@ -1,6 +1,6 @@
 #!/bin/bash
 # =============================================================================
-# Llama-3.3-70B-Instruct (4-bit quant) few-shot baseline for Mapudungun–Spanish translation.
+# Llama-3.1-8B-Instruct few-shot baseline for Mapudungun–Spanish translation.
 #
 # Submit one job per direction (--job-name sets the log filename):
 #   SRC=arn TGT=es  sbatch --job-name=llama-lines-arn-es configs/slurm/llama_baseline.slurm
@@ -15,7 +15,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --gpus=1
 #SBATCH --cpus-per-task=8
-#SBATCH --mem=80G
+#SBATCH --mem=32G
 #SBATCH --qos=matrix
 #SBATCH --output=logs/%x_%j.out
 
@@ -44,12 +44,12 @@ cd "${PROJECT_DIR}"
 mkdir -p logs "${OUTPUT_DIR}"
 
 srun uv run python scripts/eval/llama_baseline.py \
-    --model        "meta-llama/Llama-3.3-70B-Instruct" \
+    --model        "meta-llama/Llama-3.1-8B-Instruct" \
     --approach     "${APPROACH:-lines}" \
     --src          "${SRC}" \
     --tgt          "${TGT}" \
     --data-dir     "${DATA_DIR}" \
     --output-dir   "${OUTPUT_DIR}" \
     --num-shots    5 \
-    --batch-size   2 \
+    --batch-size   4 \
     --max-new-tokens 200
