@@ -3,11 +3,11 @@
 # Zero-shot NLLB-200 baseline on Mapudungun–Spanish test set.
 # No fine-tuning — evaluates the base model directly.
 #
-# Submit one job per direction/approach combination:
-#   APPROACH=lines SRC=arn TGT=es sbatch configs/slurm/zero_shot_nllb.slurm
-#   APPROACH=lines SRC=es  TGT=arn sbatch configs/slurm/zero_shot_nllb.slurm
-#   APPROACH=blocks SRC=arn TGT=es sbatch configs/slurm/zero_shot_nllb.slurm
-#   APPROACH=blocks SRC=es  TGT=arn sbatch configs/slurm/zero_shot_nllb.slurm
+# Submit one job per direction/approach combination (--job-name sets the log filename):
+#   APPROACH=lines  SRC=arn TGT=es  sbatch --job-name=zs-lines-arn-es  configs/slurm/zero_shot_nllb.slurm
+#   APPROACH=lines  SRC=es  TGT=arn sbatch --job-name=zs-lines-es-arn  configs/slurm/zero_shot_nllb.slurm
+#   APPROACH=blocks SRC=arn TGT=es  sbatch --job-name=zs-blocks-arn-es configs/slurm/zero_shot_nllb.slurm
+#   APPROACH=blocks SRC=es  TGT=arn sbatch --job-name=zs-blocks-es-arn configs/slurm/zero_shot_nllb.slurm
 # =============================================================================
 
 #SBATCH --time=2:00:00
@@ -17,7 +17,6 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=32G
 #SBATCH --qos=matrix
-#SBATCH --job-name="zs-nllb-${APPROACH:-lines}-${SRC:-arn}-${TGT:-es}"
 #SBATCH --output=logs/%x_%j.out
 
 echo "========================================================="

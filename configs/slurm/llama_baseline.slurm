@@ -2,12 +2,12 @@
 # =============================================================================
 # Llama-3.1-8B-Instruct few-shot baseline for Mapudungun–Spanish translation.
 #
-# Submit one job per direction (approach defaults to lines):
-#   SRC=arn TGT=es sbatch configs/slurm/llama_baseline.slurm
-#   SRC=es  TGT=arn sbatch configs/slurm/llama_baseline.slurm
+# Submit one job per direction (--job-name sets the log filename):
+#   SRC=arn TGT=es  sbatch --job-name=llama-lines-arn-es configs/slurm/llama_baseline.slurm
+#   SRC=es  TGT=arn sbatch --job-name=llama-lines-es-arn configs/slurm/llama_baseline.slurm
 #
 # Optionally override approach:
-#   APPROACH=blocks SRC=arn TGT=es sbatch configs/slurm/llama_baseline.slurm
+#   APPROACH=blocks SRC=arn TGT=es sbatch --job-name=llama-blocks-arn-es configs/slurm/llama_baseline.slurm
 # =============================================================================
 
 #SBATCH --time=6:00:00
@@ -17,7 +17,6 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --qos=matrix
-#SBATCH --job-name="llama-${APPROACH:-lines}-${SRC:-arn}-${TGT:-es}"
 #SBATCH --output=logs/%x_%j.out
 
 echo "========================================================="

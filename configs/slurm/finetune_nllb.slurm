@@ -3,11 +3,11 @@
 # Fine-tune NLLB-200 on Mapudungun–Spanish
 # Targets the dwmatrix partition (A100) via --qos=matrix.
 #
-# Submit one job per direction/approach combination:
-#   APPROACH=lines SRC=arn TGT=es sbatch configs/slurm/finetune_nllb.slurm
-#   APPROACH=lines SRC=es  TGT=arn sbatch configs/slurm/finetune_nllb.slurm
-#   APPROACH=blocks SRC=arn TGT=es sbatch configs/slurm/finetune_nllb.slurm
-#   APPROACH=blocks SRC=es  TGT=arn sbatch configs/slurm/finetune_nllb.slurm
+# Submit one job per direction/approach combination (--job-name sets the log filename):
+#   APPROACH=lines  SRC=arn TGT=es  sbatch --job-name=nllb-lines-arn-es  configs/slurm/finetune_nllb.slurm
+#   APPROACH=lines  SRC=es  TGT=arn sbatch --job-name=nllb-lines-es-arn  configs/slurm/finetune_nllb.slurm
+#   APPROACH=blocks SRC=arn TGT=es  sbatch --job-name=nllb-blocks-arn-es configs/slurm/finetune_nllb.slurm
+#   APPROACH=blocks SRC=es  TGT=arn sbatch --job-name=nllb-blocks-es-arn configs/slurm/finetune_nllb.slurm
 # =============================================================================
 
 #SBATCH --time=24:00:00
@@ -17,7 +17,6 @@
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --qos=matrix
-#SBATCH --job-name="nllb-${APPROACH:-lines}-${SRC:-arn}-${TGT:-es}"
 #SBATCH --output=logs/%x_%j.out
 
 echo "========================================================="
