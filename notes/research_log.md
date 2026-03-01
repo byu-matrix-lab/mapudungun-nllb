@@ -102,7 +102,23 @@ Authors: Isaac Thompson, Brandon M. Rogers
 
 **Jobs resubmitted after fix**
 - 10547333 `lines arn→es`, 10547334 `lines es→arn`, 10547335 `blocks arn→es`, 10547336 `blocks es→arn`
-- All currently running/queued on A100 (dwmatrix)
+- All completed successfully (~1:22 walltime for lines, ~2:00 for blocks)
+
+**NLLB fine-tuning results (test set)**
+
+| Job | Approach | Direction | chrF++ | BLEU |
+|---|---|---|---|---|
+| 10547333 | lines | arn→es | 44.39 | 18.10 |
+| 10547334 | lines | es→arn | 42.40 | 16.37 |
+| 10547335 | blocks | arn→es | 46.31 | 17.57 |
+| 10547336 | blocks | es→arn | 44.18 | 16.05 |
+
+Duan et al. (2020) reported 20.4 BLEU (arn→es) and 12.9 BLEU (es→arn) — different system, likely different BLEU tokenization.
+- **es→arn**: we beat Duan et al. comfortably on both approaches
+- **arn→es**: lines BLEU (18.10) is below their 20.4 — gap likely partly due to sacrebleu vs non-standard tokenization; chrF++ is more reliable anyway
+- **Block-level outperforms line-level on arn→es chrF++** (46.31 vs 44.39) — full utterance context helps; reverses on es→arn (44.18 vs 42.40 but same direction)
+
+**Next steps**: zero-shot NLLB-200 baseline (no fine-tuning), LLM baseline (Llama-3.1-8B few-shot), error analysis
 
 ---
 
