@@ -122,4 +122,29 @@ Duan et al. (2020) reported 20.4 BLEU (arn→es) and 12.9 BLEU (es→arn) — di
 
 ---
 
+## 2026-03-01 (continued)
+
+**Zero-shot NLLB-200 results (test set, no fine-tuning)**
+
+| Approach | Direction | chrF++ | BLEU |
+|---|---|---|---|
+| lines  | arn→es | 12.94 | 0.66 |
+| lines  | es→arn | 6.48  | 0.18 |
+| blocks | arn→es | 16.25 | 1.84 |
+| blocks | es→arn | 10.96 | 0.98 |
+
+Fine-tuning provides massive gains: +31 chrF++ (arn→es lines), +36 chrF++ (es→arn lines).
+Makes sense — `arn_Latn` was not in NLLB's training data at all; the zero-shot model has no knowledge of Mapudungun.
+
+**Llama-3.3-70B-Instruct 5-shot baseline submitted**
+- Jobs 10547432 (lines arn→es) and 10547433 (lines es→arn)
+- 4-bit NF4 quantization (bitsandbytes) — fits on single A100 80GB, ~35GB VRAM
+- Chat-template prompting with system instruction + 5 dev examples
+- Batch size 2, 6h walltime
+
+**Git status**: fixed SLURM log naming (pass `--job-name` on CLI, `%x_%j` in output pattern).
+`feature/data-pipeline` PR open on GitHub; `feature/nllb-finetuning` branch active.
+
+---
+
 <!-- Add new entries below as work progresses -->
