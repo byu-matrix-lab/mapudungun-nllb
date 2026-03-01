@@ -2,7 +2,8 @@
 """
 llama_baseline.py
 
-Few-shot Llama-3.1-8B-Instruct baseline for Mapudungun–Spanish translation.
+Few-shot Llama-3.3-70B-Instruct baseline for Mapudungun–Spanish translation.
+Loaded in 4-bit quantization (bitsandbytes) to fit on a single A100 80GB.
 Samples --num-shots examples from the dev set as in-context examples.
 
 Usage:
@@ -19,7 +20,7 @@ import random
 from pathlib import Path
 
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 import sacrebleu
 
 logging.basicConfig(level=logging.INFO)
@@ -30,27 +31,27 @@ LANG_LABELS = {"arn": "Mapudungun", "es": "Spanish"}
 SYSTEM_PROMPTS = {
     ("arn", "es"): (
         "You are a translation assistant specializing in Mapudungun and Spanish. "
-        "Translate each Mapudungun sentence into Spanish. "
+        "Translate the given Mapudungun sentence into Spanish. "
         "Output only the translation, nothing else."
     ),
     ("es", "arn"): (
         "You are a translation assistant specializing in Mapudungun and Spanish. "
-        "Translate each Spanish sentence into Mapudungun. "
+        "Translate the given Spanish sentence into Mapudungun. "
         "Output only the translation, nothing else."
     ),
 }
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Llama few-shot MT baseline.")
-    parser.add_argument("--model", default="meta-llama/Meta-Llama-3.1-8B-Instruct")
+    parser = argparse.ArgumentParser(description="Llama-3.3-70B few-shot MT baseline.")
+    parser.add_argument("--model", default="meta-llama/Llama-3.3-70B-Instruct")
     parser.add_argument("--approach", choices=["lines", "blocks"], default="lines")
     parser.add_argument("--src", choices=["arn", "es"], required=True)
     parser.add_argument("--tgt", choices=["arn", "es"], required=True)
     parser.add_argument("--data-dir", required=True)
     parser.add_argument("--output-dir", required=True)
     parser.add_argument("--num-shots", type=int, default=5)
-    parser.add_argument("--batch-size", type=int, default=4)
+    parser.add_argument("--batch-size", type=int, default=2)
     parser.add_argument("--max-new-tokens", type=int, default=200)
     parser.add_argument("--seed", type=int, default=42)
     return parser.parse_args()
@@ -63,7 +64,8 @@ def load_split(data_dir, approach, split):
     return list(zip(src, tgt))
 
 
-def build_user_message(src_text, examples, src, tgt):
+def build_messages(src_text, examples, src, tgt):
+    """Chat-format few-shot prompt for instruct model."""
     src_label = LANG_LABELS[src]
     tgt_label = LANG_LABELS[tgt]
     lines = []
@@ -73,7 +75,10 @@ def build_user_message(src_text, examples, src, tgt):
         lines.append("")
     lines.append(f"{src_label}: {src_text}")
     lines.append(f"{tgt_label}:")
-    return "\n".join(lines)
+    return [
+        {"role": "system", "content": SYSTEM_PROMPTS[(src, tgt)]},
+        {"role": "user", "content": "\n".join(lines)},
+    ]
 
 
 def main():
@@ -92,8 +97,16 @@ def main():
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
+    bnb_config = BitsAndBytesConfig(
+        load_in_4bit=True,
+        bnb_4bit_compute_dtype=torch.float16,
+        bnb_4bit_use_double_quant=True,
+        bnb_4bit_quant_type="nf4",
+    )
     model = AutoModelForCausalLM.from_pretrained(
-        args.model, torch_dtype=torch.float16, device_map="auto"
+        args.model,
+        quantization_config=bnb_config,
+        device_map="auto",
     )
     model.eval()
 
@@ -102,7 +115,6 @@ def main():
     logger.info(f"Dev: {len(dev_pairs):,}  Test: {len(test_pairs):,}")
 
     examples = random.sample(dev_pairs, min(args.num_shots, len(dev_pairs)))
-    system_prompt = SYSTEM_PROMPTS[(args.src, args.tgt)]
     tgt_label = LANG_LABELS[args.tgt]
 
     test_src = [p[0] for p in test_pairs]
@@ -111,17 +123,14 @@ def main():
     predictions = []
     for i in range(0, len(test_src), args.batch_size):
         batch_src = test_src[i : i + args.batch_size]
-        prompts = []
-        for src_text in batch_src:
-            messages = [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": build_user_message(src_text, examples, args.src, args.tgt)},
-            ]
-            prompts.append(
-                tokenizer.apply_chat_template(
-                    messages, tokenize=False, add_generation_prompt=True
-                )
+        prompts = [
+            tokenizer.apply_chat_template(
+                build_messages(src_text, examples, args.src, args.tgt),
+                tokenize=False,
+                add_generation_prompt=True,
             )
+            for src_text in batch_src
+        ]
 
         inputs = tokenizer(
             prompts,
@@ -143,7 +152,6 @@ def main():
         for out, inp in zip(outputs, inputs["input_ids"]):
             new_tokens = out[len(inp):]
             decoded = tokenizer.decode(new_tokens, skip_special_tokens=True).strip()
-            # Keep only the first line; strip echoed label if present
             translation = decoded.split("\n")[0].strip()
             prefix = f"{tgt_label}: "
             if translation.startswith(prefix):
