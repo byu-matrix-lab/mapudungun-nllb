@@ -38,13 +38,14 @@ export HF_HUB_OFFLINE=1
 
 PROJECT_DIR="/home/$(whoami)/projects/mapudungun/mapudungun-mt"
 DATA_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/data-processed"
+MODEL="${MODEL:-facebook/nllb-200-distilled-600M}"
 OUTPUT_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/results/zero_shot"
 
 cd "${PROJECT_DIR}"
 mkdir -p logs "${OUTPUT_DIR}"
 
 srun uv run python scripts/eval/zero_shot_nllb.py \
-    --model      "facebook/nllb-200-distilled-600M" \
+    --model      "${MODEL}" \
     --approach   "${APPROACH}" \
     --src        "${SRC}" \
     --tgt        "${TGT}" \
