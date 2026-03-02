@@ -41,14 +41,16 @@ export HF_HUB_OFFLINE=1
 
 PROJECT_DIR="/home/$(whoami)/projects/mapudungun/mapudungun-mt"
 DATA_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/data-processed"
-OUTPUT_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/models/nllb-600M-${APPROACH}-${SRC}-${TGT}"
+MODEL="${MODEL:-facebook/nllb-200-distilled-600M}"
+MODEL_TAG=$(echo "$MODEL" | sed 's|.*/||; s/nllb-200-distilled-/nllb-/')
+OUTPUT_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/models/${MODEL_TAG}-${APPROACH}-${SRC}-${TGT}"
 
 cd "${PROJECT_DIR}"
 mkdir -p logs "${OUTPUT_DIR}"
 
 # A100 (dwmatrix): batch 32 × grad_accum 4 = effective batch 128
 srun uv run python scripts/training/finetune_nllb.py \
-    --model      "facebook/nllb-200-distilled-600M" \
+    --model      "${MODEL}" \
     --approach   "${APPROACH}" \
     --src        "${SRC}" \
     --tgt        "${TGT}" \
