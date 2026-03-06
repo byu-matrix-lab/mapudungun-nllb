@@ -152,6 +152,187 @@ Makes sense — `arn_Latn` was not in NLLB's training data at all; the zero-shot
 parameterized MODEL env var in both finetune and zero_shot SLURM scripts.
 `feature/data-pipeline` PR open on GitHub; `feature/nllb-finetuning` branch active.
 
+**Llama-3.1-8B-Instruct jobs (lines) submitted**
+- Jobs 10547548–49 (lines arn→es/es→arn) — running; output `results/llama/`
+- Note: submitted before output-naming fix; filenames will be `llama_lines_{src}_{tgt}.json`
+
 ---
+
+## 2026-03-01 (evening)
+
+**NLLB result file naming fix**
+- `zero_shot_nllb.py`: output stem now includes model tag (`zero_shot_{model_tag}_{approach}_{src}_{tgt}`)
+- `llama_baseline.py`: output stem now model-tagged (`{model_tag}_{approach}_{src}_{tgt}`)
+- `llama_baseline.slurm`: MODEL env var support added; output dir changed to `results/llm/`
+- Zero-shot 600M results recovered from job logs and saved with correct `nllb-600M` naming;
+  one file had been overwritten by 1.3B job (10547543 completed before rename)
+
+**Zero-shot NLLB-1.3B results (partial — two jobs completed)**
+
+| Approach | Direction | chrF++ | BLEU |
+|---|---|---|---|
+| blocks | arn→es | 17.22 | 1.77 |
+| blocks | es→arn | 12.44 | 1.49 |
+
+Remaining two (lines arn→es, lines es→arn) still running.
+
+**NLLB-3.3B** — download complete (~6.6GB). Jobs queued:
+- Fine-tuning: 10547568–71 (lines/blocks × arn→es/es→arn)
+- Zero-shot:   10547572–75 (lines/blocks × arn→es/es→arn)
+
+**Llama-3.1-8B-Instruct blocks jobs** — 10547576–77 (blocks arn→es/es→arn)
+
+**Aya Expanse 8B** (`CohereForAI/aya-expanse-8b`) download started in background (~16GB)
+- Specifically designed for multilingual/low-resource NLP — strong AmericasNLP framing comparison
+- Will queue 4 jobs (lines+blocks × 2 directions) after download completes
+
+**Related work decisions**
+- Lira et al. (2025): 10K pairs, MarianMT, best 10.03 BLEU arn→es — cite, don't replicate (different splits)
+- Peñas et al. (2023): 30K pairs + web data, reports 65.45 BLEU — likely tokenization inflation, not comparable
+
+**Advisor's maxim**: "A good researcher has a clear hypothesis, clear experiments, and a deep supercomputer queue."
+
+---
+
+## 2026-03-02
+
+**Aya Expanse 8B** (`CohereForAI/aya-expanse-8b`) — model was gated, accepted terms and redownloaded successfully. Jobs 10547580–83 submitted and completed.
+
+**All overnight jobs completed** except NLLB-3.3B blocks fine-tune (OOM at batch=32).
+- Fixed: `finetune_nllb.slurm` now supports `BATCH_SIZE`/`GRAD_ACCUM` env var overrides
+- Resubmitted as 10551483–84 with `BATCH_SIZE=8 GRAD_ACCUM=16` (effective batch still 128) — running
+
+**Complete results so far**
+
+Fine-tuned NLLB (test set):
+
+| Model | Approach | arn→es chrF++ | arn→es BLEU | es→arn chrF++ | es→arn BLEU |
+|---|---|---|---|---|---|
+| NLLB-600M | lines  | 44.39 | 18.10 | 42.40 | 16.37 |
+| NLLB-600M | blocks | 46.31 | 17.57 | 44.18 | 16.05 |
+| NLLB-1.3B | lines  | 45.42 | 18.83 | 43.90 | 17.68 |
+| NLLB-1.3B | blocks | **48.59** | **19.52** | **47.32** | **18.38** |
+| NLLB-3.3B | lines  | 44.88 | 17.87 | 43.68 | 17.43 |
+| NLLB-3.3B | blocks | ⏳ pending | — | ⏳ pending | — |
+
+Zero-shot NLLB (no fine-tuning):
+
+| Model | Approach | arn→es chrF++ | es→arn chrF++ |
+|---|---|---|---|
+| NLLB-600M (distilled) | lines  | 12.94 | 6.48  |
+| NLLB-600M (distilled) | blocks | 16.25 | 10.96 |
+| NLLB-1.3B (distilled) | lines  | 13.62 | 8.12  |
+| NLLB-1.3B (distilled) | blocks | 17.22 | 12.44 |
+| NLLB-3.3B (non-distilled) | lines  | 2.96  | 1.99  |
+| NLLB-3.3B (non-distilled) | blocks | 5.94  | 3.43  |
+
+Note: 3.3B zero-shot is *worse* than distilled models — non-distilled model likely handles proxy
+token initialization for `arn_Latn` differently. Worth discussing in paper.
+
+LLM few-shot (5-shot):
+
+| Model | Approach | arn→es chrF++ | es→arn chrF++ |
+|---|---|---|---|
+| Llama-3.1-8B-Instruct | lines  | 14.58 | 12.70 |
+| Llama-3.1-8B-Instruct | blocks | 16.54 | 16.20 |
+| Aya Expanse 8B        | lines  | 16.10 | 12.48 |
+| Aya Expanse 8B        | blocks | **20.05** | **16.11** |
+
+Key takeaways: fine-tuned NLLB-1.3B blocks is best at 48.59 chrF++ arn→es, beating all baselines
+by ~28 chrF++ points. NLLB-1.3B > NLLB-600M > NLLB-3.3B after fine-tuning (larger model may need
+lower LR / longer warmup). Aya Expanse outperforms Llama, consistent with multilingual focus.
+
+**Script fixes**
+- `zero_shot_nllb.py`: output stem now includes model tag (avoids overwriting across model sizes)
+- `llama_baseline.py`: output stem is model-tagged
+- `llama_baseline.slurm`: MODEL env var added; output dir → `results/llm/`
+- 600M zero-shot files recovered from job logs after being overwritten by 1.3B run
+
+---
+
+## 2026-03-06
+
+**NLLB-3.3B blocks fine-tune completed** (from previous session, jobs 10551483–84):
+- arn→es: 49.25 chrF++ (dev), es→arn: 48.08 chrF++ (dev)
+- These were **dev set** metrics — see "Test set evaluation" below for corrected numbers
+
+**Results chart — `scripts/analysis/plot_results.py`**
+- Created `notes/results_chrf.png`: dual-panel bar chart (arn→es left, es→arn right)
+- Groups: Prior work (Duan 2020*, Lira 2025†), NLLB zero-shot (600M/1.3B/3.3B‡), 5-shot LLM (Llama 3.1 / Aya Exp.), Fine-tuned NLLB (600M/1.3B/3.3B)
+- Footnotes: *Duan same conversations pre-cleaning; †Lira different 1,250-pair test set; ‡non-distilled model
+- Chart will be updated once corrected test-set numbers are available for all model sizes
+
+**Meeting with Dr. Brandon M. Rogers (BYU Spanish & Portuguese)**
+- Showed demo translations — arn→es looked semantically solid; es→arn mostly Spanish output
+- Potential roles: linguistic/error analysis, human evaluation (fluency + adequacy 1–5), grammar-augmented LLM prompting
+- Demo translations script at `scripts/eval/demo_translations.py`
+
+**Key discovery: `arn_Latn` absent from NLLB-200 tokenizer**
+- Confirmed via `tokenizer.get_vocab()` inspection: `arn_Latn` resolves to UNK (id=3) in both 600M and 3.3B base models
+- `finetune_nllb.py` already handles this correctly: adds `arn_Latn` as new token (id=256204), initializes from mean of `ayr_Latn`/`grn_Latn`/`quy_Latn`
+- `demo_translations.py` was broken: it loaded the base tokenizer where `arn_Latn`=UNK, so `forced_bos_token_id`=3 during inference → model defaulted to Spanish
+- **Fix**: load `NllbTokenizer` from base path + manually call `add_special_tokens({"additional_special_tokens": ["arn_Latn"]})` to reproduce training vocab (id=256204)
+
+**Corpus code-switching analysis**
+- Raw ELAN/CHAT files contain `<SPA>` and `<*SPA>` inline tags marking word-level code-switching (10,606 and 44,590 occurrences respectively across the corpus)
+- Cleaning pipeline (`arn-CL.yaml`) strips all `<>` tags, so training data has no tag information
+- fastText lid.176 word-level language ID on cleaned `src.txt` (Mapudungun side):
+  - **~15% of words classified as Spanish** (consistent across blocks and lines)
+  - **20–27% of lines have >20% Spanish words**
+  - Remaining ~85% distributed across unrelated languages (Turkish, Italian, German, etc.) — fastText misclassification of native Mapudungun, which has no LID model
+- Example high-CS lines: "si ese muy bueno ka fey.", "no si esa otra mujer ese pues de afuera" (entire discourse turns in Spanish)
+- Conclusion: code-switching is authentic language use in these health consultation conversations, not noise
+
+**Root cause of poor es→arn output**
+- The model has correctly learned the code-switching distribution of the training corpus
+- Many test references are themselves heavily Spanish-mixed → Spanish-heavy predictions can score well on code-switched references
+- For "pure" Spanish inputs requiring "pure" Mapudungun output, the model fails (examples 1–4 in demo)
+- Discussion with analysis: filtering is not clearly the right move; honest evaluation requires human annotation
+- Decision: document the code-switching finding as a corpus analysis contribution, propose prefix-control and filtering as future work
+
+**Morfessor tokenization study**
+- `scripts/tokenization/segment_morfessor.py`: trains Morfessor 2.0 on 105,058 unique Mapudungun word types from training data
+- Applies `@@` boundary markers: `ngütramkafiñ → ngütramka@@ fiñ`, `tukulpayayu → tukulpay@@ ayu`
+- Short/unsegmented roots preserved: `inche`, `mapuche`, `kimün`, etc.
+- Output ready at `data-processed/{blocks,lines}/morfessor/{train,dev,test}/src.txt`
+- Two bugs fixed during prep: (a) `load_data()` expects `(count, word)` not `(word, count)`; (b) `get_segmentations()` returns generator, not len()-able
+- Fine-tune jobs with `TOKENIZER_APPROACH=morfessor` submitted for 1.3B blocks:
+  - 10672684: arn→es morfessor, 10672685: es→arn morfessor (PENDING)
+
+**Test set evaluation — corrected numbers**
+- Previous dev-set metrics for 3.3B blocks were misleading; ran `scripts/eval/predict_test.py` on full test set (9,382 pairs) with correct tokenizer
+
+| Model | Direction | Test chrF++ | Dev chrF++ (prev reported) |
+|---|---|---|---|
+| NLLB-3.3B blocks | arn→es | **43.62** | 49.25 (dev) |
+| NLLB-3.3B blocks | es→arn | **14.22** | 48.08 (dev, wrong tokenizer) |
+
+- arn→es at 43.62 is still SOTA over Lira (30.30)
+- es→arn at 14.22 is a major correction: 93% of sentences score <25 chrF++
+  - Best predictions are all code-switched passthroughs (e.g. "Palo Trébol, palo Santo" → "Palo trebol, palo santo")
+  - Score distribution: 44.4% at 0–10, 48.9% at 10–25
+- 600M and 1.3B test-set predictions running (jobs 10672680–83); chart will be updated when done
+
+**New evaluation infrastructure**
+- `scripts/eval/predict_test.py`: runs any fine-tuned model on full test set, saves per-sentence JSON with chrF++ scores, reports distribution and best/worst examples
+- `--model-path` and `--run-name` flags for running any model size
+- Predictions saved to `nobackup/autodelete/mapudungun/predictions/`
+
+**Jobs running / pending**
+| Job | Task | Status |
+|---|---|---|
+| 10672680 | 600M arn→es predict | submitted |
+| 10672681 | 600M es→arn predict | submitted |
+| 10672682 | 1.3B arn→es predict | submitted |
+| 10672683 | 1.3B es→arn predict | submitted |
+| 10672684 | 1.3B morfessor arn→es fine-tune | PENDING |
+| 10672685 | 1.3B morfessor es→arn fine-tune | PENDING |
+
+**Next steps**
+- Wait for predict jobs → update results chart with all test-set numbers
+- Check morfessor fine-tune results when done
+- Begin paper writing (~March 10 target)
+- Set up Dr. Rogers human evaluation (50–100 sentence fluency+adequacy 1–5 for arn→es)
+- Move best model checkpoints out of autodelete
 
 <!-- Add new entries below as work progresses -->

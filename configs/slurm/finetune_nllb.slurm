@@ -43,23 +43,38 @@ PROJECT_DIR="/home/$(whoami)/projects/mapudungun/mapudungun-mt"
 DATA_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/data-processed"
 MODEL="${MODEL:-facebook/nllb-200-distilled-600M}"
 MODEL_TAG=$(echo "$MODEL" | sed 's|.*/||; s/nllb-200-distilled-/nllb-/')
-OUTPUT_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/models/${MODEL_TAG}-${APPROACH}-${SRC}-${TGT}"
+TOKENIZER_APPROACH="${TOKENIZER_APPROACH:-standard}"
+LR_SUFFIX=""
+if [ "${LR:-3e-5}" != "3e-5" ]; then
+    LR_SUFFIX="-lr$(echo "${LR}" | sed 's/e-/em/')"
+fi
+TOK_SUFFIX=""
+if [ "${TOKENIZER_APPROACH}" != "standard" ]; then
+    TOK_SUFFIX="-${TOKENIZER_APPROACH}"
+fi
+OUTPUT_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/models/${MODEL_TAG}-${APPROACH}-${SRC}-${TGT}${LR_SUFFIX}${TOK_SUFFIX}"
 
 cd "${PROJECT_DIR}"
 mkdir -p logs "${OUTPUT_DIR}"
 
-# A100 (dwmatrix): batch 32 × grad_accum 4 = effective batch 128
+# A100 (dwmatrix): default batch 32 × grad_accum 4 = effective batch 128
+# Override for larger models: BATCH_SIZE=8 GRAD_ACCUM=16
+BATCH_SIZE="${BATCH_SIZE:-32}"
+GRAD_ACCUM="${GRAD_ACCUM:-4}"
+LR="${LR:-3e-5}"
+
 srun uv run python scripts/training/finetune_nllb.py \
-    --model      "${MODEL}" \
-    --approach   "${APPROACH}" \
-    --src        "${SRC}" \
-    --tgt        "${TGT}" \
-    --data-dir   "${DATA_DIR}" \
-    --output-dir "${OUTPUT_DIR}" \
+    --model               "${MODEL}" \
+    --approach            "${APPROACH}" \
+    --src                 "${SRC}" \
+    --tgt                 "${TGT}" \
+    --data-dir            "${DATA_DIR}" \
+    --output-dir          "${OUTPUT_DIR}" \
+    --tokenizer-approach  "${TOKENIZER_APPROACH}" \
     --epochs     10 \
-    --batch-size 32 \
-    --grad-accum 4 \
-    --lr         3e-5 \
+    --batch-size "${BATCH_SIZE}" \
+    --grad-accum "${GRAD_ACCUM}" \
+    --lr         "${LR}" \
     --warmup-steps 1000 \
     --max-length 128 \
     --early-stopping-patience 3 \

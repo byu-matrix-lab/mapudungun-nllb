@@ -89,12 +89,26 @@ def parse_args():
     parser.add_argument("--early-stopping-patience", type=int, default=3)
     parser.add_argument("--num-beams", type=int, default=4, help="Beams for eval generation.")
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument(
+        "--tokenizer-approach",
+        default="standard",
+        choices=["standard", "morfessor"],
+        help="Pre-segmentation strategy applied to Mapudungun data.",
+    )
     return parser.parse_args()
 
 
-def load_split(data_dir: str, approach: str, split: str) -> Dataset:
-    """Load one cleaned split from src.txt / tgt.txt."""
-    base = Path(data_dir) / approach / "cleaned" / split / "cleaned"
+def load_split(data_dir: str, approach: str, split: str,
+               tokenizer_approach: str = "standard") -> Dataset:
+    """Load one split from src.txt / tgt.txt.
+
+    For tokenizer_approach='morfessor', loads from the morfessor pre-segmented
+    directory instead of the standard cleaned directory.
+    """
+    if tokenizer_approach == "morfessor":
+        base = Path(data_dir) / approach / "morfessor" / split
+    else:
+        base = Path(data_dir) / approach / "cleaned" / split / "cleaned"
     src_lines = (base / "src.txt").read_text(encoding="utf-8").splitlines()
     tgt_lines = (base / "tgt.txt").read_text(encoding="utf-8").splitlines()
     assert len(src_lines) == len(tgt_lines), (
@@ -147,7 +161,13 @@ def build_preprocess_fn(tokenizer, src_lang_code, tgt_lang_code, max_length):
     return preprocess
 
 
-def build_compute_metrics(tokenizer):
+def desegment(text: str) -> str:
+    """Remove Morfessor @@ boundary markers to recover original word forms."""
+    import re
+    return re.sub(r"@@ ?", "", text)
+
+
+def build_compute_metrics(tokenizer, desegment_output: bool = False):
     def compute_metrics(eval_preds):
         preds, labels = eval_preds
         # Replace -100 (padding label) with pad token ID before decoding
@@ -158,6 +178,11 @@ def build_compute_metrics(tokenizer):
         # Strip whitespace
         decoded_preds = [p.strip() for p in decoded_preds]
         decoded_labels = [l.strip() for l in decoded_labels]
+
+        # When target is Morfessor-segmented Mapudungun, desegment before scoring
+        if desegment_output:
+            decoded_preds  = [desegment(p) for p in decoded_preds]
+            decoded_labels = [desegment(l) for l in decoded_labels]
 
         chrf = sacrebleu.corpus_chrf(decoded_preds, [decoded_labels])
         bleu = sacrebleu.corpus_bleu(decoded_preds, [decoded_labels])
@@ -177,10 +202,14 @@ def main():
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    logger.info(f"Model     : {args.model}")
-    logger.info(f"Direction : {args.src} ({src_code}) → {args.tgt} ({tgt_code})")
-    logger.info(f"Approach  : {args.approach}")
-    logger.info(f"Output    : {output_dir}")
+    # Desegment model output before scoring when target is Morfessor-segmented arn
+    desegment_output = (args.tokenizer_approach == "morfessor" and args.tgt == "arn")
+
+    logger.info(f"Model              : {args.model}")
+    logger.info(f"Direction          : {args.src} ({src_code}) → {args.tgt} ({tgt_code})")
+    logger.info(f"Approach           : {args.approach}")
+    logger.info(f"Tokenizer approach : {args.tokenizer_approach}")
+    logger.info(f"Output             : {output_dir}")
 
     # Save run config for reproducibility
     (output_dir / "run_config.json").write_text(json.dumps(vars(args), indent=2))
@@ -194,12 +223,13 @@ def main():
 
     # Set forced BOS token (target language) for generation
     tgt_token_id = tokenizer.convert_tokens_to_ids(tgt_code)
-    model.config.forced_bos_token_id = tgt_token_id
+    model.generation_config.forced_bos_token_id = tgt_token_id
     logger.info(f"forced_bos_token_id = {tgt_token_id} ({tgt_code})")
 
     # Load and tokenize data
     logger.info("Loading data...")
-    raw = {split: load_split(args.data_dir, args.approach, split)
+    raw = {split: load_split(args.data_dir, args.approach, split,
+                             args.tokenizer_approach)
            for split in ("train", "dev", "test")}
     logger.info(f"  train: {len(raw['train']):,}  dev: {len(raw['dev']):,}  test: {len(raw['test']):,}")
 
@@ -242,7 +272,7 @@ def main():
         eval_dataset=tokenized["dev"],
         processing_class=tokenizer,
         data_collator=data_collator,
-        compute_metrics=build_compute_metrics(tokenizer),
+        compute_metrics=build_compute_metrics(tokenizer, desegment_output),
         callbacks=[EarlyStoppingCallback(early_stopping_patience=args.early_stopping_patience)],
     )
 

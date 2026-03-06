@@ -124,7 +124,8 @@ def main():
     }
     logger.info(f"Results: {results}")
 
-    stem = f"zero_shot_{args.approach}_{args.src}_{args.tgt}"
+    model_tag = args.model.split("/")[-1].replace("nllb-200-distilled-", "nllb-")
+    stem = f"zero_shot_{model_tag}_{args.approach}_{args.src}_{args.tgt}"
     (output_dir / f"{stem}.json").write_text(json.dumps(results, indent=2))
     (output_dir / f"{stem}_predictions.txt").write_text(
         "\n".join(predictions), encoding="utf-8"

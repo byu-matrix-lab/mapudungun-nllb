@@ -169,7 +169,8 @@ def main():
     }
     logger.info(f"Results: {results}")
 
-    stem = f"llama_{args.approach}_{args.src}_{args.tgt}"
+    model_tag = args.model.split("/")[-1].lower().replace("-instruct", "")
+    stem = f"{model_tag}_{args.approach}_{args.src}_{args.tgt}"
     (output_dir / f"{stem}.json").write_text(json.dumps(results, indent=2))
     (output_dir / f"{stem}_predictions.txt").write_text(
         "\n".join(predictions), encoding="utf-8"

@@ -1,13 +1,14 @@
 #!/bin/bash
 # =============================================================================
-# Llama-3.1-8B-Instruct few-shot baseline for Mapudungun–Spanish translation.
+# LLM few-shot baseline for Mapudungun–Spanish translation.
+# Works with any chat-format instruct model (Llama, Aya Expanse, etc.)
 #
 # Submit one job per direction (--job-name sets the log filename):
-#   SRC=arn TGT=es  sbatch --job-name=llama-lines-arn-es configs/slurm/llama_baseline.slurm
-#   SRC=es  TGT=arn sbatch --job-name=llama-lines-es-arn configs/slurm/llama_baseline.slurm
+#   SRC=arn TGT=es  sbatch --job-name=llama-lines-arn-es  configs/slurm/llama_baseline.slurm
+#   SRC=es  TGT=arn sbatch --job-name=llama-lines-es-arn  configs/slurm/llama_baseline.slurm
 #
-# Optionally override approach:
-#   APPROACH=blocks SRC=arn TGT=es sbatch --job-name=llama-blocks-arn-es configs/slurm/llama_baseline.slurm
+# Override model or approach:
+#   MODEL=CohereForAI/aya-expanse-8b APPROACH=lines SRC=arn TGT=es sbatch --job-name=aya-lines-arn-es configs/slurm/llama_baseline.slurm
 # =============================================================================
 
 #SBATCH --time=6:00:00
@@ -38,13 +39,14 @@ export HF_HUB_OFFLINE=1
 
 PROJECT_DIR="/home/$(whoami)/projects/mapudungun/mapudungun-mt"
 DATA_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/data-processed"
-OUTPUT_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/results/llama"
+MODEL="${MODEL:-meta-llama/Llama-3.1-8B-Instruct}"
+OUTPUT_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/results/llm"
 
 cd "${PROJECT_DIR}"
 mkdir -p logs "${OUTPUT_DIR}"
 
 srun uv run python scripts/eval/llama_baseline.py \
-    --model        "meta-llama/Llama-3.1-8B-Instruct" \
+    --model        "${MODEL}" \
     --approach     "${APPROACH:-lines}" \
     --src          "${SRC}" \
     --tgt          "${TGT}" \

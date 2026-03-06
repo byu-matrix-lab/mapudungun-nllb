@@ -17,4 +17,8 @@ dependencies = [
     "matplotlib>=3.8.0",
     "seaborn>=0.13.0",
     "jupyter>=1.0.0",
+    "bitsandbytes>=0.49.2",
+    "unbabel-comet>=2.2.7",
+    "setuptools>=82.0.0",
+    "fasttext>=0.9.3",
 ]
