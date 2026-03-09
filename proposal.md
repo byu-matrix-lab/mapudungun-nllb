@@ -2,8 +2,8 @@
 
 **Proposed submission:** 8-page paper to AmericasNLP 2026 @ ACL on April 15, 2026  
 **Proposed team:** Isaac Thompson & Dr. Brandon M. Rogers (BYU Spanish & Portuguese)  
-**Last Updated:** Feb 25, 2026  
-**Reviewed by:** Steve Richardson on Feb 23, 2026 and Eric Ringger on Feb 25, 2026 
+**Last Updated:** Mar 9, 2026
+**Reviewed by:** Steve Richardson on Feb 23, 2026 and Eric Ringger on Feb 25, 2026; informal feedback from Kevin Duh (Johns Hopkins University) on Mar 9, 2026
 
 ---
 
@@ -31,7 +31,14 @@ An LLM prompting baseline (GPT-4o, Claude; zero-shot through grammar-augmented) 
 * **Baselines:** Duan et al. 2020 Transformer, zero-shot NLLB-200, LLM prompting variants.
 * **Linguistic analysis (Rogers):** Error analysis across morphological categories, code-switching behavior, and dialect variation (Nguluche, Lafkenche, Pewenche), drawing on his published work on Spanish-Mapudungun contact and phonetics.
 
-## 5. Validation & Impact 
-* **Predictions / Definition of Success:** NLLB fine-tuning meaningfully outperforms the 2020 baseline; linguistically-informed tokenization outperforms Duan et al.'s 5K joint BPE; LLM prompting lags behind fine-tuning.
+## 5. External Feedback
+
+**Kevin Duh (Johns Hopkins University) — Mar 9, 2026**
+- *"Run Morfessor then BPE"* — cascade approach: apply Morfessor first for linguistically-grounded morpheme boundaries, then run BPE on the resulting morpheme tokens. More principled than either alone for polysynthetic languages.
+- *"Need a way to convert my tokenization to NLLB. Maybe distill from NLLB?"* — flags the tension between Morfessor segmentation and NLLB's internal BPE tokenizer (double-tokenization problem). One path forward: distill a smaller model that uses the custom tokenizer but mimics NLLB's translation behavior. A simpler path: Morfessor+BPE cascade sized to work within NLLB's existing subword vocabulary.
+- *"Emphasize the code-switching! Makes it interesting enough"* — validates the decision to document corpus code-switching as a contribution rather than treat it as noise. The ~15% Spanish word-level mixing in the Mapudungun training data, marked by ELAN `<SPA>` tags in the raw corpus, is a genuine linguistic and NLP finding worth foregrounding.
+
+## 6. Validation & Impact
+* **Predictions / Definition of Success:** NLLB fine-tuning meaningfully outperforms the 2020 baseline; linguistically-informed tokenization (Morfessor, Morfessor+BPE cascade) outperforms Duan et al.'s 5K joint BPE; LLM prompting lags behind fine-tuning; corpus code-switching analysis reveals fundamental evaluation challenges for es→arn.
 * **Deliverables:** First NLLB-compatible Mapudungun MT model (HuggingFace) and tokenization guidance transferable to other polysynthetic AmericasNLP languages.
 * **Future Work:** The 142-hour speech corpus positions this work for future ASR and speech translation research.

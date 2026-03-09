@@ -151,6 +151,7 @@ def add_arn_latn_token(tokenizer, model):
 def build_preprocess_fn(tokenizer, src_lang_code, tgt_lang_code, max_length):
     def preprocess(examples):
         tokenizer.src_lang = src_lang_code
+        tokenizer.tgt_lang = tgt_lang_code
         model_inputs = tokenizer(
             examples["src"],
             text_target=examples["tgt"],
