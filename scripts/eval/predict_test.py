@@ -3,8 +3,9 @@
 Run fine-tuned NLLB model on the full test set and save predictions.
 Computes per-sentence chrF++ and reports the distribution.
 Usage:
-  python predict_test.py --direction es-arn [--model-path /path/to/model]
   python predict_test.py --direction arn-es [--model-path /path/to/model]
+  python predict_test.py --direction es-arn [--model-path /path/to/model]
+  python predict_test.py --direction arn-es --morfessor [--model-path /path/to/morfessor/model]
 """
 
 import argparse
@@ -16,10 +17,12 @@ from transformers import NllbTokenizer, AutoModelForSeq2SeqLM
 from sacrebleu.metrics import CHRF
 
 BASE_TOKENIZER = "/home/it238/.cache/huggingface/hub/models--facebook--nllb-200-3.3B/snapshots/1a07f7d195896b2114afcb79b7b57ab512e7b43e"
+MORFESSOR_MODEL = "/home/it238/nobackup/autodelete/mapudungun/morfessor_model.bin"
 DEFAULT_MODELS = {
     "arn-es": "/home/it238/nobackup/autodelete/mapudungun/models/nllb-200-3.3B-blocks-arn-es/best",
     "es-arn": "/home/it238/nobackup/autodelete/mapudungun/models/nllb-200-3.3B-blocks-es-arn/best",
 }
+# src = text fed to model; ref = reference for scoring
 TEST_DATA = {
     "arn-es": {
         "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/src.txt",
@@ -33,9 +36,27 @@ TEST_DATA = {
         "src_lang": "spa_Latn",
         "tgt_lang": "arn_Latn",
     },
+    # Morfessor arn→es: segment the Mapudungun test inputs before feeding to model.
+    # Score generated Spanish against Spanish references (unaffected by segmentation).
+    "arn-es-morfessor": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/morfessor/test/src.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "src_lang": "arn_Latn",
+        "tgt_lang": "spa_Latn",
+        "desegment_output": False,
+    },
+    # Morfessor es→arn: feed clean Spanish, desegment Mapudungun output before scoring.
+    "es-arn-morfessor": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/src.txt",
+        "src_lang": "spa_Latn",
+        "tgt_lang": "arn_Latn",
+        "desegment_output": True,
+    },
 }
 OUT_DIR = Path("/home/it238/nobackup/autodelete/mapudungun/predictions")
 LANG_CODE_RE = re.compile(r"^[a-z]{2,3}_[A-Z][a-z]{3,}\s*")
+DESEG_RE = re.compile(r"@@ ?")
 BATCH_SIZE = 16
 
 
@@ -58,20 +79,26 @@ def translate_batch(model, tokenizer, texts, src_lang, tgt_id, device):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--direction", choices=["arn-es", "es-arn"], required=True)
+    parser.add_argument("--morfessor", action="store_true",
+                        help="Use morfessor test config (segmented arn→es input or desegmented es→arn output)")
     parser.add_argument("--model-path", default=None,
                         help="Override model path (default: hardcoded 3.3B path)")
     parser.add_argument("--run-name", default=None,
-                        help="Tag for output filenames, e.g. '600M-arn-es'. Defaults to direction.")
+                        help="Tag for output filenames, e.g. '1.3B-arn-es-morfessor'. Defaults to direction.")
     args = parser.parse_args()
 
-    cfg = TEST_DATA[args.direction]
+    cfg_key = f"{args.direction}-morfessor" if args.morfessor else args.direction
+    cfg = TEST_DATA[cfg_key]
+    desegment_output = cfg.get("desegment_output", False)
     model_path = args.model_path or DEFAULT_MODELS[args.direction]
-    run_name = args.run_name or args.direction
+    run_name = args.run_name or cfg_key
 
     srcs = Path(cfg["src"]).read_text().splitlines()
     refs = Path(cfg["ref"]).read_text().splitlines()
     assert len(srcs) == len(refs), "src/ref length mismatch"
-    print(f"Test set: {len(srcs)} sentences  ({args.direction})")
+    print(f"Test set: {len(srcs)} sentences  ({cfg_key})")
+    if desegment_output:
+        print("Morfessor mode: desegmenting model output before scoring")
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     print(f"Device: {device}")
@@ -87,6 +114,8 @@ def main():
     for i in range(0, len(srcs), BATCH_SIZE):
         batch = srcs[i:i + BATCH_SIZE]
         batch_preds = translate_batch(mdl, tok, batch, cfg["src_lang"], tgt_id, device)
+        if desegment_output:
+            batch_preds = [DESEG_RE.sub("", p) for p in batch_preds]
         preds.extend(batch_preds)
         if (i // BATCH_SIZE) % 10 == 0:
             print(f"  {i}/{len(srcs)} done...")

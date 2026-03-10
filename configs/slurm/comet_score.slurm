@@ -27,8 +27,7 @@ export HF_DATASETS_OFFLINE=1
 export HF_HUB_OFFLINE=1
 
 PROJECT_DIR="/home/$(whoami)/projects/mapudungun/mapudungun-mt"
-RESULTS_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/results"
-DATA_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/data-processed"
+RESULTS_DIR="/home/$(whoami)/nobackup/autodelete/mapudungun/predictions"
 COMET_CKPT="/home/$(whoami)/groups/grp_ladle/nobackup/autodelete/comet_model/models--Unbabel--wmt22-comet-da/snapshots/2760a223ac957f30acfb18c8aa649b01cf1d75f2/checkpoints/model.ckpt"
 
 cd "${PROJECT_DIR}"
@@ -36,7 +35,6 @@ mkdir -p logs
 
 srun uv run python scripts/eval/comet_score.py \
     --results-dir  "${RESULTS_DIR}" \
-    --data-dir     "${DATA_DIR}" \
     --comet-model  "${COMET_CKPT}" \
     --batch-size   64 \
     --gpus         1

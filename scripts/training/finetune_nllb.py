@@ -99,8 +99,13 @@ def parse_args():
 
 
 def load_split(data_dir: str, approach: str, split: str,
+               src: str = "arn",
                tokenizer_approach: str = "standard") -> Dataset:
     """Load one split from src.txt / tgt.txt.
+
+    src.txt is always Mapudungun (arn); tgt.txt is always Spanish (es).
+    For arn→es, load normally. For es→arn, swap the files so that Spanish
+    becomes the model source and Mapudungun becomes the model target.
 
     For tokenizer_approach='morfessor', loads from the morfessor pre-segmented
     directory instead of the standard cleaned directory.
@@ -109,12 +114,14 @@ def load_split(data_dir: str, approach: str, split: str,
         base = Path(data_dir) / approach / "morfessor" / split
     else:
         base = Path(data_dir) / approach / "cleaned" / split / "cleaned"
-    src_lines = (base / "src.txt").read_text(encoding="utf-8").splitlines()
-    tgt_lines = (base / "tgt.txt").read_text(encoding="utf-8").splitlines()
-    assert len(src_lines) == len(tgt_lines), (
-        f"{split}: src/tgt line count mismatch ({len(src_lines)} vs {len(tgt_lines)})"
+    arn_lines = (base / "src.txt").read_text(encoding="utf-8").splitlines()
+    es_lines  = (base / "tgt.txt").read_text(encoding="utf-8").splitlines()
+    assert len(arn_lines) == len(es_lines), (
+        f"{split}: src/tgt line count mismatch ({len(arn_lines)} vs {len(es_lines)})"
     )
-    return Dataset.from_dict({"src": src_lines, "tgt": tgt_lines})
+    if src == "es":
+        return Dataset.from_dict({"src": es_lines, "tgt": arn_lines})
+    return Dataset.from_dict({"src": arn_lines, "tgt": es_lines})
 
 
 def add_arn_latn_token(tokenizer, model):
@@ -230,7 +237,7 @@ def main():
     # Load and tokenize data
     logger.info("Loading data...")
     raw = {split: load_split(args.data_dir, args.approach, split,
-                             args.tokenizer_approach)
+                             args.src, args.tokenizer_approach)
            for split in ("train", "dev", "test")}
     logger.info(f"  train: {len(raw['train']):,}  dev: {len(raw['dev']):,}  test: {len(raw['test']):,}")
 

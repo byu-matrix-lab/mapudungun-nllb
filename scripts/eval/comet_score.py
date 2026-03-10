@@ -35,7 +35,6 @@ logger = logging.getLogger(__name__)
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--results-dir", required=True)
-    parser.add_argument("--data-dir", required=True)
     COMET_CKPT = (
         "/home/it238/groups/grp_ladle/nobackup/autodelete/comet_model/"
         "models--Unbabel--wmt22-comet-da/snapshots/"
@@ -47,20 +46,13 @@ def parse_args():
     return parser.parse_args()
 
 
-def load_test_refs(data_dir, approach, src, tgt):
-    """Load source and reference (target) test sentences."""
-    base = Path(data_dir) / approach / "cleaned" / "test" / "cleaned"
-    src_lines = (base / "src.txt").read_text(encoding="utf-8").splitlines()
-    tgt_lines = (base / "tgt.txt").read_text(encoding="utf-8").splitlines()
-    return src_lines, tgt_lines
-
 
 def find_prediction_files(results_dir):
-    """Find all *_predictions.txt files and their paired .json files."""
+    """Find all *_preds.txt files and their paired _results.json files."""
     results_dir = Path(results_dir)
     pairs = []
-    for pred_file in sorted(results_dir.rglob("*_predictions.txt")):
-        json_file = pred_file.with_name(pred_file.name.replace("_predictions.txt", ".json"))
+    for pred_file in sorted(results_dir.rglob("*_preds.txt")):
+        json_file = pred_file.with_name(pred_file.name.replace("_preds.txt", "_results.json"))
         if json_file.exists():
             pairs.append((json_file, pred_file))
     return pairs
@@ -82,54 +74,47 @@ def main():
 
     all_results = []
 
+    # Derive a summary JSON path alongside each results file
     for json_file, pred_file in pairs:
-        meta = json.loads(json_file.read_text())
+        run_name = pred_file.stem.replace("_preds", "")
+        summary_file = pred_file.parent / f"{run_name}_comet.json"
 
         # Skip if already scored
-        if "comet" in meta:
-            logger.info(f"Already scored: {json_file.name} (comet={meta['comet']})")
-            all_results.append(meta)
+        if summary_file.exists():
+            summary = json.loads(summary_file.read_text())
+            logger.info(f"Already scored: {run_name} (comet={summary['comet']})")
+            all_results.append(summary)
             continue
 
-        approach = meta.get("approach", "lines")
-        src = meta.get("src", "arn")
-        tgt = meta.get("tgt", "es")
-
-        try:
-            src_lines, ref_lines = load_test_refs(args.data_dir, approach, src, tgt)
-        except Exception as e:
-            logger.warning(f"Could not load refs for {json_file.name}: {e}")
-            continue
-
-        predictions = pred_file.read_text(encoding="utf-8").splitlines()
-
-        if len(predictions) != len(src_lines):
-            logger.warning(
-                f"{pred_file.name}: {len(predictions)} preds vs {len(src_lines)} refs — skipping"
-            )
-            continue
+        # Load per-sentence results written by predict_test.py (list of dicts)
+        sentences = json.loads(json_file.read_text())
+        src_lines = [s["src"] for s in sentences]
+        ref_lines  = [s["ref"] for s in sentences]
+        predictions = [s["pred"] for s in sentences]
 
         data = [
             {"src": s, "mt": p, "ref": r}
             for s, p, r in zip(src_lines, predictions, ref_lines)
         ]
 
-        logger.info(f"Scoring {json_file.name} ({len(data):,} sentences)...")
+        logger.info(f"Scoring {run_name} ({len(data):,} sentences)...")
         output = comet_model.predict(data, batch_size=args.batch_size, gpus=args.gpus)
         comet_score = round(output.system_score, 4)
 
-        meta["comet"] = comet_score
-        json_file.write_text(json.dumps(meta, indent=2))
-        logger.info(f"  COMET = {comet_score}")
-        all_results.append(meta)
+        corpus_chrf = round(
+            sum(s.get("chrf", 0) for s in sentences) / max(len(sentences), 1), 2
+        )
+        summary = {"run": run_name, "n": len(sentences), "chrf": corpus_chrf, "comet": comet_score}
+        summary_file.write_text(json.dumps(summary, indent=2))
+        logger.info(f"  COMET = {comet_score}  chrF = {corpus_chrf}")
+        all_results.append(summary)
 
     # Summary table
-    print("\n" + "="*80)
-    print(f"{'File':<55} {'chrF':>6} {'BLEU':>6} {'COMET':>7}")
-    print("="*80)
-    for m in sorted(all_results, key=lambda x: (x.get("src",""), x.get("approach",""), str(x.get("model","")))):
-        name = f"{m.get('model','?').split('/')[-1]} {m.get('approach','?')} {m.get('src','?')}→{m.get('tgt','?')}"
-        print(f"{name:<55} {m.get('chrf',0):>6.2f} {m.get('bleu',0):>6.2f} {m.get('comet',0):>7.4f}")
+    print("\n" + "="*60)
+    print(f"{'Run':<45} {'chrF':>6} {'COMET':>7}")
+    print("="*60)
+    for m in sorted(all_results, key=lambda x: x.get("run", "")):
+        print(f"{m.get('run','?'):<45} {m.get('chrf',0):>6.2f} {m.get('comet',0):>7.4f}")
 
 
 if __name__ == "__main__":

@@ -79,10 +79,10 @@ def main():
         # 5-shot LLM
         ("Llama 3.1", 16.54, 16.20, "llm"),
         ("Aya Exp.",  20.05, 16.11, "llm"),
-        # Fine-tuned NLLB
-        ("600M",  46.31, 44.18, "ft"),
-        ("1.3B",  48.59, 47.32, "ft"),
-        ("3.3B",  49.25, 48.08, "ft"),
+        # Fine-tuned NLLB (arn→es: corrected test-set; es→arn: pending retrain fix)
+        ("600M",  35.71, 14.40, "ft"),
+        ("1.3B",  42.24, 14.25, "ft"),
+        ("3.3B",  43.62, 14.22, "ft"),
     ]
 
     n_prior   = len(prior_work)   # 2
