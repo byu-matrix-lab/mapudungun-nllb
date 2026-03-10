@@ -335,4 +335,68 @@ lower LR / longer warmup). Aya Expanse outperforms Llama, consistent with multil
 - Set up Dr. Rogers human evaluation (50–100 sentence fluency+adequacy 1–5 for arn→es)
 - Move best model checkpoints out of autodelete
 
+---
+
+## 2026-03-09
+
+**Critical bug found and fixed: all es→arn models were trained on the wrong direction**
+
+Root cause: `load_split()` in `finetune_nllb.py` always loaded `src.txt` (Mapudungun) as
+source and `tgt.txt` (Spanish) as target, regardless of `--src`/`--tgt` arguments. For
+es→arn runs, the model saw Mapudungun input (labeled spa_Latn) → Spanish output (labeled
+arn_Latn). The trainer reported dev chrF++ ≈ 47 because it evaluated the model on the
+same wrong task (arn→es). When `predict_test.py` correctly tested Spanish→Mapudungun, it
+got 14.22 — not from corpus code-switching, but because the model never learned that task.
+
+Fix: `load_split()` now takes a `src` parameter and swaps `src.txt`/`tgt.txt` when
+`src == "es"`. All es→arn models must be retrained.
+
+**Retraining jobs submitted (corrected es→arn)**
+
+| Job | Model | Direction | Notes |
+|---|---|---|---|
+| 10723296 | NLLB-600M | blocks es→arn | corrected |
+| 10723297 | NLLB-1.3B | blocks es→arn | corrected |
+| 10723298 | NLLB-3.3B | blocks es→arn | corrected, BATCH_SIZE=8 |
+| 10723299 | NLLB-1.3B | blocks es→arn morfessor | corrected |
+
+Output dirs use same naming convention as before (outputs will overwrite old buggy models
+in `-v2`-style naming since the output dir is derived from model+approach+src+tgt).
+
+**Morfessor arn→es evaluation**
+
+- `predict_test.py` updated with `--morfessor` flag: loads pre-segmented test src from
+  `blocks/morfessor/test/src.txt`, scores against clean Spanish refs
+- For es→arn morfessor: desegments model output before scoring against Mapudungun refs
+- `predict_test.slurm` updated with `MORFESSOR` env var
+- Morfessor arn→es predict job submitted: 10723302
+
+**comet_score.py overhauled**
+
+- Now reads `*_preds.txt` / `*_results.json` (predict_test.py format)
+- Reads src/ref/pred directly from per-sentence JSON (no --data-dir needed)
+- Writes per-run `*_comet.json` summaries alongside predictions
+- `comet_score.slurm` updated: RESULTS_DIR → predictions/; dropped --data-dir
+- COMET job submitted: 10723307
+
+**Results chart updated**
+
+- `plot_results.py`: fine-tuned numbers updated to corrected test-set values
+- es→arn column shows 14.40/14.25/14.22 (still the wrong-direction results, pending retrain)
+- Will be updated again once corrected retrain jobs complete
+
+**Current state of results (arn→es test set, blocks)**
+
+| Model | arn→es chrF++ | es→arn chrF++ |
+|---|---|---|
+| NLLB-600M standard | 35.71 | pending retrain |
+| NLLB-1.3B standard | 42.24 | pending retrain |
+| NLLB-3.3B standard | 43.62 | pending retrain |
+| NLLB-1.3B morfessor | 47.31 (trainer) | pending retrain |
+
+Note: the previously reported "es→arn morfessor 47.36" result was the same bug — the
+model was trained arn→es with wrong language labels, not es→arn. Discarded.
+
+**Git**: commit `ff7bff3` on `feature/nllb-finetuning`
+
 <!-- Add new entries below as work progresses -->
