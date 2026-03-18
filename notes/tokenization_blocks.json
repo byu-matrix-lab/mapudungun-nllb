@@ -1,0 +1,28 @@
+{
+  "arn": {
+    "language": "Mapudungun",
+    "lang_code": "arn_Latn",
+    "n_sentences": 66415,
+    "fertility": 2.275,
+    "total_tokens": 1794375,
+    "total_words": 788849,
+    "unk_rate": 0.0,
+    "single_char_rate": 0.1957,
+    "total_tokens_sampled": 80845,
+    "avg_word_chars": 5.51,
+    "median_word_chars": 5
+  },
+  "es": {
+    "language": "Spanish",
+    "lang_code": "spa_Latn",
+    "n_sentences": 66415,
+    "fertility": 1.333,
+    "total_tokens": 1416979,
+    "total_words": 1062660,
+    "unk_rate": 0.0,
+    "single_char_rate": 0.1175,
+    "total_tokens_sampled": 62042,
+    "avg_word_chars": 4.36,
+    "median_word_chars": 4
+  }
+}

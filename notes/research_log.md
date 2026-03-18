@@ -399,4 +399,221 @@ model was trained arn→es with wrong language labels, not es→arn. Discarded.
 
 **Git**: commit `ff7bff3` on `feature/nllb-finetuning`
 
+---
+
+## 2026-03-16
+
+**Root cause found for 1.3B and 3.3B es→arn bad predictions**
+
+The corrected es→arn models (1.3B, 3.3B) saved their weights in sharded format
+(`model-00001-of-N.safetensors` + `model.safetensors.index.json`) because they
+exceeded the single-file threshold. However, the original buggy models from March 1/2
+had written a single-file `model.safetensors` into the same `best/` directory and were
+never deleted when the corrected job overwrote all other files.
+
+`transformers.from_pretrained` checks for `model.safetensors` (single file) *before*
+`model.safetensors.index.json` (sharded) in its elif chain. When both are present, it
+loads the old single-file weights and silently ignores the shards. The morfessor 1.3B
+model was unaffected because it had no prior run in that directory (no stale single file).
+
+**Fix**: renamed `model.safetensors` → `model.safetensors.OLD_BUGGY_ARN2ES` in both
+`nllb-1.3B-blocks-es-arn/best/` and `nllb-200-3.3B-blocks-es-arn/best/`.
+
+**Corrected predict-test results**
+
+| Model | arn→es chrF++ | es→arn chrF++ |
+|---|---|---|
+| NLLB-600M standard | 34.90 | 39.87 |
+| NLLB-1.3B standard | 40.64 | pending (job 10912642) |
+| NLLB-3.3B standard | 42.86 | 42.89 |
+| NLLB-1.3B morfessor | 45.40 | 42.00 |
+
+Note: 600M es→arn 39.87 was already correct before today — its `best/` dir had no
+stale single file. The March 9 comet.json (chrf=12.99) was stale from the pre-retrain run.
+
+**Next steps**: wait for 1.3B es→arn (job 10912642), run COMET on all updated
+predictions, update `plot_results.py`, begin paper draft.
+
+---
+
+## 2026-03-16 (evening)
+
+**Full experiment matrix launched — all conditions queued**
+
+Closed remaining prediction gaps and launched all new tokenization conditions.
+
+**New predict-test results (from jobs 10923065–67):**
+
+| Model | arn→es chrF++ | es→arn chrF++ |
+|---|---|---|
+| NLLB-600M standard | 34.90 | 39.87 |
+| NLLB-1.3B standard | 40.64 | 41.94 |
+| NLLB-3.3B standard | **42.85** | 42.89 |
+| NLLB-600M morfessor | **43.09** | 39.90 |
+| NLLB-1.3B morfessor | 45.40 | 42.00 |
+| NLLB-3.3B morfessor | pending (jobs 10925593/94) | pending |
+
+Notable: 600M+Morfessor (43.09) beats 3.3B standard (42.85). Smaller model with better tokenization outperforms a model 5× larger.
+
+3.3B morfessor trainer-reported dev scores (from jobs 10912957/58):
+- arn→es: 48.83 chrF (best epoch 8) — training done, predict pending
+- es→arn: 46.13 chrF (best epoch 9) — training still running (job 10912958)
+
+**Three new tokenization scripts written:**
+- `scripts/tokenization/segment_bpe.py` — Duan 5K joint BPE + large arn-only BPE (SentencePiece backend, @@ output convention)
+- `scripts/tokenization/segment_cascade.py` — NLLB-constrained Morfessor+BPE cascade: merges adjacent morfessor morphemes where the concatenation is a single NLLB SentencePiece token. Train-set: 87,382 → 85,167 @@ markers (2.5% reduction).
+- Data generated for blocks: `duan_bpe/`, `large_bpe/`, `cascade/` in data-processed/blocks/
+
+**Training + inference pipeline updated:**
+- `finetune_nllb.py`: extended `--tokenizer-approach` choices to include `duan_bpe`, `large_bpe`, `cascade`; desegmentation condition generalized to all non-standard approaches
+- `predict_test.py`: added TEST_DATA entries for all 3 new conditions (both directions); added `--tok-approach` flag (backwards-compatible with `--morfessor`)
+
+**All remaining training jobs submitted with full dep chains:**
+
+| Jobs | Condition | Status |
+|---|---|---|
+| 10925585/86 | cascade 1.3B arn↔es | running |
+| 10925587–92 | duan_bpe 600M/1.3B/3.3B arn↔es | running |
+| 10925599/600 | cascade 600M arn↔es | running |
+| 10925601/602 | cascade 3.3B arn↔es | running |
+| 10925603–608 | large_bpe 600M/1.3B/3.3B arn↔es | running |
+| 10925609–626 | predict_test for all above (dep on training) | pending |
+| 10925627 | final COMET sweep (dep on all predicts) | pending |
+| 10925629 | COMET on existing predictions (no dep) | running |
+
+**Decision: blocks approach only.** Lines approach dropped — blocks outperforms lines and is the focus for the paper.
+
+**Next session priorities:**
+1. Check 3.3B morfessor predict results when jobs 10925593/94 complete
+2. Code-switching quantification script (`scripts/analysis/codeswitching_stats.py`)
+3. Fertility analysis across all 5 tokenization conditions (once cascade/BPE data exists)
+4. Email Dr. Rogers about human evaluation schedule
+5. Begin paper draft (intro + related work can be written now)
+
+---
+
+## 2026-03-17
+
+**All jobs completed overnight — full results table finalized**
+
+Every training + predict + COMET job from the 2026-03-16 launch finished by morning.
+
+**Complete results (mean per-sentence chrF++ on test set, n=9,382):**
+
+| Condition | 600M arn→es | 600M es→arn | 1.3B arn→es | 1.3B es→arn | 3.3B arn→es | 3.3B es→arn |
+|---|---|---|---|---|---|---|
+| Standard BPE | 34.90 | 39.87 | 40.64 | 41.94 | 42.85 | 42.89 |
+| Morfessor | 43.09 | 39.90 | 45.40 | 42.00 | 45.51 | 42.76 |
+| Cascade (NLLB-constrained) | **43.16** | 39.89 | 45.37 | **42.04** | **45.84** | 42.77 |
+| Duan 5K BPE | 42.36 | 38.17 | 44.68 | 41.06 | 45.25 | 42.30 |
+| Large language-specific BPE | 41.72 | 38.04 | 43.99 | 40.62 | 44.85 | 42.02 |
+
+**Key findings:**
+
+1. **Cascade is best for arn→es at all model sizes.** 3.3B cascade (45.84) is the overall best, beating 3.3B standard by +3.0 points. The NLLB-constrained Morfessor+BPE cascade outperforms plain Morfessor at 3.3B and 600M.
+
+2. **600M cascade (43.16) beats 3.3B standard (42.85).** Tokenization improvement bridges a 5× model size gap. Strong efficiency argument for the paper.
+
+3. **es→arn is nearly flat across all tokenization conditions.** Standard BPE is essentially as good as any morphological pre-segmentation method for es→arn. Best improvement is only +0.15 (1.3B cascade). This asymmetry makes linguistic sense: segmenting the Mapudungun *source* helps the encoder handle polysynthetic morphology; the *target-side* generation of Mapudungun is controlled by the decoder regardless of tokenization strategy.
+
+4. **Duan BPE and Large BPE hurt es→arn.** All BPE-only variants are worse than standard for es→arn generation. Suggests that further fragmentation of the target-side Mapudungun tokens is harmful for decoding.
+
+5. **Morfessor provides most of the gain; cascade provides a small additional improvement for arn→es.** At 1.3B, Morfessor (45.40) slightly outperforms cascade (45.37) — within noise. The cascade's advantage is clearest at 3.3B (+0.33 over Morfessor).
+
+**Main narrative:** Morphological pre-segmentation of the Mapudungun source is the key lever for polysynthetic MT. Cascade (Morfessor → NLLB-constrained BPE) is the best instantiation of this idea, and its efficiency gain (600M cascade > 3.3B standard) is the headline practical result.
+
+**Zero-shot NLLB baselines and LLM baselines:**
+
+| System | arn→es | es→arn |
+|---|---|---|
+| Zero-shot NLLB-600M | 12.86 | 7.37 |
+| Zero-shot NLLB-1.3B | 13.43 | 9.91 |
+| Zero-shot NLLB-3.3B | 13.19 | 9.42 |
+| Llama 3.1 8B (prompted) | 13.96 | 11.32 |
+| Aya Expanse 8B (prompted) | **15.92** | **12.36** |
+
+Fine-tuning provides ~3× absolute gain over all baselines. 600M cascade (43.16) is nearly 3× Aya's best (15.92).
+
+**Fertility analysis across all 5 tokenization conditions** (on test set, Mapudungun source):
+
+| Condition | Pre-seg tok/word | NLLB tok/orig word |
+|---|---|---|
+| Standard BPE | 1.00 | 2.30 |
+| Morfessor | 1.27 | 2.87 |
+| Cascade (NLLB-constrained) | 1.25 | 2.82 |
+| Duan 5K BPE | 1.71 | 3.83 |
+| Large BPE | 2.08 | 4.77 |
+
+Key insight: Morfessor and cascade increase NLLB token count per word (2.82–2.87 vs 2.30 for standard) yet *improve* performance — the morpheme boundaries give the encoder better representations despite more tokens. Duan and Large BPE push beyond a threshold (3.83, 4.77) where over-segmentation degrades performance. The cascade's NLLB-constrained merges produce slightly fewer NLLB tokens than plain Morfessor (2.82 vs 2.87), confirming the design reduces double-tokenization.
+
+**Code-switching analysis** — `scripts/analysis/codeswitching_stats.py`
+Full results in `notes/codeswitching_analysis.txt`.
+
+- **54.7%** of test sentences contain ≥1 Spanish word (fastText word-level LID)
+- **26.8%** heavily code-switched (>20% Spanish words)
+- Correlation with chrF++ is *positive*: Spearman r = +0.051 — more Spanish → slightly better performance
+- Mean chrF++ by CS level: No CS = 45.75, Light CS = 45.11, Heavy CS = 46.77
+- Interpretation: Spanish borrowed words anchor the encoder; pure Mapudungun sentences require full morphological handling with no crutch
+- Failure modes: hallucination loops on rare morphemes, proper nouns, short utterances
+- Caveat: fastText mis-tags some Mapudungun discourse markers (Fey, eymi) as Spanish — true CS rate somewhat below 54.7%
+
+**COMET**: 42/42 results files have corresponding comet.json files — full coverage.
+
+**Emailed Dr. Rogers** requesting ~50-sentence arn→es human evaluation (fluency + adequacy, 1–5 scale) by April 7.
+
+**All experiments complete. Remaining work is the paper.**
+
+Paper sections that can be written now without waiting for anything:
+- Introduction
+- Related work
+- Data section
+- Methods section
+- Results (all numbers in hand)
+- Analysis (code-switching, fertility, failure modes)
+
+Human evaluation (Dr. Rogers) will populate a small table in the analysis section when it arrives.
+
+---
+
+## 2026-03-17
+
+**All experiments complete. Full results compiled.**
+
+Zero-shot NLLB and LLM baselines finished:
+
+| System | arn→es | es→arn |
+|---|---|---|
+| Zero-shot NLLB-600M | 12.86 | 7.37 |
+| Zero-shot NLLB-1.3B | 13.43 | 9.91 |
+| Zero-shot NLLB-3.3B | 13.19 | 9.42 |
+| Llama 3.1 8B (prompted) | 13.96 | 11.32 |
+| Aya Expanse 8B (prompted) | 15.92 | 12.36 |
+
+Fine-tuning provides ~3× absolute gain over all baselines. 600M cascade (43.16 chrF++) is nearly 3× Aya's best (15.92).
+
+**Corpus-level metrics compiled** (`results/metrics_table.tsv`) — chrF++, BLEU, COMET for all 42 conditions. Best result: 3.3B cascade arn→es at **46.08 chrF++ / 18.94 BLEU / 0.6653 COMET**.
+
+**Bootstrap significance testing** (`scripts/eval/significance_test.py`, n=10,000 resamples):
+
+Key results (arn→es):
+- Cascade > standard: Δ=+2.99, p<0.0001 ✓
+- Cascade > morfessor: Δ=+0.34, p=0.0005 ✓ (only at 3.3B; 1.3B is a tie: Δ=-0.03, p=0.70)
+- Morfessor > standard: Δ=+2.66, p<0.0001 ✓
+- 600M cascade > 3.3B standard: Δ=+0.31, p=0.037 ✓ — tokenization > scale, statistically confirmed
+- Cascade > Duan BPE: Δ=+0.59, p<0.0001 ✓
+- Cascade > Large BPE: Δ=+1.00, p<0.0001 ✓
+
+es→arn: no tokenization comparison is significant — standard BPE is as good as any alternative.
+
+**Figures generated:**
+- `notes/results_chrf.png` — overview bar chart (prior work / zero-shot / LLM / fine-tuned)
+- `notes/results_tokenization.png` — tokenization ablation grouped bar chart (5 conditions × 3 sizes)
+- `notes/results_table.png` — compact lab-meeting table
+
+**Readable output files for best model:**
+- `notes/3.3B-cascade-arn-es_readable.txt`
+- `notes/3.3B-cascade-es-arn_readable.txt`
+
+**Remaining work: paper writing + human evaluation (awaiting Dr. Rogers reply).**
+
 <!-- Add new entries below as work progresses -->
