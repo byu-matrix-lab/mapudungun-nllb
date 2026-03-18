@@ -22,6 +22,7 @@ from pathlib import Path
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import sacrebleu
+from sacrebleu.metrics import CHRF
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -57,11 +58,18 @@ def parse_args():
     return parser.parse_args()
 
 
-def load_split(data_dir, approach, split):
+PREDS_DIR = Path("/home/it238/nobackup/autodelete/mapudungun/predictions")
+
+
+def load_split(data_dir, approach, split, src_lang):
+    """Load split. When src_lang='es', swap src.txt↔tgt.txt so we feed Spanish."""
     base = Path(data_dir) / approach / "cleaned" / split / "cleaned"
-    src = (base / "src.txt").read_text(encoding="utf-8").splitlines()
-    tgt = (base / "tgt.txt").read_text(encoding="utf-8").splitlines()
-    return list(zip(src, tgt))
+    arn_lines = (base / "src.txt").read_text(encoding="utf-8").splitlines()
+    es_lines  = (base / "tgt.txt").read_text(encoding="utf-8").splitlines()
+    if src_lang == "arn":
+        return list(zip(arn_lines, es_lines))   # (arn_src, es_ref)
+    else:
+        return list(zip(es_lines, arn_lines))   # (es_src, arn_ref)
 
 
 def build_messages(src_text, examples, src, tgt):
@@ -104,8 +112,8 @@ def main():
     )
     model.eval()
 
-    dev_pairs = load_split(args.data_dir, args.approach, "dev")
-    test_pairs = load_split(args.data_dir, args.approach, "test")
+    dev_pairs = load_split(args.data_dir, args.approach, "dev", args.src)
+    test_pairs = load_split(args.data_dir, args.approach, "test", args.src)
     logger.info(f"Dev: {len(dev_pairs):,}  Test: {len(test_pairs):,}")
 
     examples = random.sample(dev_pairs, min(args.num_shots, len(dev_pairs)))
@@ -155,7 +163,8 @@ def main():
         if (i // args.batch_size) % 50 == 0:
             logger.info(f"  {i:,} / {len(test_src):,}")
 
-    chrf = sacrebleu.corpus_chrf(predictions, [test_tgt])
+    chrf_metric = CHRF(word_order=2)
+    chrf = chrf_metric.corpus_score(predictions, [test_tgt])
     bleu = sacrebleu.corpus_bleu(predictions, [test_tgt])
     results = {
         "model": args.model,
@@ -175,6 +184,25 @@ def main():
     (output_dir / f"{stem}_predictions.txt").write_text(
         "\n".join(predictions), encoding="utf-8"
     )
+
+    # Write per-sentence results to predictions dir so comet_score.py picks them up
+    per_sent_chrf = [
+        chrf_metric.sentence_score(p, [r]).score
+        for p, r in zip(predictions, test_tgt)
+    ]
+    run_name = f"{model_tag}-{args.src}-{args.tgt}"
+    PREDS_DIR.mkdir(parents=True, exist_ok=True)
+    (PREDS_DIR / f"{run_name}_preds.txt").write_text(
+        "\n".join(predictions), encoding="utf-8"
+    )
+    per_sentence = [
+        {"src": s, "ref": r, "pred": p, "chrf": round(c, 2)}
+        for s, r, p, c in zip(test_src, test_tgt, predictions, per_sent_chrf)
+    ]
+    (PREDS_DIR / f"{run_name}_results.json").write_text(
+        json.dumps(per_sentence, ensure_ascii=False, indent=2)
+    )
+    logger.info(f"Per-sentence results written to {PREDS_DIR / run_name}_results.json")
 
 
 if __name__ == "__main__":

@@ -92,7 +92,7 @@ def parse_args():
     parser.add_argument(
         "--tokenizer-approach",
         default="standard",
-        choices=["standard", "morfessor"],
+        choices=["standard", "morfessor", "duan_bpe", "large_bpe", "cascade"],
         help="Pre-segmentation strategy applied to Mapudungun data.",
     )
     return parser.parse_args()
@@ -112,6 +112,8 @@ def load_split(data_dir: str, approach: str, split: str,
     """
     if tokenizer_approach == "morfessor":
         base = Path(data_dir) / approach / "morfessor" / split
+    elif tokenizer_approach in ("duan_bpe", "large_bpe", "cascade"):
+        base = Path(data_dir) / approach / tokenizer_approach / split
     else:
         base = Path(data_dir) / approach / "cleaned" / split / "cleaned"
     arn_lines = (base / "src.txt").read_text(encoding="utf-8").splitlines()
@@ -211,7 +213,7 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
 
     # Desegment model output before scoring when target is Morfessor-segmented arn
-    desegment_output = (args.tokenizer_approach == "morfessor" and args.tgt == "arn")
+    desegment_output = (args.tokenizer_approach != "standard" and args.tgt == "arn")
 
     logger.info(f"Model              : {args.model}")
     logger.info(f"Direction          : {args.src} ({src_code}) → {args.tgt} ({tgt_code})")

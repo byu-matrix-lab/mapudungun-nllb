@@ -20,6 +20,7 @@ from pathlib import Path
 import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 import sacrebleu
+from sacrebleu.metrics import CHRF
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -42,12 +43,19 @@ def parse_args():
     return parser.parse_args()
 
 
-def load_test(data_dir, approach):
+PREDS_DIR = Path("/home/it238/nobackup/autodelete/mapudungun/predictions")
+
+
+def load_test(data_dir, approach, src_lang):
+    """Load test split. When src_lang='es', swap src.txt↔tgt.txt so we feed Spanish."""
     base = Path(data_dir) / approach / "cleaned" / "test" / "cleaned"
-    src = (base / "src.txt").read_text(encoding="utf-8").splitlines()
-    tgt = (base / "tgt.txt").read_text(encoding="utf-8").splitlines()
-    assert len(src) == len(tgt)
-    return src, tgt
+    arn_lines = (base / "src.txt").read_text(encoding="utf-8").splitlines()
+    es_lines  = (base / "tgt.txt").read_text(encoding="utf-8").splitlines()
+    assert len(arn_lines) == len(es_lines)
+    if src_lang == "arn":
+        return arn_lines, es_lines   # feed arn, score against es
+    else:
+        return es_lines, arn_lines   # feed es, score against arn
 
 
 def add_arn_latn_token(tokenizer, model):
@@ -86,7 +94,7 @@ def main():
     tgt_token_id = tokenizer.convert_tokens_to_ids(tgt_code)
     model.generation_config.forced_bos_token_id = tgt_token_id
 
-    src_lines, tgt_lines = load_test(args.data_dir, args.approach)
+    src_lines, tgt_lines = load_test(args.data_dir, args.approach, args.src)
     logger.info(f"Test set: {len(src_lines):,} pairs")
 
     tokenizer.src_lang = src_code
@@ -111,6 +119,7 @@ def main():
         if (i // args.batch_size) % 100 == 0:
             logger.info(f"  {i:,} / {len(src_lines):,}")
 
+    chrf_metric = CHRF(word_order=2)
     chrf = sacrebleu.corpus_chrf(predictions, [tgt_lines])
     bleu = sacrebleu.corpus_bleu(predictions, [tgt_lines])
     results = {
@@ -124,12 +133,35 @@ def main():
     }
     logger.info(f"Results: {results}")
 
-    model_tag = args.model.split("/")[-1].replace("nllb-200-distilled-", "nllb-")
+    model_tag = (
+        args.model.split("/")[-1]
+        .replace("nllb-200-distilled-", "nllb-")
+        .replace("nllb-200-", "nllb-")
+    )
     stem = f"zero_shot_{model_tag}_{args.approach}_{args.src}_{args.tgt}"
     (output_dir / f"{stem}.json").write_text(json.dumps(results, indent=2))
     (output_dir / f"{stem}_predictions.txt").write_text(
         "\n".join(predictions), encoding="utf-8"
     )
+
+    # Write per-sentence results to predictions dir so comet_score.py picks them up
+    per_sent_chrf = [
+        chrf_metric.sentence_score(p, [r]).score
+        for p, r in zip(predictions, tgt_lines)
+    ]
+    run_name = f"zero-shot-{model_tag}-{args.src}-{args.tgt}"
+    PREDS_DIR.mkdir(parents=True, exist_ok=True)
+    (PREDS_DIR / f"{run_name}_preds.txt").write_text(
+        "\n".join(predictions), encoding="utf-8"
+    )
+    per_sentence = [
+        {"src": s, "ref": r, "pred": p, "chrf": round(c, 2)}
+        for s, r, p, c in zip(src_lines, tgt_lines, predictions, per_sent_chrf)
+    ]
+    (PREDS_DIR / f"{run_name}_results.json").write_text(
+        json.dumps(per_sentence, ensure_ascii=False, indent=2)
+    )
+    logger.info(f"Per-sentence results written to {PREDS_DIR / run_name}_results.json")
 
 
 if __name__ == "__main__":

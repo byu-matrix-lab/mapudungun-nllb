@@ -53,6 +53,51 @@ TEST_DATA = {
         "tgt_lang": "arn_Latn",
         "desegment_output": True,
     },
+    # Duan 5K BPE
+    "arn-es-duan_bpe": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/duan_bpe/test/src.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "src_lang": "arn_Latn",
+        "tgt_lang": "spa_Latn",
+        "desegment_output": False,
+    },
+    "es-arn-duan_bpe": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/src.txt",
+        "src_lang": "spa_Latn",
+        "tgt_lang": "arn_Latn",
+        "desegment_output": True,
+    },
+    # Large language-specific BPE
+    "arn-es-large_bpe": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/large_bpe/test/src.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "src_lang": "arn_Latn",
+        "tgt_lang": "spa_Latn",
+        "desegment_output": False,
+    },
+    "es-arn-large_bpe": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/src.txt",
+        "src_lang": "spa_Latn",
+        "tgt_lang": "arn_Latn",
+        "desegment_output": True,
+    },
+    # NLLB-constrained Morfessor+BPE cascade
+    "arn-es-cascade": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cascade/test/src.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "src_lang": "arn_Latn",
+        "tgt_lang": "spa_Latn",
+        "desegment_output": False,
+    },
+    "es-arn-cascade": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/src.txt",
+        "src_lang": "spa_Latn",
+        "tgt_lang": "arn_Latn",
+        "desegment_output": True,
+    },
 }
 OUT_DIR = Path("/home/it238/nobackup/autodelete/mapudungun/predictions")
 LANG_CODE_RE = re.compile(r"^[a-z]{2,3}_[A-Z][a-z]{3,}\s*")
@@ -80,14 +125,18 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--direction", choices=["arn-es", "es-arn"], required=True)
     parser.add_argument("--morfessor", action="store_true",
-                        help="Use morfessor test config (segmented arn→es input or desegmented es→arn output)")
+                        help="Shorthand for --tok-approach morfessor (kept for backwards compatibility)")
+    parser.add_argument("--tok-approach", default=None,
+                        choices=["morfessor", "duan_bpe", "large_bpe", "cascade"],
+                        help="Tokenization approach: selects pre-segmented test inputs / desegmented outputs")
     parser.add_argument("--model-path", default=None,
                         help="Override model path (default: hardcoded 3.3B path)")
     parser.add_argument("--run-name", default=None,
                         help="Tag for output filenames, e.g. '1.3B-arn-es-morfessor'. Defaults to direction.")
     args = parser.parse_args()
 
-    cfg_key = f"{args.direction}-morfessor" if args.morfessor else args.direction
+    tok_approach = args.tok_approach or ("morfessor" if args.morfessor else None)
+    cfg_key = f"{args.direction}-{tok_approach}" if tok_approach else args.direction
     cfg = TEST_DATA[cfg_key]
     desegment_output = cfg.get("desegment_output", False)
     model_path = args.model_path or DEFAULT_MODELS[args.direction]

@@ -30,7 +30,68 @@ import numpy as np
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", default="notes/results_chrf.png")
+    parser.add_argument("--output-tok", default="notes/results_tokenization.png")
     return parser.parse_args()
+
+
+def plot_tokenization(args):
+    """Grouped bar chart: tokenization condition × model size, both directions."""
+    conditions = ["Standard\nBPE", "Morfessor", "Cascade\n(ours)", "Duan\n5K BPE", "Large\nBPE"]
+
+    # (arn→es, es→arn) per size
+    data = {
+        "600M":  [(34.90, 39.87), (43.09, 39.90), (43.16, 39.89), (42.36, 38.17), (41.72, 38.04)],
+        "1.3B":  [(40.64, 41.94), (45.40, 42.00), (45.37, 42.04), (44.68, 41.06), (43.99, 40.62)],
+        "3.3B":  [(42.85, 42.89), (45.51, 42.76), (45.84, 42.77), (45.25, 42.30), (44.85, 42.02)],
+    }
+    size_colors = {"600M": "#90caf9", "1.3B": "#1976d2", "3.3B": "#0d47a1"}
+
+    n_cond = len(conditions)
+    x = np.arange(n_cond)
+    width = 0.22
+    offsets = [-width, 0, width]
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(13, 5), sharey=False)
+    fig.subplots_adjust(left=0.07, right=0.97, wspace=0.18, bottom=0.18, top=0.88)
+
+    for ax, dir_idx, title in [
+        (ax1, 0, "Mapudungun → Spanish (arn→es)"),
+        (ax2, 1, "Spanish → Mapudungun (es→arn)"),
+    ]:
+        for i, (size, off) in enumerate(zip(["600M", "1.3B", "3.3B"], offsets)):
+            vals = [data[size][c][dir_idx] for c in range(n_cond)]
+            bars = ax.bar(x + off, vals, width=width * 0.92,
+                          color=size_colors[size], label=size,
+                          edgecolor="white", linewidth=0.4)
+            for bar, val in zip(bars, vals):
+                ax.text(bar.get_x() + bar.get_width() / 2,
+                        bar.get_height() + 0.2,
+                        f"{val:.1f}", ha="center", va="bottom",
+                        fontsize=6.5, fontweight="bold")
+
+        ax.set_xticks(x)
+        ax.set_xticklabels(conditions, fontsize=9)
+        ax.set_ylabel("chrF++", fontsize=10)
+        ax.set_title(title, fontsize=11, fontweight="bold", pad=8)
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+        ax.yaxis.grid(True, alpha=0.3, linestyle="--")
+        ax.set_axisbelow(True)
+        ax.tick_params(axis="x", length=0)
+        ymin = min(data["600M"][c][dir_idx] for c in range(n_cond))
+        ax.set_ylim(max(0, ymin - 6), None)
+
+    legend_patches = [mpatches.Patch(color=size_colors[s], label=s)
+                      for s in ["600M", "1.3B", "3.3B"]]
+    fig.legend(handles=legend_patches, loc="lower center", ncol=3,
+               fontsize=9, frameon=False, bbox_to_anchor=(0.5, 0.0))
+    fig.suptitle("chrF++ by Tokenization Strategy and Model Size",
+                 fontsize=12, fontweight="bold")
+
+    out = Path(args.output_tok)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out, dpi=150, bbox_inches="tight")
+    print(f"Saved to {out}")
 
 
 def draw_group_bracket(ax, x_indices, label, y_line=-0.13, y_text=-0.17):
@@ -73,16 +134,17 @@ def main():
 
     systems = [
         # NLLB zero-shot
-        ("600M",    16.25, 10.96, "zero"),
-        ("1.3B",    17.22, 12.44, "zero"),
-        ("3.3B‡",    5.94,  3.43, "zero"),
-        # 5-shot LLM
-        ("Llama 3.1", 16.54, 16.20, "llm"),
-        ("Aya Exp.",  20.05, 16.11, "llm"),
-        # Fine-tuned NLLB (arn→es: corrected test-set; es→arn: pending retrain fix)
-        ("600M",  35.71, 14.40, "ft"),
-        ("1.3B",  42.24, 14.25, "ft"),
-        ("3.3B",  43.62, 14.22, "ft"),
+        ("600M",    12.86,  7.37, "zero"),
+        ("1.3B",    13.43,  9.91, "zero"),
+        ("3.3B",    13.19,  9.42, "zero"),
+        # Prompted LLM
+        ("Llama 3.1\n8B", 13.96, 11.32, "llm"),
+        ("Aya Exp.\n8B",  15.92, 12.36, "llm"),
+        # Fine-tuned NLLB — best tokenization per direction
+        # arn→es: cascade wins; es→arn: standard wins
+        ("600M",  43.16, 39.87, "ft"),
+        ("1.3B",  45.37, 41.94, "ft"),
+        ("3.3B",  45.84, 42.89, "ft"),
     ]
 
     n_prior   = len(prior_work)   # 2
@@ -162,8 +224,8 @@ def main():
         # Group brackets below x-axis
         draw_group_bracket(ax, idx_prior, "Prior work")
         draw_group_bracket(ax, idx_zero,  "NLLB\n(zero-shot)")
-        draw_group_bracket(ax, idx_llm,   "5-shot\nLLM")
-        draw_group_bracket(ax, idx_ft,    "Fine-tuned\nNLLB")
+        draw_group_bracket(ax, idx_llm,   "Prompted\nLLM")
+        draw_group_bracket(ax, idx_ft,    "Fine-tuned NLLB\n(best tokenization)")
 
         ax.set_ylabel("chrF++", fontsize=11)
         ax.set_title(dir_label, fontsize=12, fontweight="bold", pad=10)
@@ -178,7 +240,7 @@ def main():
     footnotes = (
         "* Duan et al. used same test conversations but pre-cleaning (36.3K pairs vs. our 9.4K)    "
         "† Lira et al. evaluated on a different 1,250-pair test set (random sample from 10K)    "
-        "‡ Non-distilled model; proxy-token initialization less effective without distillation"
+        "Fine-tuned NLLB bars show best result per direction: cascade (arn→es) and standard BPE (es→arn)"
     )
     fig.text(0.02, 0.005, footnotes, fontsize=7, color="#555555", style="italic",
              wrap=True)
@@ -202,6 +264,8 @@ def main():
     out.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(out, dpi=150, bbox_inches="tight")
     print(f"Saved to {out}")
+
+    plot_tokenization(args)
 
 
 if __name__ == "__main__":
