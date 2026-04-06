@@ -17,6 +17,9 @@ build/
 *.err
 slurm-*.out
 
+# Local run logs
+logs/
+
 # Model checkpoints and large files
 *.bin
 *.pt
