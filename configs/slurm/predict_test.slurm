@@ -10,7 +10,7 @@ DIRECTION="${DIRECTION:-es-arn}"
 MODEL_PATH="${MODEL_PATH:-}"
 RUN_NAME="${RUN_NAME:-}"
 MORFESSOR="${MORFESSOR:-}"       # legacy: set to any non-empty value for morfessor
-TOK_APPROACH="${TOK_APPROACH:-}" # preferred: morfessor | duan_bpe | large_bpe | cascade
+TOK_APPROACH="${TOK_APPROACH:-}" # preferred: morfessor | joint_bpe | mono_bpe | morfessor_vc
 
 cd /home/it238/projects/mapudungun/mapudungun-mt
 export HF_HUB_OFFLINE=1

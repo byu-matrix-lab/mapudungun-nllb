@@ -36,7 +36,7 @@ def parse_args():
 
 def plot_tokenization(args):
     """Grouped bar chart: tokenization condition × model size, both directions."""
-    conditions = ["Standard\nBPE", "Morfessor", "Cascade\n(ours)", "Duan\n5K BPE", "Large\nBPE"]
+    conditions = ["Standard\nBPE", "Morfessor", "Morfessor-VC\n(ours)", "Joint-5K\nBPE", "Mono\nBPE"]
 
     # (arn→es, es→arn) per size
     data = {
@@ -141,7 +141,7 @@ def main():
         ("Llama 3.1\n8B", 13.96, 11.32, "llm"),
         ("Aya Exp.\n8B",  15.92, 12.36, "llm"),
         # Fine-tuned NLLB — best tokenization per direction
-        # arn→es: cascade wins; es→arn: standard wins
+        # arn→es: morfessor_vc wins; es→arn: standard wins
         ("600M",  43.16, 39.87, "ft"),
         ("1.3B",  45.37, 41.94, "ft"),
         ("3.3B",  45.84, 42.89, "ft"),
@@ -240,7 +240,7 @@ def main():
     footnotes = (
         "* Duan et al. used same test conversations but pre-cleaning (36.3K pairs vs. our 9.4K)    "
         "† Lira et al. evaluated on a different 1,250-pair test set (random sample from 10K)    "
-        "Fine-tuned NLLB bars show best result per direction: cascade (arn→es) and standard BPE (es→arn)"
+        "Fine-tuned NLLB bars show best result per direction: Morfessor-VC (arn→es) and Standard BPE (es→arn)"
     )
     fig.text(0.02, 0.005, footnotes, fontsize=7, color="#555555", style="italic",
              wrap=True)

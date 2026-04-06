@@ -21,4 +21,5 @@ dependencies = [
     "unbabel-comet>=2.2.7",
     "setuptools>=82.0.0",
     "fasttext>=0.9.3",
+    "optuna>=4.8.0",
 ]

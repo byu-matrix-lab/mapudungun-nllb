@@ -617,3 +617,137 @@ es→arn: no tokenization comparison is significant — standard BPE is as good 
 **Remaining work: paper writing + human evaluation (awaiting Dr. Rogers reply).**
 
 <!-- Add new entries below as work progresses -->
+
+---
+
+## 2026-03-24
+
+**Experiment matrix expanded: two new tokenization conditions added**
+
+After reviewing the March 17 results, advisor suggested two additions to strengthen the tokenization study: (1) an optimally-tuned BPE baseline to address the "did you just pick the wrong vocab size?" objection from reviewers, and (2) the true Morfessor+BPE cascade from the literature (Banerjee & Bhattacharyya 2018), which is distinct from our Morfessor-VC method.
+
+**Final 7 tokenization conditions (settled naming):**
+
+| Name | Description |
+|---|---|
+| Standard BPE | NLLB's internal SentencePiece; no pre-segmentation |
+| Joint-5K BPE | Joint arn+es BPE, 5K vocab; replicates Duan et al. (2020) |
+| Mono BPE | arn-only BPE; vocab size from Gowda & May (2020) 95%-coverage heuristic |
+| Optuna BPE | arn-only BPE; vocab size tuned on dev chrF++ via Bayesian search (Optuna TPE, 12 trials) |
+| Morfessor | Morfessor 2.0 segmentation only |
+| Morfessor-VC | Morfessor with boundaries removed where adjacent morphemes form a single NLLB vocab token; no new model trained (our novel method) |
+| Morfessor-BPE | BPE trained on Morfessor-segmented arn data, applied within morphemes (Banerjee & Bhattacharyya 2018) |
+
+**Codebase rename** — all internal names updated for consistency with paper terminology:
+- `duan_bpe` → `joint_bpe`, `large_bpe` → `mono_bpe`, `cascade` → `morfessor_vc`
+- `segment_cascade.py` → `segment_morfessor_vc.py`
+- Affected: 3 data dirs, 18 model dirs, 54 prediction files, 7 Python scripts, 1 SLURM config
+
+**Morfessor-BPE** — `scripts/tokenization/segment_morfessor_bpe.py` written:
+- Extracts Morfessor morphemes as a flat corpus; trains SentencePiece BPE within morpheme boundaries (vocab_size=4000); applies BPE within each morpheme across all splits
+- Output: 55,452 train / 1,581 dev / 9,382 test lines with 412K / 14K / 73K @@ boundaries in `blocks/morfessor_bpe/`
+- 6 training jobs submitted (600M/1.3B/3.3B × arn→es/es→arn): jobs 10994889–90, 11038261–62, 10994895–96
+  - Note: 1.3B initially failed (wrong model ID `nllb-200-1.3B`; correct name is `nllb-200-distilled-1.3B`); cleaned up and resubmitted as jobs 11038261/62
+- 600M and 3.3B predict jobs done; 1.3B training running
+
+**Optuna BPE** — infrastructure written:
+- `segment_bpe.py` extended with `--out-dir-name` flag (allows writing to `optuna_bpe/` instead of `mono_bpe/`)
+- `configs/slurm/optuna_bpe_trial.slurm`: tokenizes with a given vocab size, fine-tunes 600M arn→es for 5 epochs, extracts best dev chrF++ from `trainer_state.json`, writes result JSON
+- `scripts/optuna/optuna_bpe_coordinator.py`: Optuna TPE study (log-uniform 1000–20000, 12 trials, SQLite storage at `nobackup/.../optuna_bpe.db`); submits trials sequentially via `sbatch --wait`; coordinator running in tmux session `optuna_bpe`
+- Trial 0 running on dw-2-5 (job 11037547)
+
+**`finetune_nllb.py` and `predict_test.py`** updated to accept `morfessor_bpe` and `optuna_bpe` as `--tokenizer-approach` / `--tok-approach` choices.
+
+**Current job status (2026-03-24 ~10:30):**
+
+| Jobs | Task | Status |
+|---|---|---|
+| 10994889–90, 10994895–96 | 600M + 3.3B Morfessor-BPE training | done |
+| 11038261–62 | 1.3B Morfessor-BPE training (arn→es, es→arn) | running |
+| 11037526–27, 11037534–35 | 600M + 3.3B Morfessor-BPE predictions | done |
+| 11037547 | Optuna trial 0 (600M, 5 epochs) | running |
+| pending | 1.3B Morfessor-BPE predictions | after training |
+| pending | COMET scoring (Morfessor-BPE) | after all predictions |
+| pending | Optuna trials 1–11 | sequential, ~18h total |
+| pending | Optuna BPE full training (all 3 sizes × 2 dir) | after search |
+
+**Morfessor-BPE results (all 6 models complete):**
+
+| Model | arn→es chrF++ | es→arn chrF++ |
+|---|---|---|
+| 600M Morfessor-BPE | 24.87 | 39.82 |
+| 1.3B Morfessor-BPE | 35.60 | 41.95 |
+| 3.3B Morfessor-BPE | 34.65 | 42.89 |
+
+Morfessor-BPE is dramatically worse than Morfessor and Morfessor-VC for arn→es (−18 to −11 chrF++ vs. Morfessor-VC). es→arn matches Standard BPE exactly, consistent with the existing pattern. Interpretation: applying BPE *within* morphemes over-fragments them beyond what the encoder can recover from. This is a strong result for the paper — it shows that splitting at morpheme boundaries (Morfessor, Morfessor-VC) is good, but splitting *within* morphemes is actively harmful. Morfessor-VC's vocabulary-constrained merging is the right design: it reduces double-tokenization rather than adding more fragmentation.
+
+**Advisor meeting — morphological segmentation landscape review (2026-03-25)**
+
+Advisor provided an overview of the segmentation landscape and suggested additional baselines. Notes recorded here for the paper's related work section.
+
+Key methods discussed:
+- **Morfessor Baseline** (Creutz & Lagus 2002/2007): MDL-based, fast, what we use. Still the standard unsupervised baseline.
+- **Morfessor FlatCat** (Grönroos et al. 2014): adds HMM over morph categories (prefix/stem/suffix). More linguistically interpretable but category labels unused in our pipeline → not worth adding.
+- **Morfessor 2.0**: current Python implementation (what we use), supports both Baseline and FlatCat, and semi-supervised extensions.
+- **SentencePiece UnigramLM** (Kudo 2018): trains a unigram language model over subwords; more probabilistically principled than BPE. Advisor calls this "the current practical standard." Direct gap in our ablation (we have BPE variants but no unigram comparison). → **Add as new condition.**
+- **Neural Morfessor** (Grönroos et al. 2020): neural encoder replaces the generative model; contextual segmentation. Feasible before deadline but ~2–3 days of work. → Hold until Optuna finishes.
+- **ByT5 / character-level models**: sidestep segmentation entirely. Separate pipeline from NLLB fine-tuning. → Cite as future work.
+- **Semi-supervised Morfessor**: requires gold morpheme annotations. Mapudungun is not in UniMorph. → Not feasible.
+- **Ataman & Federico (2018)** ("Compositional Representation of Morphologically-Rich Input for NMT"): modifies embedding layer with character n-gram composition rather than preprocessing. Architectural change, not a preprocessing approach. → Cite in related work only.
+
+Advisor also noted connection to SAE / lost-in-the-model project: SAE-induced morpheme representations could be compared to Morfessor segmentations as a probe for whether multilingual LMs implicitly learn morphological structure. → Interesting future direction, not for this paper.
+
+**Possible future work (out of scope for April 15 submission):**
+- Neural Morfessor (Grönroos et al. 2020) — contextual neural segmentation; most natural extension of current work
+- ByT5 / character-level models — eliminate OOV entirely; increasingly competitive for low-resource
+- Semi-supervised Morfessor — if Mapudungun morpheme annotations become available (e.g., via fieldwork or UniMorph expansion)
+- SAE-induced morpheme representations as a probe for implicit morphological structure in multilingual LMs (connection to lost-in-the-model project)
+- Prefix-control and code-switching filtering for es→arn (noted March 17; es→arn quality still limited by corpus code-switching distribution)
+
+**Decision**: Add **SentencePiece UnigramLM** as an 8th tokenization condition. Implementation: `model_type="unigram"` in `segment_bpe.py`, arn-only, vocab size tuned via Optuna (same search infrastructure) or set to same heuristic as Mono BPE.
+
+**Next steps:**
+1. Once 1.3B Morfessor-BPE training done: submit predict jobs, then COMET
+2. Monitor Optuna search (`tmux attach -t optuna_bpe`); once complete, train all 6 Optuna BPE models
+3. Add SentencePiece UnigramLM condition to `segment_bpe.py` and submit 6 training jobs
+4. Consider Neural Morfessor if time permits after Optuna
+5. Run significance tests and update plots to include all new conditions
+6. Paper writing — all sections can begin now; new conditions add rows to results table
+
+---
+
+## 2026-03-31
+
+**Updated must-cite.txt** — added three missing citations tied to tokenization conditions:
+- Virpioja et al. (2013): Morfessor 2.0 (`morfessor` condition)
+- Kudo (2018): Subword Regularization / UnigramLM (`unigram_lm` condition)
+- Akiba et al. (2019): Optuna (`optuna_bpe` condition)
+- Confirmed Duan et al. (2020) full citation: "A Resource for Computational Experiments on Mapudungun", LREC 2020, pp. 2872–2877. CMU group (Anastasopoulos, Black, et al.).
+
+**SentencePiece UnigramLM added as 8th tokenization condition** (`unigram_lm`):
+- `segment_bpe.py` extended with `--mode unigram`: trains arn-only SentencePiece UnigramLM using same Gowda & May 95%-coverage heuristic; vocab_size=1000 for blocks corpus (23 char types × 10, floored at 1000); output to `blocks/unigram_lm/`
+- Internal `train_sp_bpe()` refactored to `train_sp_model(model_type=...)` to support both BPE and Unigram
+- `finetune_nllb.py` and `predict_test.py` updated with `unigram_lm` entries
+- Segmentation run: 55,452 train / 1,581 dev / 9,382 test lines written to `data-processed/blocks/unigram_lm/`
+- 6 training jobs submitted (600M/1.3B/3.3B × arn→es/es→arn): jobs 11138302–11138307
+
+**Neural Morfessor** — still blocked. `morfessor-emprune` installs without EM+Prune extensions; `flatcat` not on PyPI. No internet on compute nodes. Deferred to future work.
+
+**Final experiment matrix (8 conditions, all submitted or done):**
+
+| Condition | Paper | Status |
+|---|---|---|
+| Standard BPE | NLLB (Costa-jussà et al. 2022) | done |
+| Joint-5K BPE | Duan et al. (LREC 2020) | done |
+| Mono BPE | Gowda & May (Findings EMNLP 2020) | done |
+| Optuna BPE | Akiba et al. (2019) | search done; full training pending |
+| Morfessor | Virpioja et al. (2013) | done |
+| Morfessor-VC | this paper (novel) | done |
+| Morfessor-BPE | Banerjee & Bhattacharyya (SCLeM 2018) | done |
+| UnigramLM | Kudo (2018) | training jobs 11138302–07 running |
+
+**Next steps:**
+1. Wait for UnigramLM jobs (11138302–07) to finish; submit predict + COMET
+2. Once Optuna search done: train all 6 Optuna BPE models
+3. Run significance tests and update plots for all 8 conditions
+4. Paper writing: methods section can be written now; results once all predictions in

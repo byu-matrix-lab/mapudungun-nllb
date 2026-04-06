@@ -1,7 +1,7 @@
 Consolidated must-cite list (30 essential papers)
 Mapudungun: Duan et al. (LREC 2020), Pendas et al. (AmericasNLP 2023), Lira et al. (2025), Chandía (LREC 2022), Ahumada et al. (BEA 2022).
 NLLB/embeddings: NLLB Team (Nature 2024/arXiv 2022), Dale tutorial (2023), Downey et al. (MRL 2023), DeGenaro & Lupicki (AmericasNLP 2024), Gow-Smith & Villegas (AmericasNLP 2023), Pinhanez et al. (2025), Bérard (WMT 2021).
-Tokenization: Banerjee & Bhattacharyya (SCLeM 2018), Mager et al. (Findings of ACL 2022), Ataman & Federico (AMTA 2018), Park et al. (AACL-IJCNLP 2020), Bostrom & Durrett (Findings of EMNLP 2020), Gowda & May (Findings of EMNLP 2020), Mielke et al. (2021), Le & Sadat (COLING 2020).
+Tokenization: Banerjee & Bhattacharyya (SCLeM 2018), Mager et al. (Findings of ACL 2022), Ataman & Federico (AMTA 2018), Park et al. (AACL-IJCNLP 2020), Bostrom & Durrett (Findings of EMNLP 2020), Gowda & May (Findings of EMNLP 2020), Mielke et al. (2021), Le & Sadat (COLING 2020), Virpioja et al. (2013) [Morfessor 2.0], Kudo (2018) [Subword Regularization / UnigramLM], Akiba et al. (2019) [Optuna].
 AmericasNLP: Ebrahimi et al. (2023, 2024), De Gibert et al. (2025), NordicsAlps (2024), Tonja et al. (NAACL 2024), Mager et al. survey (2023).
 Code-switching: Chiruzzo et al. (LREC 2022), Álvarez-Mellado & Lignos (LREC 2022), Winata et al. (Findings of ACL 2023).
 Fertility: Rust et al. (ACL 2021), Ahia et al. (EMNLP 2023), Petrov et al. (NeurIPS 2023).

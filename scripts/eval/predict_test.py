@@ -54,14 +54,14 @@ TEST_DATA = {
         "desegment_output": True,
     },
     # Duan 5K BPE
-    "arn-es-duan_bpe": {
-        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/duan_bpe/test/src.txt",
+    "arn-es-joint_bpe": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/joint_bpe/test/src.txt",
         "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
         "src_lang": "arn_Latn",
         "tgt_lang": "spa_Latn",
         "desegment_output": False,
     },
-    "es-arn-duan_bpe": {
+    "es-arn-joint_bpe": {
         "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
         "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/src.txt",
         "src_lang": "spa_Latn",
@@ -69,29 +69,74 @@ TEST_DATA = {
         "desegment_output": True,
     },
     # Large language-specific BPE
-    "arn-es-large_bpe": {
-        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/large_bpe/test/src.txt",
+    "arn-es-mono_bpe": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/mono_bpe/test/src.txt",
         "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
         "src_lang": "arn_Latn",
         "tgt_lang": "spa_Latn",
         "desegment_output": False,
     },
-    "es-arn-large_bpe": {
+    "es-arn-mono_bpe": {
         "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
         "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/src.txt",
         "src_lang": "spa_Latn",
         "tgt_lang": "arn_Latn",
         "desegment_output": True,
     },
-    # NLLB-constrained Morfessor+BPE cascade
-    "arn-es-cascade": {
-        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cascade/test/src.txt",
+    # Morfessor-BPE cascade (Banerjee & Bhattacharyya 2018)
+    "arn-es-morfessor_bpe": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/morfessor_bpe/test/src.txt",
         "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
         "src_lang": "arn_Latn",
         "tgt_lang": "spa_Latn",
         "desegment_output": False,
     },
-    "es-arn-cascade": {
+    "es-arn-morfessor_bpe": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/src.txt",
+        "src_lang": "spa_Latn",
+        "tgt_lang": "arn_Latn",
+        "desegment_output": True,
+    },
+    # Optuna-tuned arn-only BPE
+    "arn-es-optuna_bpe": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/optuna_bpe/test/src.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "src_lang": "arn_Latn",
+        "tgt_lang": "spa_Latn",
+        "desegment_output": False,
+    },
+    "es-arn-optuna_bpe": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/src.txt",
+        "src_lang": "spa_Latn",
+        "tgt_lang": "arn_Latn",
+        "desegment_output": True,
+    },
+    # SentencePiece UnigramLM (Kudo 2018)
+    "arn-es-unigram_lm": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/unigram_lm/test/src.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "src_lang": "arn_Latn",
+        "tgt_lang": "spa_Latn",
+        "desegment_output": False,
+    },
+    "es-arn-unigram_lm": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/src.txt",
+        "src_lang": "spa_Latn",
+        "tgt_lang": "arn_Latn",
+        "desegment_output": True,
+    },
+    # NLLB-constrained Morfessor+BPE morfessor_vc
+    "arn-es-morfessor_vc": {
+        "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/morfessor_vc/test/src.txt",
+        "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
+        "src_lang": "arn_Latn",
+        "tgt_lang": "spa_Latn",
+        "desegment_output": False,
+    },
+    "es-arn-morfessor_vc": {
         "src": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt",
         "ref": "/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/src.txt",
         "src_lang": "spa_Latn",
@@ -127,7 +172,7 @@ def main():
     parser.add_argument("--morfessor", action="store_true",
                         help="Shorthand for --tok-approach morfessor (kept for backwards compatibility)")
     parser.add_argument("--tok-approach", default=None,
-                        choices=["morfessor", "duan_bpe", "large_bpe", "cascade"],
+                        choices=["morfessor", "joint_bpe", "mono_bpe", "morfessor_vc", "morfessor_bpe", "optuna_bpe", "unigram_lm"],
                         help="Tokenization approach: selects pre-segmented test inputs / desegmented outputs")
     parser.add_argument("--model-path", default=None,
                         help="Override model path (default: hardcoded 3.3B path)")

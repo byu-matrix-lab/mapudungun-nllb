@@ -92,7 +92,7 @@ def parse_args():
     parser.add_argument(
         "--tokenizer-approach",
         default="standard",
-        choices=["standard", "morfessor", "duan_bpe", "large_bpe", "cascade"],
+        choices=["standard", "morfessor", "joint_bpe", "mono_bpe", "morfessor_vc", "morfessor_bpe", "optuna_bpe", "unigram_lm"],
         help="Pre-segmentation strategy applied to Mapudungun data.",
     )
     return parser.parse_args()
@@ -112,7 +112,8 @@ def load_split(data_dir: str, approach: str, split: str,
     """
     if tokenizer_approach == "morfessor":
         base = Path(data_dir) / approach / "morfessor" / split
-    elif tokenizer_approach in ("duan_bpe", "large_bpe", "cascade"):
+    elif tokenizer_approach in ("joint_bpe", "mono_bpe", "morfessor_vc",
+                                "morfessor_bpe", "optuna_bpe", "unigram_lm"):
         base = Path(data_dir) / approach / tokenizer_approach / split
     else:
         base = Path(data_dir) / approach / "cleaned" / split / "cleaned"

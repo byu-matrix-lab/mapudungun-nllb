@@ -2,9 +2,9 @@
 """
 Code-switching analysis on the test set.
 
-For each test sentence (Mapudungun source), uses fastText word-level LID to
+For each test sentence (Mapudungun source), uses GlotLID word-level LID to
 compute the fraction of Spanish tokens. Correlates this with per-sentence
-chrF++ from the best model (3.3B cascade, arn→es). Reports:
+chrF++ from the best model (3.3B morfessor_vc, arn→es). Reports:
   - % sentences with ≥1 Spanish word
   - % sentences with >20% Spanish words (heavy CS)
   - Pearson/Spearman correlation between Spanish word% and chrF++
@@ -20,7 +20,7 @@ import fasttext
 import numpy as np
 from scipy import stats
 
-LID_MODEL   = "/home/it238/nobackup/autodelete/mapudungun/lid.176.bin"
+LID_MODEL   = "/home/it238/nobackup/autodelete/mapudungun/glotlid/model.bin"
 TEST_SRC    = Path("/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/src.txt")
 TEST_TGT    = Path("/home/it238/nobackup/autodelete/mapudungun/data-processed/blocks/cleaned/test/cleaned/tgt.txt")
 RESULTS_DIR = Path("/home/it238/nobackup/autodelete/mapudungun/predictions")
@@ -36,13 +36,13 @@ def es_fraction(model, sentence: str) -> tuple[float, list[str]]:
     es_words = []
     for w in long_words:
         labels, _ = model.predict(w.lower(), k=1)
-        if labels and labels[0] == "__label__es":
+        if labels and labels[0] == "__label__spa_Latn":
             es_words.append(w)
     return len(es_words) / len(long_words), es_words
 
 
 def main():
-    print("Loading fastText LID model...")
+    print("Loading GlotLID model...")
     lid = fasttext.load_model(LID_MODEL)
 
     src_lines = TEST_SRC.read_text().splitlines()
@@ -89,7 +89,7 @@ def main():
 
     lines = []
     lines.append("=" * 70)
-    lines.append("CODE-SWITCHING ANALYSIS  |  3.3B cascade  |  arn→es test set")
+    lines.append("CODE-SWITCHING ANALYSIS  |  3.3B Morfessor-VC  |  arn→es test set")
     lines.append("=" * 70)
     lines.append(f"\nTest sentences:                {len(src_lines):,}")
     lines.append(f"Sentences with ≥1 Spanish word: {any_es:,}  ({pct_any:.1f}%)")
