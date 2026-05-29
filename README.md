@@ -1,7 +1,7 @@
 # Bringing Mapudungun into the Modern MT Ecosystem
 
-**Isaac Thompson & Dr. Brandon M. Rogers** (BYU Matrix Lab)
-Published at AmericasNLP 2026 @ ACL
+**Isaac M. Thompson, Brandon M.A. Rogers, Eric K. Ringger** (BYU Matrix Lab)
+Published at the Sixth Workshop on NLP for Indigenous Languages of the Americas (AmericasNLP 2026)
 
 ---
 
@@ -97,8 +97,8 @@ python scripts/eval/significance_test.py
 ```bibtex
 @inproceedings{thompson2026mapudungun,
   title     = {Bringing {Mapudungun} into the Modern {MT} Ecosystem: Morphology-Aware Tokenization for {NLLB}-200 Fine-Tuning},
-  author    = {Thompson, Isaac},
-  booktitle = {Proceedings of the 5th Workshop on NLP for Indigenous Languages of the Americas (AmericasNLP 2026)},
+  author    = {Thompson, Isaac M. and Rogers, Brandon M.A. and Ringger, Eric K.},
+  booktitle = {Proceedings of the Sixth Workshop on NLP for Indigenous Languages of the Americas (AmericasNLP 2026)},
   year      = {2026},
 }
 ```
