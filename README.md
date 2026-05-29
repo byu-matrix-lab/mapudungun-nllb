@@ -1,8 +1,8 @@
 # Bringing Mapudungun into the Modern MT Ecosystem
 
-**Isaac M. Thompson¹, Brandon M.A. Rogers², Eric K. Ringger¹**
-¹Department of Computer Science, Brigham Young University · ²Department of Spanish & Portuguese, Brigham Young University
-Published at the Sixth Workshop on NLP for Indigenous Languages of the Americas (AmericasNLP 2026)
+Isaac M. Thompson · Brandon M.A. Rogers · Eric K. Ringger
+
+*Sixth Workshop on NLP for Indigenous Languages of the Americas (AmericasNLP 2026)*
 
 ---
 
