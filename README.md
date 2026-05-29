@@ -1,18 +1,37 @@
 # Bringing Mapudungun into the Modern MT Ecosystem
 
-**Isaac Thompson & Dr. Brandon M. Rogers** (BYU Spanish & Portuguese)
-Submitted to AmericasNLP 2026 @ ACL — deadline April 15, 2026
+**Isaac Thompson & Dr. Brandon M. Rogers** (BYU Matrix Lab)
+Published at AmericasNLP 2026 @ ACL
 
 ---
 
 ## Overview
 
-Mapudungun (ISO 639-3: `arn`) is a polysynthetic language spoken by 200,000+ Mapuche people in Chile and Argentina. Despite a 266,300-pair parallel corpus (Duan et al., LREC 2020), it remains absent from all major MT systems and no modern multilingual model has been fine-tuned on it.
+Mapudungun (ISO 639-3: `arn`) is a polysynthetic language spoken by ~200,000 Mapuche people in Chile and Argentina. This project fine-tunes NLLB-200 (600M, 1.3B, and 3.3B) bidirectionally (arn↔es) on the Duan et al. (2020) 266K-pair corpus and conducts a systematic study of eight tokenization strategies suited to polysynthetic morphology.
 
-This project:
-1. Fine-tunes `facebook/nllb-200-distilled-600M` bidirectionally (arn↔es) on the full 266K corpus
-2. Conducts a systematic **tokenization study** comparing four strategies suited to polysynthetic morphology
-3. Establishes **LLM prompting baselines** (open-source, on-cluster) for comparison
+The key contribution is **Morfessor-VC**: Morfessor segmentation constrained to NLLB's pretrained SentencePiece vocabulary, eliminating double-tokenization artifacts. For arn→es, morphology-aware tokenization with the 600M model matches Standard BPE with a model 5× larger.
+
+---
+
+## Models
+
+All 48 fine-tuned models (8 tokenization conditions × 3 sizes × 2 directions) are available on HuggingFace:
+[byumatrixlab/mapudungun-nllb](https://huggingface.co/collections/byumatrixlab/mapudungun-nllb-6a0b99ce4bbdd3b46531c6b4)
+
+---
+
+## Results (chrF++)
+
+| Condition | 600M arn→es | 1.3B arn→es | 3.3B arn→es |
+|-----------|------------|------------|------------|
+| Standard BPE | 34.9 | 40.6 | 42.9 |
+| Joint-5K BPE | 42.4 | 44.7 | 45.3 |
+| Mono BPE | 41.7 | 44.0 | 44.9 |
+| Optuna BPE | 42.4 | 44.7 | 45.2 |
+| Morfessor | 43.1 | 45.4 | 45.5 |
+| **Morfessor-VC** | **43.2** | **45.4** | **45.8** |
+| Morfessor-BPE | 42.8 | 45.0 | 45.6 |
+| UnigramLM | 42.2 | 44.6 | 45.1 |
 
 ---
 
@@ -20,110 +39,77 @@ This project:
 
 ```
 mapudungun-mt/
-├── proposal.md              # Full research proposal
-├── requirements.txt         # Python dependencies
 ├── data/
-│   ├── splits/              # Train/dev/test index files (240K/13K/13K)
-│   ├── cleaned_local/       # Cleaned local Mapuche transcript data (~5.9K pairs)
-│   └── char_sets/           # Character frequency analysis for arn-CL
+│   ├── cleaned_local/       # Local Mapuche transcript data (~5.9K pairs)
+│   └── char_sets/           # Character frequency analysis for arn
 ├── scripts/
-│   ├── data/                # Extraction and data preparation scripts
-│   ├── tokenization/        # Tokenizer training and fertility comparison
-│   ├── training/            # NLLB fine-tuning and LLM baseline scripts
-│   └── evaluation/          # chrF++ and BLEU scoring
+│   ├── data/                # Corpus extraction and cleaning
+│   ├── tokenization/        # Tokenizer training (BPE, Morfessor, Morfessor-VC, UnigramLM)
+│   ├── training/            # NLLB fine-tuning
+│   ├── eval/                # Prediction, chrF++, COMET, significance testing
+│   ├── analysis/            # Fertility, code-switching, result plots
+│   └── upload_to_hf.py      # Upload models to HuggingFace
 ├── configs/
 │   ├── cleaning/            # arn-CL.yaml — Mapudungun-specific cleaning rules
-│   └── slurm/               # SLURM job templates
-├── results/                 # Experiment outputs (metrics, logs)
-└── notebooks/               # Analysis, figures, error analysis
+│   └── slurm/               # SLURM job templates (BYU supercomputer)
+└── results/
+    └── metrics_table.tsv    # Full chrF++ results for all conditions
 ```
 
-**Large files not in this repo:**
-- Raw corpus (`Mapudungun Data/`) — stored in `/nobackup/autodelete/Mapudungun Project/`
-- Model checkpoints — stored in `/nobackup/` or `results/` (symlinked)
-- Cleaned 266K data — stored in `/nobackup/autodelete/Mapudungun Project/`
+The raw 266K corpus (Duan et al. 2020) and model checkpoints are not included; see the HuggingFace collection for models.
 
 ---
 
-## Data Cleaning Pipeline
-
-Uses the lab's canonical pipeline at `/home/it238/groups/grp_mtlab/projects/data-cleaning/data-cleaning-pipeline/` with the Mapudungun-specific config at `configs/cleaning/arn-CL.yaml`.
-
-```bash
-python3 /home/it238/groups/grp_mtlab/projects/data-cleaning/data-cleaning-pipeline/pipeline.py \
-  -t data/cleaned_duan/ \
-  -srclang arn-CL -tgtlang es-ES \
-  -srcpath [PATH_TO_ARN] -tgtpath [PATH_TO_ES] \
-  -d -v
-```
-
----
-
-## Tokenization Study
-
-Four strategies compared by **fertility** (tokens/word, lower is better for polysynthetic languages):
-
-| ID | Strategy | Tool |
-|----|----------|------|
-| (a) | Duan et al. 5K joint BPE | `sentencepiece` |
-| (b) | Larger language-specific BPE (16K, 32K) | `sentencepiece` |
-| (c) | Morfessor segmentation | `morfessor` |
-| (d) | Linguistically-informed segmentation | Collaboration with Dr. Rogers |
-
-```bash
-python scripts/tokenization/compare_tokenizers.py --data data/splits/ --output results/tokenization/
-```
-
----
-
-## Training
-
-Fine-tunes NLLB-200-distilled-600M using HuggingFace `Seq2SeqTrainer`. Submit via SLURM:
-
-```bash
-sbatch configs/slurm/finetune.sh --tokenizer bpe5k --direction arn-es
-```
-
-Results are saved to `results/[date]_[tokenizer]_[direction]/`.
-
----
-
-## Evaluation
-
-Primary metric: **chrF++** (via `sacrebleu`). Secondary: BLEU, tokenizer fertility.
-
-```bash
-python scripts/evaluation/score.py --hyp results/.../output.txt --ref data/splits/test.es
-```
-
----
-
-## Branching Strategy
-
-- `main` — stable, tagged releases only
-- `develop` — integration branch; all PRs merge here first
-- `feature/data-pipeline` — data cleaning and preparation
-- `feature/tokenization` — tokenization comparison
-- `feature/nllb-finetuning` — model fine-tuning
-- `feature/llm-baseline` — LLM prompting experiments
-- `feature/evaluation` — metrics and analysis
-
-All feature branches require a pull request and Isaac's review before merging to `develop`.
-
----
-
-## Environment Setup
+## Setup
 
 ```bash
 uv sync
 source .venv/bin/activate
 ```
 
-On compute nodes (`HF_HUB_OFFLINE=1`): ensure models are cached in `$HF_HOME` before submitting jobs.
+On compute nodes with `HF_HUB_OFFLINE=1`: cache models in `$HF_HOME` before submitting SLURM jobs.
+
+---
+
+## Reproducing Results
+
+**1. Segment training data** (example: Morfessor-VC)
+```bash
+python scripts/tokenization/segment_morfessor_vc.py \
+  --data data/cleaned_local/cleaned/ --output data-processed/blocks/morfessor_vc/
+```
+
+**2. Fine-tune**
+```bash
+sbatch configs/slurm/finetune_nllb.slurm  # set APPROACH, MODEL_TAG, SRC, TGT
+```
+
+**3. Predict and score**
+```bash
+sbatch configs/slurm/predict_test.slurm
+python scripts/eval/significance_test.py
+```
 
 ---
 
 ## Citation
 
-If using the Duan et al. corpus:
-> Duan et al. (2020). A parallel corpus for low-resource Mapudungun. LREC 2020.
+```bibtex
+@inproceedings{thompson2026mapudungun,
+  title     = {Bringing {Mapudungun} into the Modern {MT} Ecosystem: Morphology-Aware Tokenization for {NLLB}-200 Fine-Tuning},
+  author    = {Thompson, Isaac},
+  booktitle = {Proceedings of the 5th Workshop on NLP for Indigenous Languages of the Americas (AmericasNLP 2026)},
+  year      = {2026},
+}
+```
+
+Data citation:
+```bibtex
+@inproceedings{duan2020mapudungun,
+  title     = {A Resource for Computational Experiments on {Mapudungun}},
+  author    = {Duan, Lindia and others},
+  booktitle = {Proceedings of LREC 2020},
+  pages     = {2872--2877},
+  year      = {2020},
+}
+```
