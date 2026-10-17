@@ -73,3 +73,14 @@ latex/
 human_eval/
 related-work/
 mapudungun.tex
+
+# Crash dumps and poster build/download artifacts
+core.*
+poster.log
+poster/*.aux
+poster/*.log
+poster/*.nav
+poster/*.snm
+poster/*.toc
+poster/figures/__MACOSX/
+poster/medallion.zip
