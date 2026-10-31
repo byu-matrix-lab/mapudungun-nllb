@@ -1,0 +1,1175 @@
+{
+  "v2": {
+    "scores": {
+      "Standard BPE|600M|arn-es": {
+        "condition": "Standard BPE",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2-600M-arn-es",
+        "corpus_chrfpp": 43.94,
+        "mean_sentence_chrfpp": 43.56,
+        "corpus_bleu": 17.48,
+        "source": "v2 retrain"
+      },
+      "Standard BPE|600M|es-arn": {
+        "condition": "Standard BPE",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-es-arn",
+        "corpus_chrfpp": 38.51,
+        "mean_sentence_chrfpp": 39.87,
+        "corpus_bleu": 8.53,
+        "source": "original prediction file"
+      },
+      "Standard BPE|1.3B|arn-es": {
+        "condition": "Standard BPE",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2-1.3B-arn-es",
+        "corpus_chrfpp": 46.07,
+        "mean_sentence_chrfpp": 45.62,
+        "corpus_bleu": 19.25,
+        "source": "v2 retrain"
+      },
+      "Standard BPE|1.3B|es-arn": {
+        "condition": "Standard BPE",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-es-arn",
+        "corpus_chrfpp": 40.79,
+        "mean_sentence_chrfpp": 41.94,
+        "corpus_bleu": 9.93,
+        "source": "original prediction file"
+      },
+      "Standard BPE|3.3B|arn-es": {
+        "condition": "Standard BPE",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2-3.3B-arn-es",
+        "corpus_chrfpp": 46.53,
+        "mean_sentence_chrfpp": 45.86,
+        "corpus_bleu": 19.46,
+        "source": "v2 retrain"
+      },
+      "Standard BPE|3.3B|es-arn": {
+        "condition": "Standard BPE",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-es-arn",
+        "corpus_chrfpp": 42.05,
+        "mean_sentence_chrfpp": 42.89,
+        "corpus_bleu": 10.57,
+        "source": "original prediction file"
+      },
+      "Joint-5K BPE|600M|arn-es": {
+        "condition": "Joint-5K BPE",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-blocks-arn-es-joint_bpe",
+        "corpus_chrfpp": 41.57,
+        "mean_sentence_chrfpp": 42.36,
+        "corpus_bleu": 14.2,
+        "source": "original prediction file"
+      },
+      "Joint-5K BPE|600M|es-arn": {
+        "condition": "Joint-5K BPE",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-blocks-es-arn-joint_bpe",
+        "corpus_chrfpp": 36.1,
+        "mean_sentence_chrfpp": 38.17,
+        "corpus_bleu": 7.92,
+        "source": "original prediction file"
+      },
+      "Joint-5K BPE|1.3B|arn-es": {
+        "condition": "Joint-5K BPE",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-blocks-arn-es-joint_bpe",
+        "corpus_chrfpp": 43.92,
+        "mean_sentence_chrfpp": 44.68,
+        "corpus_bleu": 15.91,
+        "source": "original prediction file"
+      },
+      "Joint-5K BPE|1.3B|es-arn": {
+        "condition": "Joint-5K BPE",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-blocks-es-arn-joint_bpe",
+        "corpus_chrfpp": 38.76,
+        "mean_sentence_chrfpp": 41.06,
+        "corpus_bleu": 9.02,
+        "source": "original prediction file"
+      },
+      "Joint-5K BPE|3.3B|arn-es": {
+        "condition": "Joint-5K BPE",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-blocks-arn-es-joint_bpe",
+        "corpus_chrfpp": 44.8,
+        "mean_sentence_chrfpp": 45.25,
+        "corpus_bleu": 17.2,
+        "source": "original prediction file"
+      },
+      "Joint-5K BPE|3.3B|es-arn": {
+        "condition": "Joint-5K BPE",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-blocks-es-arn-joint_bpe",
+        "corpus_chrfpp": 39.86,
+        "mean_sentence_chrfpp": 42.3,
+        "corpus_bleu": 9.73,
+        "source": "original prediction file"
+      },
+      "Mono BPE|600M|arn-es": {
+        "condition": "Mono BPE",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-blocks-arn-es-mono_bpe",
+        "corpus_chrfpp": 39.5,
+        "mean_sentence_chrfpp": 41.72,
+        "corpus_bleu": 11.93,
+        "source": "original prediction file"
+      },
+      "Mono BPE|600M|es-arn": {
+        "condition": "Mono BPE",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-blocks-es-arn-mono_bpe",
+        "corpus_chrfpp": 35.02,
+        "mean_sentence_chrfpp": 38.04,
+        "corpus_bleu": 7.24,
+        "source": "original prediction file"
+      },
+      "Mono BPE|1.3B|arn-es": {
+        "condition": "Mono BPE",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-blocks-arn-es-mono_bpe",
+        "corpus_chrfpp": 41.53,
+        "mean_sentence_chrfpp": 43.99,
+        "corpus_bleu": 12.97,
+        "source": "original prediction file"
+      },
+      "Mono BPE|1.3B|es-arn": {
+        "condition": "Mono BPE",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-blocks-es-arn-mono_bpe",
+        "corpus_chrfpp": 37.29,
+        "mean_sentence_chrfpp": 40.62,
+        "corpus_bleu": 8.3,
+        "source": "original prediction file"
+      },
+      "Mono BPE|3.3B|arn-es": {
+        "condition": "Mono BPE",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-blocks-arn-es-mono_bpe",
+        "corpus_chrfpp": 43.37,
+        "mean_sentence_chrfpp": 44.85,
+        "corpus_bleu": 15.45,
+        "source": "original prediction file"
+      },
+      "Mono BPE|3.3B|es-arn": {
+        "condition": "Mono BPE",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-blocks-es-arn-mono_bpe",
+        "corpus_chrfpp": 38.37,
+        "mean_sentence_chrfpp": 42.02,
+        "corpus_bleu": 9.16,
+        "source": "original prediction file"
+      },
+      "Optuna BPE|600M|arn-es": {
+        "condition": "Optuna BPE",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-600M-blocks-arn-es-optuna_bpe",
+        "corpus_chrfpp": 41.85,
+        "mean_sentence_chrfpp": 42.41,
+        "corpus_bleu": 14.5,
+        "source": "original prediction file"
+      },
+      "Optuna BPE|600M|es-arn": {
+        "condition": "Optuna BPE",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-600M-blocks-es-arn-optuna_bpe",
+        "corpus_chrfpp": 36.76,
+        "mean_sentence_chrfpp": 38.79,
+        "corpus_bleu": 8.12,
+        "source": "original prediction file"
+      },
+      "Optuna BPE|1.3B|arn-es": {
+        "condition": "Optuna BPE",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-1.3B-blocks-arn-es-optuna_bpe",
+        "corpus_chrfpp": 44.15,
+        "mean_sentence_chrfpp": 44.67,
+        "corpus_bleu": 16.33,
+        "source": "original prediction file"
+      },
+      "Optuna BPE|1.3B|es-arn": {
+        "condition": "Optuna BPE",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-1.3B-blocks-es-arn-optuna_bpe",
+        "corpus_chrfpp": 39.31,
+        "mean_sentence_chrfpp": 41.34,
+        "corpus_bleu": 9.26,
+        "source": "original prediction file"
+      },
+      "Optuna BPE|3.3B|arn-es": {
+        "condition": "Optuna BPE",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-200-3.3B-blocks-arn-es-optuna_bpe",
+        "corpus_chrfpp": 45.27,
+        "mean_sentence_chrfpp": 45.21,
+        "corpus_bleu": 17.97,
+        "source": "original prediction file"
+      },
+      "Optuna BPE|3.3B|es-arn": {
+        "condition": "Optuna BPE",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-200-3.3B-blocks-es-arn-optuna_bpe",
+        "corpus_chrfpp": 40.31,
+        "mean_sentence_chrfpp": 42.33,
+        "corpus_bleu": 9.93,
+        "source": "original prediction file"
+      },
+      "Morfessor|600M|arn-es": {
+        "condition": "Morfessor",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-arn-es-morfessor",
+        "corpus_chrfpp": 43.16,
+        "mean_sentence_chrfpp": 43.09,
+        "corpus_bleu": 16.15,
+        "source": "original prediction file"
+      },
+      "Morfessor|600M|es-arn": {
+        "condition": "Morfessor",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-es-arn-morfessor",
+        "corpus_chrfpp": 38.43,
+        "mean_sentence_chrfpp": 39.9,
+        "corpus_bleu": 8.61,
+        "source": "original prediction file"
+      },
+      "Morfessor|1.3B|arn-es": {
+        "condition": "Morfessor",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-arn-es-morfessor",
+        "corpus_chrfpp": 45.48,
+        "mean_sentence_chrfpp": 45.4,
+        "corpus_bleu": 18.21,
+        "source": "original prediction file"
+      },
+      "Morfessor|1.3B|es-arn": {
+        "condition": "Morfessor",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-es-arn-morfessor",
+        "corpus_chrfpp": 40.69,
+        "mean_sentence_chrfpp": 42.0,
+        "corpus_bleu": 9.83,
+        "source": "original prediction file"
+      },
+      "Morfessor|3.3B|arn-es": {
+        "condition": "Morfessor",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-arn-es-morfessor",
+        "corpus_chrfpp": 45.91,
+        "mean_sentence_chrfpp": 45.51,
+        "corpus_bleu": 18.72,
+        "source": "original prediction file"
+      },
+      "Morfessor|3.3B|es-arn": {
+        "condition": "Morfessor",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-es-arn-morfessor",
+        "corpus_chrfpp": 41.54,
+        "mean_sentence_chrfpp": 42.76,
+        "corpus_bleu": 10.32,
+        "source": "original prediction file"
+      },
+      "Morfessor-VC|600M|arn-es": {
+        "condition": "Morfessor-VC",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-blocks-arn-es-morfessor_vc",
+        "corpus_chrfpp": 43.37,
+        "mean_sentence_chrfpp": 43.16,
+        "corpus_bleu": 16.45,
+        "source": "original prediction file"
+      },
+      "Morfessor-VC|600M|es-arn": {
+        "condition": "Morfessor-VC",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-blocks-es-arn-morfessor_vc",
+        "corpus_chrfpp": 38.37,
+        "mean_sentence_chrfpp": 39.89,
+        "corpus_bleu": 8.5,
+        "source": "original prediction file"
+      },
+      "Morfessor-VC|1.3B|arn-es": {
+        "condition": "Morfessor-VC",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-blocks-arn-es-morfessor_vc",
+        "corpus_chrfpp": 45.55,
+        "mean_sentence_chrfpp": 45.37,
+        "corpus_bleu": 18.35,
+        "source": "original prediction file"
+      },
+      "Morfessor-VC|1.3B|es-arn": {
+        "condition": "Morfessor-VC",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-blocks-es-arn-morfessor_vc",
+        "corpus_chrfpp": 40.85,
+        "mean_sentence_chrfpp": 42.04,
+        "corpus_bleu": 9.84,
+        "source": "original prediction file"
+      },
+      "Morfessor-VC|3.3B|arn-es": {
+        "condition": "Morfessor-VC",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-blocks-arn-es-morfessor_vc",
+        "corpus_chrfpp": 46.08,
+        "mean_sentence_chrfpp": 45.84,
+        "corpus_bleu": 18.94,
+        "source": "original prediction file"
+      },
+      "Morfessor-VC|3.3B|es-arn": {
+        "condition": "Morfessor-VC",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-blocks-es-arn-morfessor_vc",
+        "corpus_chrfpp": 41.6,
+        "mean_sentence_chrfpp": 42.77,
+        "corpus_bleu": 10.32,
+        "source": "original prediction file"
+      },
+      "Morfessor-BPE|600M|arn-es": {
+        "condition": "Morfessor-BPE",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-600M-blocks-arn-es-morfessor_bpe",
+        "corpus_chrfpp": 42.12,
+        "mean_sentence_chrfpp": 42.8,
+        "corpus_bleu": 14.74,
+        "source": "original prediction file"
+      },
+      "Morfessor-BPE|600M|es-arn": {
+        "condition": "Morfessor-BPE",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-600M-blocks-es-arn-morfessor_bpe",
+        "corpus_chrfpp": 36.52,
+        "mean_sentence_chrfpp": 38.74,
+        "corpus_bleu": 8.0,
+        "source": "original prediction file"
+      },
+      "Morfessor-BPE|1.3B|arn-es": {
+        "condition": "Morfessor-BPE",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-1.3B-blocks-arn-es-morfessor_bpe",
+        "corpus_chrfpp": 44.13,
+        "mean_sentence_chrfpp": 44.97,
+        "corpus_bleu": 15.98,
+        "source": "original prediction file"
+      },
+      "Morfessor-BPE|1.3B|es-arn": {
+        "condition": "Morfessor-BPE",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-1.3B-blocks-es-arn-morfessor_bpe",
+        "corpus_chrfpp": 39.13,
+        "mean_sentence_chrfpp": 41.25,
+        "corpus_bleu": 9.12,
+        "source": "original prediction file"
+      },
+      "Morfessor-BPE|3.3B|arn-es": {
+        "condition": "Morfessor-BPE",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-200-3.3B-blocks-arn-es-morfessor_bpe",
+        "corpus_chrfpp": 45.38,
+        "mean_sentence_chrfpp": 45.56,
+        "corpus_bleu": 17.79,
+        "source": "original prediction file"
+      },
+      "Morfessor-BPE|3.3B|es-arn": {
+        "condition": "Morfessor-BPE",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-200-3.3B-blocks-es-arn-morfessor_bpe",
+        "corpus_chrfpp": 40.26,
+        "mean_sentence_chrfpp": 42.4,
+        "corpus_bleu": 9.93,
+        "source": "original prediction file"
+      },
+      "UnigramLM|600M|arn-es": {
+        "condition": "UnigramLM",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-600M-blocks-arn-es-unigram_lm",
+        "corpus_chrfpp": 40.22,
+        "mean_sentence_chrfpp": 42.18,
+        "corpus_bleu": 12.61,
+        "source": "original prediction file"
+      },
+      "UnigramLM|600M|es-arn": {
+        "condition": "UnigramLM",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-600M-blocks-es-arn-unigram_lm",
+        "corpus_chrfpp": 35.24,
+        "mean_sentence_chrfpp": 38.2,
+        "corpus_bleu": 7.4,
+        "source": "original prediction file"
+      },
+      "UnigramLM|1.3B|arn-es": {
+        "condition": "UnigramLM",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-1.3B-blocks-arn-es-unigram_lm",
+        "corpus_chrfpp": 42.48,
+        "mean_sentence_chrfpp": 44.64,
+        "corpus_bleu": 14.11,
+        "source": "original prediction file"
+      },
+      "UnigramLM|1.3B|es-arn": {
+        "condition": "UnigramLM",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-1.3B-blocks-es-arn-unigram_lm",
+        "corpus_chrfpp": 37.79,
+        "mean_sentence_chrfpp": 41.05,
+        "corpus_bleu": 8.69,
+        "source": "original prediction file"
+      },
+      "UnigramLM|3.3B|arn-es": {
+        "condition": "UnigramLM",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-200-3.3B-blocks-arn-es-unigram_lm",
+        "corpus_chrfpp": 43.75,
+        "mean_sentence_chrfpp": 45.07,
+        "corpus_bleu": 15.77,
+        "source": "original prediction file"
+      },
+      "UnigramLM|3.3B|es-arn": {
+        "condition": "UnigramLM",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-200-3.3B-blocks-es-arn-unigram_lm",
+        "corpus_chrfpp": 38.87,
+        "mean_sentence_chrfpp": 42.3,
+        "corpus_bleu": 9.33,
+        "source": "original prediction file"
+      },
+      "Zero-shot NLLB|600M|arn-es": {
+        "condition": "Zero-shot NLLB",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/zero-shot-nllb-600M-arn-es",
+        "corpus_chrfpp": 13.57,
+        "mean_sentence_chrfpp": 12.86,
+        "corpus_bleu": 1.68,
+        "source": "original prediction file"
+      },
+      "Zero-shot NLLB|600M|es-arn": {
+        "condition": "Zero-shot NLLB",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/zero-shot-nllb-600M-es-arn",
+        "corpus_chrfpp": 6.46,
+        "mean_sentence_chrfpp": 7.37,
+        "corpus_bleu": 0.32,
+        "source": "original prediction file"
+      },
+      "Zero-shot NLLB|1.3B|arn-es": {
+        "condition": "Zero-shot NLLB",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/zero-shot-nllb-1.3B-arn-es",
+        "corpus_chrfpp": 14.36,
+        "mean_sentence_chrfpp": 13.43,
+        "corpus_bleu": 1.94,
+        "source": "original prediction file"
+      },
+      "Zero-shot NLLB|1.3B|es-arn": {
+        "condition": "Zero-shot NLLB",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/zero-shot-nllb-1.3B-es-arn",
+        "corpus_chrfpp": 10.36,
+        "mean_sentence_chrfpp": 9.91,
+        "corpus_bleu": 0.64,
+        "source": "original prediction file"
+      },
+      "Zero-shot NLLB|3.3B|arn-es": {
+        "condition": "Zero-shot NLLB",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/zero-shot-nllb-3.3B-arn-es",
+        "corpus_chrfpp": 14.19,
+        "mean_sentence_chrfpp": 13.19,
+        "corpus_bleu": 2.16,
+        "source": "original prediction file"
+      },
+      "Zero-shot NLLB|3.3B|es-arn": {
+        "condition": "Zero-shot NLLB",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/zero-shot-nllb-3.3B-es-arn",
+        "corpus_chrfpp": 9.86,
+        "mean_sentence_chrfpp": 9.42,
+        "corpus_bleu": 0.68,
+        "source": "original prediction file"
+      },
+      "Llama 3.1 8B|8B|arn-es": {
+        "condition": "Llama 3.1 8B",
+        "size": "8B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/llama-3.1-8b-arn-es",
+        "corpus_chrfpp": 14.94,
+        "mean_sentence_chrfpp": 13.96,
+        "corpus_bleu": 1.55,
+        "source": "original prediction file"
+      },
+      "Llama 3.1 8B|8B|es-arn": {
+        "condition": "Llama 3.1 8B",
+        "size": "8B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/llama-3.1-8b-es-arn",
+        "corpus_chrfpp": 12.02,
+        "mean_sentence_chrfpp": 11.32,
+        "corpus_bleu": 0.2,
+        "source": "original prediction file"
+      },
+      "Aya Expanse 8B|8B|arn-es": {
+        "condition": "Aya Expanse 8B",
+        "size": "8B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/aya-expanse-8b-arn-es",
+        "corpus_chrfpp": 18.07,
+        "mean_sentence_chrfpp": 15.92,
+        "corpus_bleu": 2.13,
+        "source": "original prediction file"
+      },
+      "Aya Expanse 8B|8B|es-arn": {
+        "condition": "Aya Expanse 8B",
+        "size": "8B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/aya-expanse-8b-es-arn",
+        "corpus_chrfpp": 13.42,
+        "mean_sentence_chrfpp": 12.36,
+        "corpus_bleu": 0.39,
+        "source": "original prediction file"
+      }
+    },
+    "comparisons": {
+      "Morfessor-VC|600M|arn-es minus Standard BPE|3.3B|arn-es": {
+        "a": "Standard BPE|3.3B|arn-es",
+        "b": "Morfessor-VC|600M|arn-es",
+        "corpus_chrfpp": {
+          "diff": -3.16,
+          "ci95": [
+            -3.38,
+            -2.94
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        },
+        "mean_sentence_chrfpp": {
+          "diff": -2.7,
+          "ci95": [
+            -2.99,
+            -2.41
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        }
+      },
+      "Morfessor-VC|600M|arn-es minus Standard BPE|600M|arn-es": {
+        "a": "Standard BPE|600M|arn-es",
+        "b": "Morfessor-VC|600M|arn-es",
+        "corpus_chrfpp": {
+          "diff": -0.57,
+          "ci95": [
+            -0.74,
+            -0.4
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        },
+        "mean_sentence_chrfpp": {
+          "diff": -0.4,
+          "ci95": [
+            -0.57,
+            -0.22
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        }
+      },
+      "Morfessor-VC|1.3B|arn-es minus Standard BPE|1.3B|arn-es": {
+        "a": "Standard BPE|1.3B|arn-es",
+        "b": "Morfessor-VC|1.3B|arn-es",
+        "corpus_chrfpp": {
+          "diff": -0.52,
+          "ci95": [
+            -0.7,
+            -0.34
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        },
+        "mean_sentence_chrfpp": {
+          "diff": -0.25,
+          "ci95": [
+            -0.42,
+            -0.07
+          ],
+          "p_two_sided": 0.0076,
+          "significant_0.05": true
+        }
+      },
+      "Morfessor-VC|3.3B|arn-es minus Standard BPE|3.3B|arn-es": {
+        "a": "Standard BPE|3.3B|arn-es",
+        "b": "Morfessor-VC|3.3B|arn-es",
+        "corpus_chrfpp": {
+          "diff": -0.45,
+          "ci95": [
+            -0.62,
+            -0.27
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        },
+        "mean_sentence_chrfpp": {
+          "diff": -0.02,
+          "ci95": [
+            -0.24,
+            0.21
+          ],
+          "p_two_sided": 0.8894,
+          "significant_0.05": false
+        }
+      },
+      "Morfessor|600M|arn-es minus Standard BPE|3.3B|arn-es": {
+        "a": "Standard BPE|3.3B|arn-es",
+        "b": "Morfessor|600M|arn-es",
+        "corpus_chrfpp": {
+          "diff": -3.36,
+          "ci95": [
+            -3.59,
+            -3.14
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        },
+        "mean_sentence_chrfpp": {
+          "diff": -2.77,
+          "ci95": [
+            -3.06,
+            -2.48
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        }
+      },
+      "Morfessor|3.3B|arn-es minus Standard BPE|3.3B|arn-es": {
+        "a": "Standard BPE|3.3B|arn-es",
+        "b": "Morfessor|3.3B|arn-es",
+        "corpus_chrfpp": {
+          "diff": -0.62,
+          "ci95": [
+            -0.8,
+            -0.44
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        },
+        "mean_sentence_chrfpp": {
+          "diff": -0.35,
+          "ci95": [
+            -0.58,
+            -0.12
+          ],
+          "p_two_sided": 0.0052,
+          "significant_0.05": true
+        }
+      },
+      "Morfessor-VC|600M|arn-es minus Morfessor|600M|arn-es": {
+        "a": "Morfessor|600M|arn-es",
+        "b": "Morfessor-VC|600M|arn-es",
+        "corpus_chrfpp": {
+          "diff": 0.2,
+          "ci95": [
+            0.07,
+            0.34
+          ],
+          "p_two_sided": 0.0034,
+          "significant_0.05": true
+        },
+        "mean_sentence_chrfpp": {
+          "diff": 0.07,
+          "ci95": [
+            -0.05,
+            0.19
+          ],
+          "p_two_sided": 0.2302,
+          "significant_0.05": false
+        }
+      },
+      "Morfessor-VC|1.3B|arn-es minus Morfessor|1.3B|arn-es": {
+        "a": "Morfessor|1.3B|arn-es",
+        "b": "Morfessor-VC|1.3B|arn-es",
+        "corpus_chrfpp": {
+          "diff": 0.06,
+          "ci95": [
+            -0.08,
+            0.21
+          ],
+          "p_two_sided": 0.395,
+          "significant_0.05": false
+        },
+        "mean_sentence_chrfpp": {
+          "diff": -0.03,
+          "ci95": [
+            -0.19,
+            0.13
+          ],
+          "p_two_sided": 0.6986,
+          "significant_0.05": false
+        }
+      },
+      "Morfessor-VC|3.3B|arn-es minus Morfessor|3.3B|arn-es": {
+        "a": "Morfessor|3.3B|arn-es",
+        "b": "Morfessor-VC|3.3B|arn-es",
+        "corpus_chrfpp": {
+          "diff": 0.18,
+          "ci95": [
+            0.02,
+            0.33
+          ],
+          "p_two_sided": 0.0272,
+          "significant_0.05": true
+        },
+        "mean_sentence_chrfpp": {
+          "diff": 0.33,
+          "ci95": [
+            0.14,
+            0.53
+          ],
+          "p_two_sided": 0.0012,
+          "significant_0.05": true
+        }
+      },
+      "Morfessor-VC|3.3B|arn-es minus Joint-5K BPE|3.3B|arn-es": {
+        "a": "Joint-5K BPE|3.3B|arn-es",
+        "b": "Morfessor-VC|3.3B|arn-es",
+        "corpus_chrfpp": {
+          "diff": 1.29,
+          "ci95": [
+            1.07,
+            1.5
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        },
+        "mean_sentence_chrfpp": {
+          "diff": 0.59,
+          "ci95": [
+            0.35,
+            0.84
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        }
+      },
+      "Morfessor-VC|3.3B|arn-es minus Mono BPE|3.3B|arn-es": {
+        "a": "Mono BPE|3.3B|arn-es",
+        "b": "Morfessor-VC|3.3B|arn-es",
+        "corpus_chrfpp": {
+          "diff": 2.72,
+          "ci95": [
+            2.45,
+            2.99
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        },
+        "mean_sentence_chrfpp": {
+          "diff": 1.0,
+          "ci95": [
+            0.75,
+            1.25
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        }
+      },
+      "Morfessor-VC|600M|es-arn minus Standard BPE|600M|es-arn": {
+        "a": "Standard BPE|600M|es-arn",
+        "b": "Morfessor-VC|600M|es-arn",
+        "corpus_chrfpp": {
+          "diff": -0.14,
+          "ci95": [
+            -0.39,
+            0.11
+          ],
+          "p_two_sided": 0.2792,
+          "significant_0.05": false
+        },
+        "mean_sentence_chrfpp": {
+          "diff": 0.02,
+          "ci95": [
+            -0.14,
+            0.18
+          ],
+          "p_two_sided": 0.8002,
+          "significant_0.05": false
+        }
+      },
+      "Morfessor-VC|1.3B|es-arn minus Standard BPE|1.3B|es-arn": {
+        "a": "Standard BPE|1.3B|es-arn",
+        "b": "Morfessor-VC|1.3B|es-arn",
+        "corpus_chrfpp": {
+          "diff": 0.06,
+          "ci95": [
+            -0.17,
+            0.28
+          ],
+          "p_two_sided": 0.6362,
+          "significant_0.05": false
+        },
+        "mean_sentence_chrfpp": {
+          "diff": 0.11,
+          "ci95": [
+            -0.06,
+            0.27
+          ],
+          "p_two_sided": 0.2186,
+          "significant_0.05": false
+        }
+      },
+      "Morfessor-VC|3.3B|es-arn minus Standard BPE|3.3B|es-arn": {
+        "a": "Standard BPE|3.3B|es-arn",
+        "b": "Morfessor-VC|3.3B|es-arn",
+        "corpus_chrfpp": {
+          "diff": -0.45,
+          "ci95": [
+            -0.65,
+            -0.24
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        },
+        "mean_sentence_chrfpp": {
+          "diff": -0.12,
+          "ci95": [
+            -0.32,
+            0.08
+          ],
+          "p_two_sided": 0.2354,
+          "significant_0.05": false
+        }
+      },
+      "Morfessor|3.3B|es-arn minus Standard BPE|3.3B|es-arn": {
+        "a": "Standard BPE|3.3B|es-arn",
+        "b": "Morfessor|3.3B|es-arn",
+        "corpus_chrfpp": {
+          "diff": -0.51,
+          "ci95": [
+            -0.7,
+            -0.31
+          ],
+          "p_two_sided": 0.0,
+          "significant_0.05": true
+        },
+        "mean_sentence_chrfpp": {
+          "diff": -0.13,
+          "ci95": [
+            -0.33,
+            0.06
+          ],
+          "p_two_sided": 0.1726,
+          "significant_0.05": false
+        }
+      }
+    },
+    "bootstrap": {
+      "n": 10000,
+      "seed": 42,
+      "method": "paired, same resampled indices for corpus chrF++ (recomputed from summed sufficient statistics) and mean sentence chrF++; two-sided percentile p"
+    },
+    "test_set": {
+      "n": 9382,
+      "path": "/nobackup/archive/usr/it238/mapudungun_v2/data/blocks/cleaned/test/cleaned"
+    },
+    "metric": "sacrebleu CHRF(word_order=2) [chrF++]; corpus_bleu defaults",
+    "len256": {
+      "scores": {
+        "standard|600M|arn-es": {
+          "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2c-600M-arn-es-standard-len256",
+          "corpus_chrfpp": 43.69,
+          "mean_sentence_chrfpp": 43.19,
+          "corpus_bleu": 17.35
+        },
+        "morfessor_vc|600M|arn-es": {
+          "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2c-600M-arn-es-morfessor_vc-len256",
+          "corpus_chrfpp": 43.76,
+          "mean_sentence_chrfpp": 43.38,
+          "corpus_bleu": 17.19
+        },
+        "standard|1.3B|arn-es": {
+          "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2c-1.3B-arn-es-standard-len256",
+          "corpus_chrfpp": 46.1,
+          "mean_sentence_chrfpp": 45.61,
+          "corpus_bleu": 19.41
+        },
+        "morfessor_vc|1.3B|arn-es": {
+          "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2c-1.3B-arn-es-morfessor_vc-len256",
+          "corpus_chrfpp": 45.98,
+          "mean_sentence_chrfpp": 45.54,
+          "corpus_bleu": 19.18
+        },
+        "standard|3.3B|arn-es": {
+          "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2c-3.3B-arn-es-standard-len256",
+          "corpus_chrfpp": 46.58,
+          "mean_sentence_chrfpp": 45.8,
+          "corpus_bleu": 19.8
+        },
+        "morfessor_vc|3.3B|arn-es": {
+          "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2c-3.3B-arn-es-morfessor_vc-len256",
+          "corpus_chrfpp": 46.55,
+          "mean_sentence_chrfpp": 45.92,
+          "corpus_bleu": 19.88
+        },
+        "standard|600M|es-arn": {
+          "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2c-600M-es-arn-standard-len256",
+          "corpus_chrfpp": 38.42,
+          "mean_sentence_chrfpp": 39.86,
+          "corpus_bleu": 8.19
+        },
+        "morfessor_vc|600M|es-arn": {
+          "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2c-600M-es-arn-morfessor_vc-len256",
+          "corpus_chrfpp": 38.4,
+          "mean_sentence_chrfpp": 39.84,
+          "corpus_bleu": 8.47
+        },
+        "standard|1.3B|es-arn": {
+          "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2c-1.3B-es-arn-standard-len256",
+          "corpus_chrfpp": 40.91,
+          "mean_sentence_chrfpp": 42.01,
+          "corpus_bleu": 9.93
+        },
+        "morfessor_vc|1.3B|es-arn": {
+          "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2c-1.3B-es-arn-morfessor_vc-len256",
+          "corpus_chrfpp": 40.87,
+          "mean_sentence_chrfpp": 42.03,
+          "corpus_bleu": 9.74
+        },
+        "standard|3.3B|es-arn": {
+          "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2c-3.3B-es-arn-standard-len256",
+          "corpus_chrfpp": 42.28,
+          "mean_sentence_chrfpp": 42.77,
+          "corpus_bleu": 10.59
+        },
+        "morfessor_vc|3.3B|es-arn": {
+          "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2c-3.3B-es-arn-morfessor_vc-len256",
+          "corpus_chrfpp": 42.34,
+          "mean_sentence_chrfpp": 43.0,
+          "corpus_bleu": 10.46
+        }
+      },
+      "comparisons": {
+        "morfessor_vc|600M|arn-es minus standard|600M|arn-es": {
+          "corpus_chrfpp": {
+            "diff": 0.07,
+            "ci95": [
+              -0.09,
+              0.24
+            ],
+            "p_two_sided": 0.4014,
+            "significant_0.05": false
+          },
+          "mean_sentence_chrfpp": {
+            "diff": 0.19,
+            "ci95": [
+              0.0,
+              0.37
+            ],
+            "p_two_sided": 0.0474,
+            "significant_0.05": true
+          }
+        },
+        "morfessor_vc|1.3B|arn-es minus standard|1.3B|arn-es": {
+          "corpus_chrfpp": {
+            "diff": -0.12,
+            "ci95": [
+              -0.28,
+              0.04
+            ],
+            "p_two_sided": 0.1396,
+            "significant_0.05": false
+          },
+          "mean_sentence_chrfpp": {
+            "diff": -0.08,
+            "ci95": [
+              -0.27,
+              0.1
+            ],
+            "p_two_sided": 0.3898,
+            "significant_0.05": false
+          }
+        },
+        "morfessor_vc|3.3B|arn-es minus standard|3.3B|arn-es": {
+          "corpus_chrfpp": {
+            "diff": -0.03,
+            "ci95": [
+              -0.2,
+              0.14
+            ],
+            "p_two_sided": 0.726,
+            "significant_0.05": false
+          },
+          "mean_sentence_chrfpp": {
+            "diff": 0.12,
+            "ci95": [
+              -0.11,
+              0.35
+            ],
+            "p_two_sided": 0.3008,
+            "significant_0.05": false
+          }
+        },
+        "morfessor_vc|600M|es-arn minus standard|600M|es-arn": {
+          "corpus_chrfpp": {
+            "diff": -0.02,
+            "ci95": [
+              -0.29,
+              0.26
+            ],
+            "p_two_sided": 0.8992,
+            "significant_0.05": false
+          },
+          "mean_sentence_chrfpp": {
+            "diff": -0.02,
+            "ci95": [
+              -0.2,
+              0.16
+            ],
+            "p_two_sided": 0.7882,
+            "significant_0.05": false
+          }
+        },
+        "morfessor_vc|1.3B|es-arn minus standard|1.3B|es-arn": {
+          "corpus_chrfpp": {
+            "diff": -0.03,
+            "ci95": [
+              -0.27,
+              0.19
+            ],
+            "p_two_sided": 0.7584,
+            "significant_0.05": false
+          },
+          "mean_sentence_chrfpp": {
+            "diff": 0.02,
+            "ci95": [
+              -0.17,
+              0.2
+            ],
+            "p_two_sided": 0.8392,
+            "significant_0.05": false
+          }
+        },
+        "morfessor_vc|3.3B|es-arn minus standard|3.3B|es-arn": {
+          "corpus_chrfpp": {
+            "diff": 0.06,
+            "ci95": [
+              -0.13,
+              0.25
+            ],
+            "p_two_sided": 0.5254,
+            "significant_0.05": false
+          },
+          "mean_sentence_chrfpp": {
+            "diff": 0.22,
+            "ci95": [
+              0.01,
+              0.43
+            ],
+            "p_two_sided": 0.0348,
+            "significant_0.05": true
+          }
+        }
+      },
+      "truncation_arn_side": {
+        "train|raw": {
+          "n": 56197,
+          "pct_over_128": 1.92,
+          "pct_over_256": 0.0
+        },
+        "train|morfessor_vc": {
+          "n": 56197,
+          "pct_over_128": 3.4,
+          "pct_over_256": 0.01
+        },
+        "test|raw": {
+          "n": 9382,
+          "pct_over_128": 1.92,
+          "pct_over_256": 0.0
+        },
+        "test|morfessor_vc": {
+          "n": 9382,
+          "pct_over_128": 4.31,
+          "pct_over_256": 0.03
+        }
+      },
+      "bootstrap": {
+        "n": 10000,
+        "seed": 42,
+        "method": "paired; same indices for both statistics"
+      },
+      "setup": "Standard and Morfessor-VC, max length 256 (train + dev generation), regenerated train/dev, one Morfessor model trained on regenerated train, ORIGINAL test set, predict_test.py decoding (greedy, max_new_tokens 256)"
+    },
+    "comet_wmt22_da": {
+      "values": {
+        "v2c-1.3B-es-arn-morfessor_vc-len256": 0.6769,
+        "v2c-600M-arn-es-morfessor_vc-len256": 0.6471,
+        "v2c-600M-es-arn-standard-len256": 0.6656,
+        "v2c-600M-es-arn-morfessor_vc-len256": 0.6658,
+        "v2c-3.3B-arn-es-morfessor_vc-len256": 0.6666,
+        "control-600M-es-arn": 0.6656,
+        "v2c-1.3B-es-arn-standard-len256": 0.6768,
+        "v2-3.3B-arn-es": 0.6676,
+        "v2-600M-arn-es": 0.6502,
+        "v2c-3.3B-es-arn-standard-len256": 0.6818,
+        "v2c-3.3B-arn-es-standard-len256": 0.6678,
+        "v2c-1.3B-arn-es-standard-len256": 0.665,
+        "v2c-600M-arn-es-standard-len256": 0.6478,
+        "v2-1.3B-arn-es": 0.6648,
+        "v2c-1.3B-arn-es-morfessor_vc-len256": 0.6627,
+        "v2c-3.3B-es-arn-morfessor_vc-len256": 0.6823
+      },
+      "source": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/*_comet.json (scripts/eval/comet_score.py)"
+    }
+  }
+}

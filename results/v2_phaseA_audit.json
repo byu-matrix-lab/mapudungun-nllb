@@ -1,0 +1,952 @@
+{
+  "n_results_files": 69,
+  "row_counts": {
+    "9382": 69
+  },
+  "test_set_reference_file": "1.3B-arn-es-morfessor_results.json",
+  "files_disagreeing_after_deseg": [],
+  "original_test_n": 9382,
+  "original_test_unique_pairs": 9382,
+  "original_test_unique_arn": 9338,
+  "preds_txt_mismatches": [],
+  "regen_sizes": {
+    "train": 56197,
+    "dev": 1586,
+    "test": 9367
+  },
+  "leakage": {
+    "orig_test_pairs_in_regen_train": 69,
+    "orig_test_pairs_in_regen_dev": 7,
+    "orig_test_pairs_in_regen_test": 9138,
+    "orig_test_arn_in_regen_train": 163,
+    "orig_test_es_in_regen_train": 162,
+    "overlap_pair_arn_word_lengths": {
+      "2": 40,
+      "3": 22,
+      "4": 2,
+      "1": 5
+    },
+    "baseline_regen_test_pairs_in_regen_train": 68,
+    "overlap_pairs": [
+      [
+        "Doy pataka.",
+        "Más de cien."
+      ],
+      [
+        "Feley lamuen.",
+        "Así es hermana."
+      ],
+      [
+        "Feley llemay",
+        "Así es pues"
+      ],
+      [
+        "Feley llemay.",
+        "Así es pues."
+      ],
+      [
+        "Feley papay.",
+        "Así es mamita."
+      ],
+      [
+        "Feley peñi.",
+        "Así es hermano."
+      ],
+      [
+        "Feley pu",
+        "Así es pues"
+      ],
+      [
+        "Feley pu' feley",
+        "Así es pues, así es."
+      ],
+      [
+        "Feley pu' feley.",
+        "Así es pues, así es."
+      ],
+      [
+        "Feley pu' lamuen.",
+        "Así es pues hermana."
+      ],
+      [
+        "Feley pu' papay.",
+        "Así es pues, mamita."
+      ],
+      [
+        "Feley pu'.",
+        "Así es pues."
+      ],
+      [
+        "Feley pu.",
+        "Así es pues."
+      ],
+      [
+        "Feley pues",
+        "Así es pues."
+      ],
+      [
+        "Feley pues peñi.",
+        "Así es pues hermano."
+      ],
+      [
+        "Feley, feley.",
+        "Así es, así es."
+      ],
+      [
+        "Feli pu'.",
+        "Así es pues."
+      ],
+      [
+        "Feli pu.",
+        "Así es pues."
+      ],
+      [
+        "Femechi tati.",
+        "Así es pues."
+      ],
+      [
+        "Femi llemay .",
+        "Así es pues."
+      ],
+      [
+        "Femi may.",
+        "Así es pues."
+      ],
+      [
+        "Femi pu'.",
+        "Así es pues."
+      ],
+      [
+        "Femki pu'.",
+        "Así es pues."
+      ],
+      [
+        "Femlli may.",
+        "Así es pues."
+      ],
+      [
+        "Femngechi may.",
+        "Así es pues."
+      ],
+      [
+        "Fey kümey tati.",
+        "Eso es bueno pues."
+      ],
+      [
+        "Fey kümey.",
+        "Eso es bueno."
+      ],
+      [
+        "Fey llemay chi.",
+        "Eso es pues."
+      ],
+      [
+        "Fey llemay.",
+        "Así es pues."
+      ],
+      [
+        "Fey müten.",
+        "Así no más."
+      ],
+      [
+        "Fey, fey, fey, fey.",
+        "Eso, eso, eso, eso."
+      ],
+      [
+        "Fey, fey, fey.",
+        "Eso, eso, eso."
+      ],
+      [
+        "Fey, fey, fey.",
+        "Si, si, si."
+      ],
+      [
+        "Fey, fey, fey.",
+        "Sí, sí, sí."
+      ],
+      [
+        "Feymu llemay feymu.",
+        "Por eso pues, por eso."
+      ],
+      [
+        "Feyngey .",
+        "Eso es así."
+      ],
+      [
+        "Kachu l'awen'",
+        "Remedio de pasto"
+      ],
+      [
+        "Kachu l'awen'.",
+        "Remedio de pasto."
+      ],
+      [
+        "Kidu müten.",
+        "Solo no más."
+      ],
+      [
+        "Kimlafiñ",
+        "No lo sé."
+      ],
+      [
+        "Mamüll l'awen'.",
+        "Remedio de palo."
+      ],
+      [
+        "Mari mari peñi.",
+        "Buenos días hermano."
+      ],
+      [
+        "Marimari lamngen.",
+        "Buenos días hermana."
+      ],
+      [
+        "May femechi.",
+        "Sí de esa forma."
+      ],
+      [
+        "May, may, may",
+        "Si, si, si"
+      ],
+      [
+        "May, may, may, may.",
+        "Sí, sí, sí, sí."
+      ],
+      [
+        "May, may, may.",
+        "Si, si, si."
+      ],
+      [
+        "May, may, may.",
+        "Sí, sí, sí, sí."
+      ],
+      [
+        "May, may, may.",
+        "Sí, sí, sí."
+      ],
+      [
+        "May. Feymu mongey.",
+        "Sí. Ahí se mejoró."
+      ],
+      [
+        "Mongekelay",
+        "No se mejora"
+      ],
+      [
+        "Müna weda no.",
+        "Que malo no."
+      ],
+      [
+        "Ngelay l'awen'.",
+        "No hay remedio."
+      ],
+      [
+        "Ngen ko.",
+        "Dueño del agua."
+      ],
+      [
+        "No kimlafin.",
+        "No lo conozco."
+      ],
+      [
+        "No kimlafiñ.",
+        "No, no lo conozco."
+      ],
+      [
+        "No. Kimlan.",
+        "No. No sé."
+      ],
+      [
+        "Pitalmu",
+        "En el hospital"
+      ],
+      [
+        "Veli pu'.",
+        "Así es pues."
+      ],
+      [
+        "feley, feley, feley.",
+        "Así es, así es, así es."
+      ],
+      [
+        "fey, fey, fey.",
+        "Si, si, si."
+      ],
+      [
+        "may, may, may",
+        "si, si, si"
+      ],
+      [
+        "¿Fey kümey?",
+        "¿Ese es bueno?"
+      ],
+      [
+        "¿Ini pingi?",
+        "¿Cómo se llama?"
+      ],
+      [
+        "¿Kachu l'awen'?",
+        "¿Remedio de hierbas?"
+      ],
+      [
+        "¿Kachu l'awen'?",
+        "¿Remedio de pasto?"
+      ],
+      [
+        "¿Kimlafimi?",
+        "¿No lo sabes?"
+      ],
+      [
+        "¿Kümelay?",
+        "¿No es bueno?"
+      ],
+      [
+        "¿Pichin müten?",
+        "¿Un poco no más?"
+      ]
+    ]
+  },
+  "cells": [
+    {
+      "condition": "Standard BPE",
+      "size": "600M",
+      "direction": "arn-es",
+      "file": "600M-arn-es",
+      "table": 34.9,
+      "mean_sentence_chrfpp": 34.9,
+      "corpus_chrfpp": 35.71,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Standard BPE",
+      "size": "600M",
+      "direction": "es-arn",
+      "file": "600M-es-arn",
+      "table": 39.87,
+      "mean_sentence_chrfpp": 39.87,
+      "corpus_chrfpp": 38.51,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Standard BPE",
+      "size": "1.3B",
+      "direction": "arn-es",
+      "file": "1.3B-arn-es",
+      "table": 40.64,
+      "mean_sentence_chrfpp": 40.64,
+      "corpus_chrfpp": 42.24,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Standard BPE",
+      "size": "1.3B",
+      "direction": "es-arn",
+      "file": "1.3B-es-arn",
+      "table": 41.94,
+      "mean_sentence_chrfpp": 41.94,
+      "corpus_chrfpp": 40.79,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Standard BPE",
+      "size": "3.3B",
+      "direction": "arn-es",
+      "file": "3.3B-arn-es",
+      "table": 42.85,
+      "mean_sentence_chrfpp": 42.85,
+      "corpus_chrfpp": 43.62,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Standard BPE",
+      "size": "3.3B",
+      "direction": "es-arn",
+      "file": "3.3B-es-arn",
+      "table": 42.89,
+      "mean_sentence_chrfpp": 42.89,
+      "corpus_chrfpp": 42.05,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Joint-5K BPE",
+      "size": "600M",
+      "direction": "arn-es",
+      "file": "600M-blocks-arn-es-joint_bpe",
+      "table": 42.36,
+      "mean_sentence_chrfpp": 42.36,
+      "corpus_chrfpp": 41.57,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Joint-5K BPE",
+      "size": "600M",
+      "direction": "es-arn",
+      "file": "600M-blocks-es-arn-joint_bpe",
+      "table": 38.17,
+      "mean_sentence_chrfpp": 38.17,
+      "corpus_chrfpp": 36.1,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Joint-5K BPE",
+      "size": "1.3B",
+      "direction": "arn-es",
+      "file": "1.3B-blocks-arn-es-joint_bpe",
+      "table": 44.68,
+      "mean_sentence_chrfpp": 44.68,
+      "corpus_chrfpp": 43.92,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Joint-5K BPE",
+      "size": "1.3B",
+      "direction": "es-arn",
+      "file": "1.3B-blocks-es-arn-joint_bpe",
+      "table": 41.06,
+      "mean_sentence_chrfpp": 41.06,
+      "corpus_chrfpp": 38.76,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Joint-5K BPE",
+      "size": "3.3B",
+      "direction": "arn-es",
+      "file": "3.3B-blocks-arn-es-joint_bpe",
+      "table": 45.25,
+      "mean_sentence_chrfpp": 45.25,
+      "corpus_chrfpp": 44.8,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Joint-5K BPE",
+      "size": "3.3B",
+      "direction": "es-arn",
+      "file": "3.3B-blocks-es-arn-joint_bpe",
+      "table": 42.3,
+      "mean_sentence_chrfpp": 42.3,
+      "corpus_chrfpp": 39.86,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Mono BPE",
+      "size": "600M",
+      "direction": "arn-es",
+      "file": "600M-blocks-arn-es-mono_bpe",
+      "table": 41.72,
+      "mean_sentence_chrfpp": 41.72,
+      "corpus_chrfpp": 39.5,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Mono BPE",
+      "size": "600M",
+      "direction": "es-arn",
+      "file": "600M-blocks-es-arn-mono_bpe",
+      "table": 38.04,
+      "mean_sentence_chrfpp": 38.04,
+      "corpus_chrfpp": 35.02,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Mono BPE",
+      "size": "1.3B",
+      "direction": "arn-es",
+      "file": "1.3B-blocks-arn-es-mono_bpe",
+      "table": 43.99,
+      "mean_sentence_chrfpp": 43.99,
+      "corpus_chrfpp": 41.53,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Mono BPE",
+      "size": "1.3B",
+      "direction": "es-arn",
+      "file": "1.3B-blocks-es-arn-mono_bpe",
+      "table": 40.62,
+      "mean_sentence_chrfpp": 40.62,
+      "corpus_chrfpp": 37.29,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Mono BPE",
+      "size": "3.3B",
+      "direction": "arn-es",
+      "file": "3.3B-blocks-arn-es-mono_bpe",
+      "table": 44.85,
+      "mean_sentence_chrfpp": 44.85,
+      "corpus_chrfpp": 43.37,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Mono BPE",
+      "size": "3.3B",
+      "direction": "es-arn",
+      "file": "3.3B-blocks-es-arn-mono_bpe",
+      "table": 42.02,
+      "mean_sentence_chrfpp": 42.02,
+      "corpus_chrfpp": 38.37,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Optuna BPE",
+      "size": "600M",
+      "direction": "arn-es",
+      "file": "nllb-600M-blocks-arn-es-optuna_bpe",
+      "table": 42.41,
+      "mean_sentence_chrfpp": 42.41,
+      "corpus_chrfpp": 41.85,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Optuna BPE",
+      "size": "600M",
+      "direction": "es-arn",
+      "file": "nllb-600M-blocks-es-arn-optuna_bpe",
+      "table": 38.79,
+      "mean_sentence_chrfpp": 38.79,
+      "corpus_chrfpp": 36.76,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Optuna BPE",
+      "size": "1.3B",
+      "direction": "arn-es",
+      "file": "nllb-1.3B-blocks-arn-es-optuna_bpe",
+      "table": 44.67,
+      "mean_sentence_chrfpp": 44.67,
+      "corpus_chrfpp": 44.15,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Optuna BPE",
+      "size": "1.3B",
+      "direction": "es-arn",
+      "file": "nllb-1.3B-blocks-es-arn-optuna_bpe",
+      "table": 41.34,
+      "mean_sentence_chrfpp": 41.34,
+      "corpus_chrfpp": 39.31,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Optuna BPE",
+      "size": "3.3B",
+      "direction": "arn-es",
+      "file": "nllb-200-3.3B-blocks-arn-es-optuna_bpe",
+      "table": 45.21,
+      "mean_sentence_chrfpp": 45.21,
+      "corpus_chrfpp": 45.27,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Optuna BPE",
+      "size": "3.3B",
+      "direction": "es-arn",
+      "file": "nllb-200-3.3B-blocks-es-arn-optuna_bpe",
+      "table": 42.33,
+      "mean_sentence_chrfpp": 42.33,
+      "corpus_chrfpp": 40.31,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor",
+      "size": "600M",
+      "direction": "arn-es",
+      "file": "600M-arn-es-morfessor",
+      "table": 43.09,
+      "mean_sentence_chrfpp": 43.09,
+      "corpus_chrfpp": 43.16,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor",
+      "size": "600M",
+      "direction": "es-arn",
+      "file": "600M-es-arn-morfessor",
+      "table": 39.9,
+      "mean_sentence_chrfpp": 39.9,
+      "corpus_chrfpp": 38.43,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor",
+      "size": "1.3B",
+      "direction": "arn-es",
+      "file": "1.3B-arn-es-morfessor",
+      "table": 45.4,
+      "mean_sentence_chrfpp": 45.4,
+      "corpus_chrfpp": 45.48,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor",
+      "size": "1.3B",
+      "direction": "es-arn",
+      "file": "1.3B-es-arn-morfessor",
+      "table": 42.0,
+      "mean_sentence_chrfpp": 42.0,
+      "corpus_chrfpp": 40.69,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor",
+      "size": "3.3B",
+      "direction": "arn-es",
+      "file": "3.3B-arn-es-morfessor",
+      "table": 45.51,
+      "mean_sentence_chrfpp": 45.51,
+      "corpus_chrfpp": 45.91,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor",
+      "size": "3.3B",
+      "direction": "es-arn",
+      "file": "3.3B-es-arn-morfessor",
+      "table": 42.76,
+      "mean_sentence_chrfpp": 42.76,
+      "corpus_chrfpp": 41.54,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor-VC",
+      "size": "600M",
+      "direction": "arn-es",
+      "file": "600M-blocks-arn-es-morfessor_vc",
+      "table": 43.16,
+      "mean_sentence_chrfpp": 43.16,
+      "corpus_chrfpp": 43.37,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor-VC",
+      "size": "600M",
+      "direction": "es-arn",
+      "file": "600M-blocks-es-arn-morfessor_vc",
+      "table": 39.89,
+      "mean_sentence_chrfpp": 39.89,
+      "corpus_chrfpp": 38.37,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor-VC",
+      "size": "1.3B",
+      "direction": "arn-es",
+      "file": "1.3B-blocks-arn-es-morfessor_vc",
+      "table": 45.37,
+      "mean_sentence_chrfpp": 45.37,
+      "corpus_chrfpp": 45.55,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor-VC",
+      "size": "1.3B",
+      "direction": "es-arn",
+      "file": "1.3B-blocks-es-arn-morfessor_vc",
+      "table": 42.04,
+      "mean_sentence_chrfpp": 42.04,
+      "corpus_chrfpp": 40.85,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor-VC",
+      "size": "3.3B",
+      "direction": "arn-es",
+      "file": "3.3B-blocks-arn-es-morfessor_vc",
+      "table": 45.84,
+      "mean_sentence_chrfpp": 45.84,
+      "corpus_chrfpp": 46.08,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor-VC",
+      "size": "3.3B",
+      "direction": "es-arn",
+      "file": "3.3B-blocks-es-arn-morfessor_vc",
+      "table": 42.77,
+      "mean_sentence_chrfpp": 42.77,
+      "corpus_chrfpp": 41.6,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor-BPE",
+      "size": "600M",
+      "direction": "arn-es",
+      "file": "nllb-600M-blocks-arn-es-morfessor_bpe",
+      "table": 42.8,
+      "mean_sentence_chrfpp": 42.8,
+      "corpus_chrfpp": 42.12,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor-BPE",
+      "size": "600M",
+      "direction": "es-arn",
+      "file": "nllb-600M-blocks-es-arn-morfessor_bpe",
+      "table": 38.74,
+      "mean_sentence_chrfpp": 38.74,
+      "corpus_chrfpp": 36.52,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor-BPE",
+      "size": "1.3B",
+      "direction": "arn-es",
+      "file": "nllb-1.3B-blocks-arn-es-morfessor_bpe",
+      "table": 44.97,
+      "mean_sentence_chrfpp": 44.97,
+      "corpus_chrfpp": 44.13,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor-BPE",
+      "size": "1.3B",
+      "direction": "es-arn",
+      "file": "nllb-1.3B-blocks-es-arn-morfessor_bpe",
+      "table": 41.25,
+      "mean_sentence_chrfpp": 41.25,
+      "corpus_chrfpp": 39.13,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor-BPE",
+      "size": "3.3B",
+      "direction": "arn-es",
+      "file": "nllb-200-3.3B-blocks-arn-es-morfessor_bpe",
+      "table": 45.56,
+      "mean_sentence_chrfpp": 45.56,
+      "corpus_chrfpp": 45.38,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Morfessor-BPE",
+      "size": "3.3B",
+      "direction": "es-arn",
+      "file": "nllb-200-3.3B-blocks-es-arn-morfessor_bpe",
+      "table": 42.4,
+      "mean_sentence_chrfpp": 42.4,
+      "corpus_chrfpp": 40.26,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "UnigramLM",
+      "size": "600M",
+      "direction": "arn-es",
+      "file": "nllb-600M-blocks-arn-es-unigram_lm",
+      "table": 42.18,
+      "mean_sentence_chrfpp": 42.18,
+      "corpus_chrfpp": 40.23,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "UnigramLM",
+      "size": "600M",
+      "direction": "es-arn",
+      "file": "nllb-600M-blocks-es-arn-unigram_lm",
+      "table": 38.2,
+      "mean_sentence_chrfpp": 38.2,
+      "corpus_chrfpp": 35.24,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "UnigramLM",
+      "size": "1.3B",
+      "direction": "arn-es",
+      "file": "nllb-1.3B-blocks-arn-es-unigram_lm",
+      "table": 44.64,
+      "mean_sentence_chrfpp": 44.64,
+      "corpus_chrfpp": 42.48,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "UnigramLM",
+      "size": "1.3B",
+      "direction": "es-arn",
+      "file": "nllb-1.3B-blocks-es-arn-unigram_lm",
+      "table": 41.05,
+      "mean_sentence_chrfpp": 41.05,
+      "corpus_chrfpp": 37.79,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "UnigramLM",
+      "size": "3.3B",
+      "direction": "arn-es",
+      "file": "nllb-200-3.3B-blocks-arn-es-unigram_lm",
+      "table": 45.07,
+      "mean_sentence_chrfpp": 45.07,
+      "corpus_chrfpp": 43.75,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "UnigramLM",
+      "size": "3.3B",
+      "direction": "es-arn",
+      "file": "nllb-200-3.3B-blocks-es-arn-unigram_lm",
+      "table": 42.3,
+      "mean_sentence_chrfpp": 42.3,
+      "corpus_chrfpp": 38.87,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Zero-shot NLLB",
+      "size": "600M",
+      "direction": "arn-es",
+      "file": "zero-shot-nllb-600M-arn-es",
+      "table": 12.86,
+      "mean_sentence_chrfpp": 12.86,
+      "corpus_chrfpp": 13.57,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Zero-shot NLLB",
+      "size": "600M",
+      "direction": "es-arn",
+      "file": "zero-shot-nllb-600M-es-arn",
+      "table": 7.37,
+      "mean_sentence_chrfpp": 7.37,
+      "corpus_chrfpp": 6.46,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Zero-shot NLLB",
+      "size": "1.3B",
+      "direction": "arn-es",
+      "file": "zero-shot-nllb-1.3B-arn-es",
+      "table": 13.43,
+      "mean_sentence_chrfpp": 13.43,
+      "corpus_chrfpp": 14.36,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Zero-shot NLLB",
+      "size": "1.3B",
+      "direction": "es-arn",
+      "file": "zero-shot-nllb-1.3B-es-arn",
+      "table": 9.91,
+      "mean_sentence_chrfpp": 9.91,
+      "corpus_chrfpp": 10.36,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Zero-shot NLLB",
+      "size": "3.3B",
+      "direction": "arn-es",
+      "file": "zero-shot-nllb-3.3B-arn-es",
+      "table": 13.19,
+      "mean_sentence_chrfpp": 13.19,
+      "corpus_chrfpp": 14.19,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Zero-shot NLLB",
+      "size": "3.3B",
+      "direction": "es-arn",
+      "file": "zero-shot-nllb-3.3B-es-arn",
+      "table": 9.42,
+      "mean_sentence_chrfpp": 9.42,
+      "corpus_chrfpp": 9.86,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Llama 3.1 8B",
+      "size": "8B",
+      "direction": "arn-es",
+      "file": "llama-3.1-8b-arn-es",
+      "table": 13.96,
+      "mean_sentence_chrfpp": 13.96,
+      "corpus_chrfpp": 14.94,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Llama 3.1 8B",
+      "size": "8B",
+      "direction": "es-arn",
+      "file": "llama-3.1-8b-es-arn",
+      "table": 11.32,
+      "mean_sentence_chrfpp": 11.32,
+      "corpus_chrfpp": 12.02,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Aya Expanse 8B",
+      "size": "8B",
+      "direction": "arn-es",
+      "file": "aya-expanse-8b-arn-es",
+      "table": 15.92,
+      "mean_sentence_chrfpp": 15.92,
+      "corpus_chrfpp": 18.07,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    },
+    {
+      "condition": "Aya Expanse 8B",
+      "size": "8B",
+      "direction": "es-arn",
+      "file": "aya-expanse-8b-es-arn",
+      "table": 12.36,
+      "mean_sentence_chrfpp": 12.36,
+      "corpus_chrfpp": 13.42,
+      "mean_matches_table": true,
+      "corpus_matches_table": false
+    }
+  ],
+  "n_cells": 58,
+  "n_cells_mean_match": 58,
+  "n_cells_corpus_match": 0
+}

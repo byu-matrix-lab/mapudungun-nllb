@@ -172,6 +172,33 @@ def build_preprocess_fn(tokenizer, src_lang_code, tgt_lang_code, max_length):
     return preprocess
 
 
+def check_language_tags(tokenized, tokenizer, src_lang_code, tgt_lang_code):
+    """Fail unless every example starts with the source/target language tags.
+
+    Regression guard: under transformers 5.x, NLLB loaded as a generic backend
+    that ignored src_lang, producing untagged `<text> </s> <unk>` examples.
+    """
+    src_id = tokenizer.convert_tokens_to_ids(src_lang_code)
+    tgt_id = tokenizer.convert_tokens_to_ids(tgt_lang_code)
+    unk_id = tokenizer.unk_token_id
+    for split, ds in tokenized.items():
+        first_src = [ids[0] for ids in ds["input_ids"]]
+        first_tgt = [ids[0] for ids in ds["labels"]]
+        bad_src = sum(i != src_id for i in first_src)
+        bad_tgt = sum(i != tgt_id for i in first_tgt)
+        n_unk = sum(ids.count(unk_id) for ids in ds["input_ids"])
+        logger.info(
+            f"Language-tag check [{split}]: {len(ds) - bad_src}/{len(ds)} inputs start with "
+            f"{src_lang_code} ({src_id}), {len(ds) - bad_tgt}/{len(ds)} labels start with "
+            f"{tgt_lang_code} ({tgt_id}); <unk> in inputs: {n_unk}"
+        )
+        logger.info(f"  example input : {tokenizer.convert_ids_to_tokens(ds[0]['input_ids'])}")
+        logger.info(f"  example labels: {tokenizer.convert_ids_to_tokens(ds[0]['labels'])}")
+        assert bad_src == 0 and bad_tgt == 0, (
+            f"{split}: {bad_src} inputs / {bad_tgt} labels missing language tags"
+        )
+
+
 def desegment(text: str) -> str:
     """Remove Morfessor @@ boundary markers to recover original word forms."""
     import re
@@ -182,6 +209,7 @@ def build_compute_metrics(tokenizer, desegment_output: bool = False):
     def compute_metrics(eval_preds):
         preds, labels = eval_preds
         # Replace -100 (padding label) with pad token ID before decoding
+        preds = np.where(preds != -100, preds, tokenizer.pad_token_id)
         labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
         decoded_preds = tokenizer.batch_decode(preds, skip_special_tokens=True)
         decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
@@ -207,6 +235,11 @@ def build_compute_metrics(tokenizer, desegment_output: bool = False):
 def main():
     args = parse_args()
     assert args.src != args.tgt, "Source and target languages must differ."
+    import transformers
+    assert transformers.__version__.startswith("4."), (
+        f"transformers {transformers.__version__}: NLLB tokenization is broken under 5.x; use the pinned 4.57.6"
+    )
+    logger.info(f"transformers       : {transformers.__version__}")
 
     src_code = LANG_CODES[args.src]
     tgt_code = LANG_CODES[args.tgt]
@@ -249,6 +282,7 @@ def main():
         split: ds.map(preprocess, batched=True, remove_columns=["src", "tgt"])
         for split, ds in raw.items()
     }
+    check_language_tags(tokenized, tokenizer, src_code, tgt_code)
 
     data_collator = DataCollatorForSeq2Seq(tokenizer, model=model, padding=True)
 

@@ -178,6 +178,9 @@ def main():
                         help="Override model path (default: hardcoded 3.3B path)")
     parser.add_argument("--run-name", default=None,
                         help="Tag for output filenames, e.g. '1.3B-arn-es-morfessor'. Defaults to direction.")
+    parser.add_argument("--src-file", default=None, help="Override the test source file")
+    parser.add_argument("--ref-file", default=None, help="Override the test reference file")
+    parser.add_argument("--out-dir", default=None, help="Override the output directory")
     args = parser.parse_args()
 
     tok_approach = args.tok_approach or ("morfessor" if args.morfessor else None)
@@ -187,8 +190,12 @@ def main():
     model_path = args.model_path or DEFAULT_MODELS[args.direction]
     run_name = args.run_name or cfg_key
 
-    srcs = Path(cfg["src"]).read_text().splitlines()
-    refs = Path(cfg["ref"]).read_text().splitlines()
+    out_dir = Path(args.out_dir) if args.out_dir else OUT_DIR
+    src_file = args.src_file or cfg["src"]
+    ref_file = args.ref_file or cfg["ref"]
+    print(f"src: {src_file}\nref: {ref_file}\nmodel: {model_path}")
+    srcs = Path(src_file).read_text(encoding="utf-8").splitlines()
+    refs = Path(ref_file).read_text(encoding="utf-8").splitlines()
     assert len(srcs) == len(refs), "src/ref length mismatch"
     print(f"Test set: {len(srcs)} sentences  ({cfg_key})")
     if desegment_output:
@@ -223,8 +230,8 @@ def main():
     per_sent = [chrf.sentence_score(p, [r]).score for p, r in zip(preds, refs)]
 
     # Save predictions
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    out_path = OUT_DIR / f"{run_name}_preds.txt"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / f"{run_name}_preds.txt"
     out_path.write_text("\n".join(preds) + "\n")
     print(f"Predictions saved to {out_path}")
 
@@ -232,7 +239,7 @@ def main():
     results = []
     for src, ref, pred, score in zip(srcs, refs, preds, per_sent):
         results.append({"src": src, "ref": ref, "pred": pred, "chrf": round(score, 2)})
-    results_path = OUT_DIR / f"{run_name}_results.json"
+    results_path = out_dir / f"{run_name}_results.json"
     results_path.write_text(json.dumps(results, ensure_ascii=False, indent=2))
     print(f"Per-sentence results saved to {results_path}")
 
