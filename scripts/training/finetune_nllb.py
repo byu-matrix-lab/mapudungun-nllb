@@ -46,6 +46,8 @@ logger = logging.getLogger(__name__)
 # Language code constants
 LANG_CODES = {"arn": "arn_Latn", "es": "spa_Latn"}
 PROXY_LANGS = ["ayr_Latn", "grn_Latn", "quy_Latn"]  # for arn_Latn initialization
+# Pre-segmented approaches, each read from <data_dir>/<approach>/<name>/<split>/
+SEGMENTED_APPROACHES = ("joint_bpe", "mono_bpe", "morfessor_vc", "morfessor_bpe", "optuna_bpe", "unigram_lm")
 
 
 def parse_args():
@@ -92,7 +94,7 @@ def parse_args():
     parser.add_argument(
         "--tokenizer-approach",
         default="standard",
-        choices=["standard", "morfessor", "joint_bpe", "mono_bpe", "morfessor_vc", "morfessor_bpe", "optuna_bpe", "unigram_lm"],
+        choices=["standard", "morfessor", *SEGMENTED_APPROACHES],
         help="Pre-segmentation strategy applied to Mapudungun data.",
     )
     return parser.parse_args()
@@ -109,14 +111,18 @@ def load_split(data_dir: str, approach: str, split: str,
 
     For tokenizer_approach='morfessor', loads from the morfessor pre-segmented
     directory instead of the standard cleaned directory.
+
+    An unknown tokenizer_approach raises. It used to fall back silently to the
+    unsegmented data, which is how every Optuna trial trained on unsegmented text.
     """
-    if tokenizer_approach == "morfessor":
+    if tokenizer_approach == "standard":
+        base = Path(data_dir) / approach / "cleaned" / split / "cleaned"
+    elif tokenizer_approach == "morfessor":
         base = Path(data_dir) / approach / "morfessor" / split
-    elif tokenizer_approach in ("joint_bpe", "mono_bpe", "morfessor_vc",
-                                "morfessor_bpe", "optuna_bpe", "unigram_lm"):
+    elif tokenizer_approach in SEGMENTED_APPROACHES:
         base = Path(data_dir) / approach / tokenizer_approach / split
     else:
-        base = Path(data_dir) / approach / "cleaned" / split / "cleaned"
+        raise ValueError(f"unknown tokenizer_approach {tokenizer_approach!r}")
     arn_lines = (base / "src.txt").read_text(encoding="utf-8").splitlines()
     es_lines  = (base / "tgt.txt").read_text(encoding="utf-8").splitlines()
     assert len(arn_lines) == len(es_lines), (

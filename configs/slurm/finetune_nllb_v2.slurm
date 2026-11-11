@@ -11,6 +11,7 @@
 #   MODEL=facebook/nllb-200-3.3B BATCH_SIZE=8 GRAD_ACCUM=16 \
 #                                          sbatch --time=14:00:00 --job-name=v2-3.3B-arn-es  configs/slurm/finetune_nllb_v2.slurm
 #
+# Exact original data (2026-11-07 rebuild): DATA_DIR=<rebuild>/data-processed RUN_TAG=origdata.
 # Option (c), 256 tokens: add MAX_LENGTH=256 and TOK=standard|morfessor_vc; output gets -<tok>-len256.
 # =============================================================================
 
@@ -33,7 +34,7 @@ export HF_HUB_OFFLINE=1
 
 PROJECT_DIR="/home/$(whoami)/projects/mapudungun/mapudungun-mt"
 V2_DIR="/nobackup/archive/usr/$(whoami)/mapudungun_v2"
-DATA_DIR="${V2_DIR}/data"
+DATA_DIR="${DATA_DIR:-${V2_DIR}/data}"   # override: DATA_DIR=/nobackup/archive/usr/it238/mapudungun_rebuild/data-processed
 MODEL="${MODEL:?set MODEL}"
 SRC="${SRC:-arn}"
 TGT="${TGT:-es}"
@@ -44,6 +45,7 @@ TOK="${TOK:-standard}"
 if [ "$MAX_LENGTH" != "128" ] || [ "$TOK" != "standard" ]; then
     OUTPUT_DIR="${OUTPUT_DIR}-${TOK}-len${MAX_LENGTH}"
 fi
+[ -n "${RUN_TAG:-}" ] && OUTPUT_DIR="${OUTPUT_DIR}-${RUN_TAG}"   # e.g. RUN_TAG=origdata
 BATCH_SIZE="${BATCH_SIZE:-32}"
 GRAD_ACCUM="${GRAD_ACCUM:-4}"
 

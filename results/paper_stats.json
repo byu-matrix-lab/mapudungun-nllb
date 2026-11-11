@@ -1171,5 +1171,951 @@
       },
       "source": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/*_comet.json (scripts/eval/comet_score.py)"
     }
+  },
+  "paper_v2": {
+    "segmentation": {
+      "conditions": {
+        "Morfessor": {
+          "test_input_reproduced": 9382,
+          "n_test": 9382,
+          "fertility_train": 1.133
+        },
+        "Morfessor-VC": {
+          "test_input_reproduced": 9382,
+          "n_test": 9382,
+          "fertility_train": 1.13
+        },
+        "Morfessor-BPE": {
+          "test_input_reproduced": 9382,
+          "n_test": 9382,
+          "fertility_train": 1.628
+        },
+        "Joint-5K BPE": {
+          "test_input_reproduced": 9382,
+          "n_test": 9382,
+          "fertility_train": 1.665
+        },
+        "Mono BPE": {
+          "test_input_reproduced": 9382,
+          "n_test": 9382,
+          "fertility_train": 2.037
+        },
+        "Optuna BPE": {
+          "test_input_reproduced": 9382,
+          "n_test": 9382,
+          "fertility_train": 1.552
+        },
+        "UnigramLM": {
+          "test_input_reproduced": 9382,
+          "n_test": 9382,
+          "fertility_train": 1.982
+        }
+      },
+      "boundaries_train": {
+        "morfessor": 87382,
+        "morfessor_vc": 85167,
+        "removed": 2215,
+        "removed_pct": 2.5
+      },
+      "truncation": {
+        "train_raw": {
+          "pct_over_128": 1.94,
+          "pct_over_256": 0.0
+        },
+        "train_morfessor_vc": {
+          "pct_over_128": 2.76,
+          "pct_over_256": 0.0
+        },
+        "test_raw": {
+          "pct_over_128": 1.92,
+          "pct_over_256": 0.0
+        },
+        "test_morfessor_vc": {
+          "pct_over_128": 4.05,
+          "pct_over_256": 0.03
+        }
+      }
+    },
+    "cells": {
+      "Standard BPE|600M|arn-es": {
+        "condition": "Standard BPE",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2o-600M-arn-es",
+        "chrfpp_mean": 43.49121341907012,
+        "chrfpp_corpus": 43.86987048736189,
+        "bleu": 17.335066417506617,
+        "comet": 0.6492913426718995,
+        "changed_in_v2": true
+      },
+      "Standard BPE|600M|es-arn": {
+        "condition": "Standard BPE",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-es-arn",
+        "chrfpp_mean": 39.86536320016948,
+        "chrfpp_corpus": 38.51110561656003,
+        "bleu": 8.526893786868902,
+        "comet": 0.6656375992999507,
+        "changed_in_v2": false
+      },
+      "Standard BPE|1.3B|arn-es": {
+        "condition": "Standard BPE",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2o-1.3B-arn-es",
+        "chrfpp_mean": 45.561774044204846,
+        "chrfpp_corpus": 45.967660954226815,
+        "bleu": 19.101716025533175,
+        "comet": 0.6637885867199317,
+        "changed_in_v2": true
+      },
+      "Standard BPE|1.3B|es-arn": {
+        "condition": "Standard BPE",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-es-arn",
+        "chrfpp_mean": 41.9362483773079,
+        "chrfpp_corpus": 40.79210784083106,
+        "bleu": 9.925735098935812,
+        "comet": 0.6768728442135916,
+        "changed_in_v2": false
+      },
+      "Standard BPE|3.3B|arn-es": {
+        "condition": "Standard BPE",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_v2/predictions/v2o-3.3B-arn-es",
+        "chrfpp_mean": 45.73422136506491,
+        "chrfpp_corpus": 46.37971486355452,
+        "bleu": 19.488873448932054,
+        "comet": 0.667871536291934,
+        "changed_in_v2": true
+      },
+      "Standard BPE|3.3B|es-arn": {
+        "condition": "Standard BPE",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-es-arn",
+        "chrfpp_mean": 42.888412815776206,
+        "chrfpp_corpus": 42.04950371214263,
+        "bleu": 10.568490008606263,
+        "comet": 0.6815181849570041,
+        "changed_in_v2": false
+      },
+      "Joint-5K BPE|600M|arn-es": {
+        "condition": "Joint-5K BPE",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-blocks-arn-es-joint_bpe",
+        "chrfpp_mean": 42.361914272931315,
+        "chrfpp_corpus": 41.56880965676155,
+        "bleu": 14.19794124218423,
+        "comet": 0.637644547969897,
+        "changed_in_v2": false
+      },
+      "Joint-5K BPE|600M|es-arn": {
+        "condition": "Joint-5K BPE",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-blocks-es-arn-joint_bpe",
+        "chrfpp_mean": 38.16725330716286,
+        "chrfpp_corpus": 36.09940063673609,
+        "bleu": 7.920370721168091,
+        "comet": 0.6583115637073688,
+        "changed_in_v2": false
+      },
+      "Joint-5K BPE|1.3B|arn-es": {
+        "condition": "Joint-5K BPE",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-blocks-arn-es-joint_bpe",
+        "chrfpp_mean": 44.676389306895224,
+        "chrfpp_corpus": 43.916784417010994,
+        "bleu": 15.910950464949455,
+        "comet": 0.655854973682359,
+        "changed_in_v2": false
+      },
+      "Joint-5K BPE|1.3B|es-arn": {
+        "condition": "Joint-5K BPE",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-blocks-es-arn-joint_bpe",
+        "chrfpp_mean": 41.05808653588806,
+        "chrfpp_corpus": 38.761848984143576,
+        "bleu": 9.022248272888735,
+        "comet": 0.6721907843867616,
+        "changed_in_v2": false
+      },
+      "Joint-5K BPE|3.3B|arn-es": {
+        "condition": "Joint-5K BPE",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-blocks-arn-es-joint_bpe",
+        "chrfpp_mean": 45.25010111837093,
+        "chrfpp_corpus": 44.795161079471804,
+        "bleu": 17.20360996037645,
+        "comet": 0.6607883151845367,
+        "changed_in_v2": false
+      },
+      "Joint-5K BPE|3.3B|es-arn": {
+        "condition": "Joint-5K BPE",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-blocks-es-arn-joint_bpe",
+        "chrfpp_mean": 42.29842539037642,
+        "chrfpp_corpus": 39.86079180661972,
+        "bleu": 9.730851251680546,
+        "comet": 0.6785918817772232,
+        "changed_in_v2": false
+      },
+      "Mono BPE|600M|arn-es": {
+        "condition": "Mono BPE",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-blocks-arn-es-mono_bpe",
+        "chrfpp_mean": 41.720469558005604,
+        "chrfpp_corpus": 39.504130685397904,
+        "bleu": 11.928933362447534,
+        "comet": 0.6317720442718088,
+        "changed_in_v2": false
+      },
+      "Mono BPE|600M|es-arn": {
+        "condition": "Mono BPE",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-blocks-es-arn-mono_bpe",
+        "chrfpp_mean": 38.040922570753445,
+        "chrfpp_corpus": 35.024562408494944,
+        "bleu": 7.240389627775535,
+        "comet": 0.6583409364690813,
+        "changed_in_v2": false
+      },
+      "Mono BPE|1.3B|arn-es": {
+        "condition": "Mono BPE",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-blocks-arn-es-mono_bpe",
+        "chrfpp_mean": 43.987097642562404,
+        "chrfpp_corpus": 41.52637116388653,
+        "bleu": 12.968839530588623,
+        "comet": 0.6481719982967756,
+        "changed_in_v2": false
+      },
+      "Mono BPE|1.3B|es-arn": {
+        "condition": "Mono BPE",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-blocks-es-arn-mono_bpe",
+        "chrfpp_mean": 40.624586946702244,
+        "chrfpp_corpus": 37.285348350353736,
+        "bleu": 8.304236318166545,
+        "comet": 0.6698526398754658,
+        "changed_in_v2": false
+      },
+      "Mono BPE|3.3B|arn-es": {
+        "condition": "Mono BPE",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-blocks-arn-es-mono_bpe",
+        "chrfpp_mean": 44.84580968696357,
+        "chrfpp_corpus": 43.366103120402606,
+        "bleu": 15.450688452584988,
+        "comet": 0.6572687379702961,
+        "changed_in_v2": false
+      },
+      "Mono BPE|3.3B|es-arn": {
+        "condition": "Mono BPE",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-blocks-es-arn-mono_bpe",
+        "chrfpp_mean": 42.015889824000666,
+        "chrfpp_corpus": 38.368425498188955,
+        "bleu": 9.156223986168607,
+        "comet": 0.6769940192413925,
+        "changed_in_v2": false
+      },
+      "Optuna BPE|600M|arn-es": {
+        "condition": "Optuna BPE",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-600M-blocks-arn-es-optuna_bpe",
+        "chrfpp_mean": 42.41310344181039,
+        "chrfpp_corpus": 41.85293352793088,
+        "bleu": 14.500919138246395,
+        "comet": 0.6390325951041939,
+        "changed_in_v2": false
+      },
+      "Optuna BPE|600M|es-arn": {
+        "condition": "Optuna BPE",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-600M-blocks-es-arn-optuna_bpe",
+        "chrfpp_mean": 38.79098658366361,
+        "chrfpp_corpus": 36.7573063807901,
+        "bleu": 8.115453611493097,
+        "comet": 0.6599703986802047,
+        "changed_in_v2": false
+      },
+      "Optuna BPE|1.3B|arn-es": {
+        "condition": "Optuna BPE",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-1.3B-blocks-arn-es-optuna_bpe",
+        "chrfpp_mean": 44.66572723767101,
+        "chrfpp_corpus": 44.15181448564518,
+        "bleu": 16.331891928060294,
+        "comet": 0.655926411539043,
+        "changed_in_v2": false
+      },
+      "Optuna BPE|1.3B|es-arn": {
+        "condition": "Optuna BPE",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-1.3B-blocks-es-arn-optuna_bpe",
+        "chrfpp_mean": 41.33802902131555,
+        "chrfpp_corpus": 39.31323452805123,
+        "bleu": 9.259617665639206,
+        "comet": 0.6725266586835896,
+        "changed_in_v2": false
+      },
+      "Optuna BPE|3.3B|arn-es": {
+        "condition": "Optuna BPE",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-200-3.3B-blocks-arn-es-optuna_bpe",
+        "chrfpp_mean": 45.20634454461039,
+        "chrfpp_corpus": 45.2741649635586,
+        "bleu": 17.97487734700205,
+        "comet": 0.6638707817267874,
+        "changed_in_v2": false
+      },
+      "Optuna BPE|3.3B|es-arn": {
+        "condition": "Optuna BPE",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-200-3.3B-blocks-es-arn-optuna_bpe",
+        "chrfpp_mean": 42.33214791927522,
+        "chrfpp_corpus": 40.305677186977306,
+        "bleu": 9.93123428276684,
+        "comet": 0.6789822935807097,
+        "changed_in_v2": false
+      },
+      "Morfessor|600M|arn-es": {
+        "condition": "Morfessor",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-arn-es-morfessor",
+        "chrfpp_mean": 43.091989080228785,
+        "chrfpp_corpus": 43.16449140794128,
+        "bleu": 16.152203885030147,
+        "comet": 0.6448368488633666,
+        "changed_in_v2": false
+      },
+      "Morfessor|600M|es-arn": {
+        "condition": "Morfessor",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-es-arn-morfessor",
+        "chrfpp_mean": 39.90249557612709,
+        "chrfpp_corpus": 38.42659494710003,
+        "bleu": 8.613489913908031,
+        "comet": 0.6663965235794437,
+        "changed_in_v2": false
+      },
+      "Morfessor|1.3B|arn-es": {
+        "condition": "Morfessor",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-arn-es-morfessor",
+        "chrfpp_mean": 45.404603876899046,
+        "chrfpp_corpus": 45.482036844312674,
+        "bleu": 18.205003968127237,
+        "comet": 0.6616179787084712,
+        "changed_in_v2": false
+      },
+      "Morfessor|1.3B|es-arn": {
+        "condition": "Morfessor",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-es-arn-morfessor",
+        "chrfpp_mean": 41.99643855479652,
+        "chrfpp_corpus": 40.68964280296231,
+        "bleu": 9.831158132424822,
+        "comet": 0.6768106019775183,
+        "changed_in_v2": false
+      },
+      "Morfessor|3.3B|arn-es": {
+        "condition": "Morfessor",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-arn-es-morfessor",
+        "chrfpp_mean": 45.50983728629509,
+        "chrfpp_corpus": 45.90531750449036,
+        "bleu": 18.720004463531986,
+        "comet": 0.6651407890903291,
+        "changed_in_v2": false
+      },
+      "Morfessor|3.3B|es-arn": {
+        "condition": "Morfessor",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-es-arn-morfessor",
+        "chrfpp_mean": 42.75527506561834,
+        "chrfpp_corpus": 41.54095035245612,
+        "bleu": 10.31760065100064,
+        "comet": 0.6805455016126716,
+        "changed_in_v2": false
+      },
+      "Morfessor-VC|600M|arn-es": {
+        "condition": "Morfessor-VC",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-blocks-arn-es-morfessor_vc",
+        "chrfpp_mean": 43.164200633152774,
+        "chrfpp_corpus": 43.3668556266145,
+        "bleu": 16.446588909556233,
+        "comet": 0.6454390597112193,
+        "changed_in_v2": false
+      },
+      "Morfessor-VC|600M|es-arn": {
+        "condition": "Morfessor-VC",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/600M-blocks-es-arn-morfessor_vc",
+        "chrfpp_mean": 39.887748147576794,
+        "chrfpp_corpus": 38.37366583012525,
+        "bleu": 8.502951435135124,
+        "comet": 0.6672073951031933,
+        "changed_in_v2": false
+      },
+      "Morfessor-VC|1.3B|arn-es": {
+        "condition": "Morfessor-VC",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-blocks-arn-es-morfessor_vc",
+        "chrfpp_mean": 45.37465940749269,
+        "chrfpp_corpus": 45.54598239494033,
+        "bleu": 18.353218836978943,
+        "comet": 0.6618439774683126,
+        "changed_in_v2": false
+      },
+      "Morfessor-VC|1.3B|es-arn": {
+        "condition": "Morfessor-VC",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/1.3B-blocks-es-arn-morfessor_vc",
+        "chrfpp_mean": 42.04410176537016,
+        "chrfpp_corpus": 40.84916306663761,
+        "bleu": 9.83799936402865,
+        "comet": 0.6773929603809209,
+        "changed_in_v2": false
+      },
+      "Morfessor-VC|3.3B|arn-es": {
+        "condition": "Morfessor-VC",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-blocks-arn-es-morfessor_vc",
+        "chrfpp_mean": 45.84478075109259,
+        "chrfpp_corpus": 46.08230855143008,
+        "bleu": 18.943060781663174,
+        "comet": 0.6664447984387183,
+        "changed_in_v2": false
+      },
+      "Morfessor-VC|3.3B|es-arn": {
+        "condition": "Morfessor-VC",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/3.3B-blocks-es-arn-morfessor_vc",
+        "chrfpp_mean": 42.770968823798604,
+        "chrfpp_corpus": 41.604124342917515,
+        "bleu": 10.31545480307217,
+        "comet": 0.6796453559774753,
+        "changed_in_v2": false
+      },
+      "Morfessor-BPE|600M|arn-es": {
+        "condition": "Morfessor-BPE",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-600M-blocks-arn-es-morfessor_bpe",
+        "chrfpp_mean": 42.79939392552322,
+        "chrfpp_corpus": 42.12404236417306,
+        "bleu": 14.744903470151275,
+        "comet": 0.6414193904741667,
+        "changed_in_v2": false
+      },
+      "Morfessor-BPE|600M|es-arn": {
+        "condition": "Morfessor-BPE",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-600M-blocks-es-arn-morfessor_bpe",
+        "chrfpp_mean": 38.74101175009412,
+        "chrfpp_corpus": 36.52125429551167,
+        "bleu": 7.995624481466463,
+        "comet": 0.6598361826268906,
+        "changed_in_v2": false
+      },
+      "Morfessor-BPE|1.3B|arn-es": {
+        "condition": "Morfessor-BPE",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-1.3B-blocks-arn-es-morfessor_bpe",
+        "chrfpp_mean": 44.97057258717769,
+        "chrfpp_corpus": 44.12829429860715,
+        "bleu": 15.97800803010513,
+        "comet": 0.6565331733924344,
+        "changed_in_v2": false
+      },
+      "Morfessor-BPE|1.3B|es-arn": {
+        "condition": "Morfessor-BPE",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-1.3B-blocks-es-arn-morfessor_bpe",
+        "chrfpp_mean": 41.253618348555804,
+        "chrfpp_corpus": 39.12944159740965,
+        "bleu": 9.124423012185154,
+        "comet": 0.6731220794461653,
+        "changed_in_v2": false
+      },
+      "Morfessor-BPE|3.3B|arn-es": {
+        "condition": "Morfessor-BPE",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-200-3.3B-blocks-arn-es-morfessor_bpe",
+        "chrfpp_mean": 45.555636727037545,
+        "chrfpp_corpus": 45.37866797173828,
+        "bleu": 17.789779453768947,
+        "comet": 0.6640748050110703,
+        "changed_in_v2": false
+      },
+      "Morfessor-BPE|3.3B|es-arn": {
+        "condition": "Morfessor-BPE",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-200-3.3B-blocks-es-arn-morfessor_bpe",
+        "chrfpp_mean": 42.3976032128528,
+        "chrfpp_corpus": 40.260310012744476,
+        "bleu": 9.933006185120423,
+        "comet": 0.679214444633258,
+        "changed_in_v2": false
+      },
+      "UnigramLM|600M|arn-es": {
+        "condition": "UnigramLM",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-600M-blocks-arn-es-unigram_lm",
+        "chrfpp_mean": 42.18341922612758,
+        "chrfpp_corpus": 40.224698916391674,
+        "bleu": 12.608571833767769,
+        "comet": 0.6353452798686692,
+        "changed_in_v2": false
+      },
+      "UnigramLM|600M|es-arn": {
+        "condition": "UnigramLM",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-600M-blocks-es-arn-unigram_lm",
+        "chrfpp_mean": 38.195318219926655,
+        "chrfpp_corpus": 35.24029310957187,
+        "bleu": 7.40030314563913,
+        "comet": 0.6567212629883027,
+        "changed_in_v2": false
+      },
+      "UnigramLM|1.3B|arn-es": {
+        "condition": "UnigramLM",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-1.3B-blocks-arn-es-unigram_lm",
+        "chrfpp_mean": 44.64395093379565,
+        "chrfpp_corpus": 42.47972365739041,
+        "bleu": 14.113342718261809,
+        "comet": 0.652654001251438,
+        "changed_in_v2": false
+      },
+      "UnigramLM|1.3B|es-arn": {
+        "condition": "UnigramLM",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-1.3B-blocks-es-arn-unigram_lm",
+        "chrfpp_mean": 41.052254007842855,
+        "chrfpp_corpus": 37.7855454169962,
+        "bleu": 8.688424405740736,
+        "comet": 0.6722665846036507,
+        "changed_in_v2": false
+      },
+      "UnigramLM|3.3B|arn-es": {
+        "condition": "UnigramLM",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-200-3.3B-blocks-arn-es-unigram_lm",
+        "chrfpp_mean": 45.06805914934759,
+        "chrfpp_corpus": 43.74767876565493,
+        "bleu": 15.770721687132745,
+        "comet": 0.6590069237531845,
+        "changed_in_v2": false
+      },
+      "UnigramLM|3.3B|es-arn": {
+        "condition": "UnigramLM",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/nllb-200-3.3B-blocks-es-arn-unigram_lm",
+        "chrfpp_mean": 42.30192646141452,
+        "chrfpp_corpus": 38.86828545440535,
+        "bleu": 9.327523640231771,
+        "comet": 0.6771753560572996,
+        "changed_in_v2": false
+      },
+      "Zero-shot NLLB|600M|arn-es": {
+        "condition": "Zero-shot NLLB",
+        "size": "600M",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/zero-shot-nllb-600M-arn-es",
+        "chrfpp_mean": 12.860603688705295,
+        "chrfpp_corpus": 13.565759420806092,
+        "bleu": 1.6837702693804477,
+        "comet": 0.38953735501819314,
+        "changed_in_v2": false
+      },
+      "Zero-shot NLLB|600M|es-arn": {
+        "condition": "Zero-shot NLLB",
+        "size": "600M",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/zero-shot-nllb-600M-es-arn",
+        "chrfpp_mean": 7.372413815634748,
+        "chrfpp_corpus": 6.462891860184923,
+        "bleu": 0.3224275493280702,
+        "comet": 0.4081858074794037,
+        "changed_in_v2": false
+      },
+      "Zero-shot NLLB|1.3B|arn-es": {
+        "condition": "Zero-shot NLLB",
+        "size": "1.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/zero-shot-nllb-1.3B-arn-es",
+        "chrfpp_mean": 13.433915120453236,
+        "chrfpp_corpus": 14.363800281253711,
+        "bleu": 1.9376801733570852,
+        "comet": 0.3924322182535363,
+        "changed_in_v2": false
+      },
+      "Zero-shot NLLB|1.3B|es-arn": {
+        "condition": "Zero-shot NLLB",
+        "size": "1.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/zero-shot-nllb-1.3B-es-arn",
+        "chrfpp_mean": 9.914340735779081,
+        "chrfpp_corpus": 10.360699823520573,
+        "bleu": 0.6439909335458955,
+        "comet": 0.48846044992236687,
+        "changed_in_v2": false
+      },
+      "Zero-shot NLLB|3.3B|arn-es": {
+        "condition": "Zero-shot NLLB",
+        "size": "3.3B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/zero-shot-nllb-3.3B-arn-es",
+        "chrfpp_mean": 13.1890889352681,
+        "chrfpp_corpus": 14.192685841833416,
+        "bleu": 2.160099460545256,
+        "comet": 0.3850457645608047,
+        "changed_in_v2": false
+      },
+      "Zero-shot NLLB|3.3B|es-arn": {
+        "condition": "Zero-shot NLLB",
+        "size": "3.3B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/zero-shot-nllb-3.3B-es-arn",
+        "chrfpp_mean": 9.422204902837615,
+        "chrfpp_corpus": 9.861789851703978,
+        "bleu": 0.6797358029200323,
+        "comet": 0.439791120123416,
+        "changed_in_v2": false
+      },
+      "Llama 3.1 8B|8B|arn-es": {
+        "condition": "Llama 3.1 8B",
+        "size": "8B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/llama-3.1-8b-arn-es",
+        "chrfpp_mean": 13.963324585235771,
+        "chrfpp_corpus": 14.935985671873663,
+        "bleu": 1.5530077309532198,
+        "comet": 0.48268625558858436,
+        "changed_in_v2": false
+      },
+      "Llama 3.1 8B|8B|es-arn": {
+        "condition": "Llama 3.1 8B",
+        "size": "8B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/llama-3.1-8b-es-arn",
+        "chrfpp_mean": 11.321650231234926,
+        "chrfpp_corpus": 12.02301558045975,
+        "bleu": 0.19726498054052255,
+        "comet": 0.48437618702313356,
+        "changed_in_v2": false
+      },
+      "Aya Expanse 8B|8B|arn-es": {
+        "condition": "Aya Expanse 8B",
+        "size": "8B",
+        "direction": "arn-es",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/aya-expanse-8b-arn-es",
+        "chrfpp_mean": 15.920076589530792,
+        "chrfpp_corpus": 18.071537672495083,
+        "bleu": 2.1262342544706754,
+        "comet": 0.5091384167982886,
+        "changed_in_v2": false
+      },
+      "Aya Expanse 8B|8B|es-arn": {
+        "condition": "Aya Expanse 8B",
+        "size": "8B",
+        "direction": "es-arn",
+        "file": "/nobackup/archive/usr/it238/mapudungun_predictions/aya-expanse-8b-es-arn",
+        "chrfpp_mean": 12.359639810114865,
+        "chrfpp_corpus": 13.41557340089051,
+        "bleu": 0.38767377335686554,
+        "comet": 0.49712343246500723,
+        "changed_in_v2": false
+      }
+    },
+    "best_in_column": {
+      "chrfpp_mean|600M|arn-es": [
+        "Standard BPE"
+      ],
+      "chrfpp_mean|600M|es-arn": [
+        "Morfessor"
+      ],
+      "chrfpp_mean|1.3B|arn-es": [
+        "Standard BPE"
+      ],
+      "chrfpp_mean|1.3B|es-arn": [
+        "Morfessor-VC"
+      ],
+      "chrfpp_mean|3.3B|arn-es": [
+        "Morfessor-VC"
+      ],
+      "chrfpp_mean|3.3B|es-arn": [
+        "Standard BPE"
+      ],
+      "bleu|600M|arn-es": [
+        "Standard BPE"
+      ],
+      "bleu|600M|es-arn": [
+        "Morfessor"
+      ],
+      "bleu|1.3B|arn-es": [
+        "Standard BPE"
+      ],
+      "bleu|1.3B|es-arn": [
+        "Standard BPE"
+      ],
+      "bleu|3.3B|arn-es": [
+        "Standard BPE"
+      ],
+      "bleu|3.3B|es-arn": [
+        "Standard BPE"
+      ],
+      "comet|600M|arn-es": [
+        "Standard BPE"
+      ],
+      "comet|600M|es-arn": [
+        "Morfessor-VC"
+      ],
+      "comet|1.3B|arn-es": [
+        "Standard BPE"
+      ],
+      "comet|1.3B|es-arn": [
+        "Standard BPE",
+        "Morfessor",
+        "Morfessor-VC"
+      ],
+      "comet|3.3B|arn-es": [
+        "Standard BPE"
+      ],
+      "comet|3.3B|es-arn": [
+        "Standard BPE"
+      ]
+    },
+    "comparisons": {
+      "vc_minus_std_600M": {
+        "diff": -0.32701278591735106,
+        "ci95": [
+          -0.4944305061517407,
+          -0.158785205778042
+        ],
+        "p": 0.0,
+        "p_below_resolution": true
+      },
+      "vc_minus_std_1.3B": {
+        "diff": -0.18711463671214665,
+        "ci95": [
+          -0.3720946732388087,
+          -0.0028232877841061843
+        ],
+        "p": 0.0458,
+        "p_below_resolution": false
+      },
+      "vc_minus_std_3.3B": {
+        "diff": 0.11055938602768108,
+        "ci95": [
+          -0.11990653133866716,
+          0.3350548148869352
+        ],
+        "p": 0.3398,
+        "p_below_resolution": false
+      },
+      "vc600_minus_std3.3B": {
+        "diff": -2.5700207319121358,
+        "ci95": [
+          -2.8677120383583983,
+          -2.2734426220106436
+        ],
+        "p": 0.0,
+        "p_below_resolution": true
+      },
+      "vc_minus_morf_600M": {
+        "diff": 0.07221155292399203,
+        "ci95": [
+          -0.045744011648936954,
+          0.19222726881520763
+        ],
+        "p": 0.2302,
+        "p_below_resolution": false
+      },
+      "vc_minus_morf_1.3B": {
+        "diff": -0.02994446940634292,
+        "ci95": [
+          -0.18557400501363774,
+          0.12617854336893114
+        ],
+        "p": 0.6986,
+        "p_below_resolution": false
+      },
+      "vc_minus_morf_3.3B": {
+        "diff": 0.3349434647975001,
+        "ci95": [
+          0.13637087439248058,
+          0.533441748870438
+        ],
+        "p": 0.0012,
+        "p_below_resolution": false
+      }
+    },
+    "margins": {
+      "best_llm": {
+        "arn-es": 15.920076589530792,
+        "es-arn": 12.359639810114865
+      },
+      "min_finetuned_over_llm": 25.68128276063858,
+      "min_finetuned_600M_arn_es_over_llm": 25.80039296847481,
+      "best_finetuned_arn_es_over_llm": 29.9247041615618,
+      "std600_arn_es_over_llm": 27.571136829539327
+    },
+    "ranges": {
+      "others_600M_arn_es_min": 41.720469558005604,
+      "others_600M_arn_es_max": 43.164200633152774,
+      "std_gap_to_best_arn_es_max": 0.11055938602768123
+    },
+    "human_eval": {
+      "arn-es": {
+        "n": 50,
+        "std_preferred": 19,
+        "vc_preferred": 19,
+        "ties": 12,
+        "ties_identical_outputs": 5
+      },
+      "es-arn": {
+        "n": 50,
+        "std_preferred": 18,
+        "vc_preferred": 17,
+        "ties": 15,
+        "ties_identical_outputs": 13
+      }
+    },
+    "optuna": {
+      "n_trials": 13,
+      "n_complete": 12,
+      "epochs_per_trial": 5,
+      "reported_best_vocab": 10954,
+      "vocab_used": 5829
+    },
+    "data": {
+      "train|arn": {
+        "sents": 55452,
+        "tokens": 656969,
+        "types": 105375,
+        "avg_len": 11.84752578806896
+      },
+      "train|es": {
+        "sents": 55452,
+        "tokens": 888476,
+        "types": 40059,
+        "avg_len": 16.022433816634205
+      },
+      "dev|arn": {
+        "sents": 1581,
+        "tokens": 23519,
+        "types": 6863,
+        "avg_len": 14.876027830487034
+      },
+      "dev|es": {
+        "sents": 1581,
+        "tokens": 29314,
+        "types": 4381,
+        "avg_len": 18.541429475015814
+      },
+      "test|arn": {
+        "sents": 9382,
+        "tokens": 108361,
+        "types": 26264,
+        "avg_len": 11.54988275421019
+      },
+      "test|es": {
+        "sents": 9382,
+        "tokens": 144870,
+        "types": 13624,
+        "avg_len": 15.441270518013217
+      }
+    },
+    "codeswitch": {
+      "elan_spa_share_pct": 24.33438370553044,
+      "n_extracted": 87588,
+      "lid_model": "fastText lid.176",
+      "pearson": 0.03596579900699832,
+      "pearson_p": 0.0004933589668162773,
+      "pearson_r2": 0.0012935386982118012,
+      "spearman": 0.05141497224834168,
+      "none_n": 4139,
+      "light_n": 3149,
+      "heavy_n": 2094,
+      "none_mean": 45.66499102365104,
+      "light_mean": 45.189529059790644,
+      "heavy_mean": 47.185533978308634
+    },
+    "len256": {
+      "max_abs_corpus_diff": 0.12,
+      "all_corpus_ci_include_zero": true,
+      "regen_train_pairs": 56197,
+      "orig_train_pairs": 55452,
+      "regen_larger_pct": 1.3435042920002886
+    },
+    "example": {
+      "word": "kutrankautulay",
+      "standard": "▁ku tr anka ut ulay",
+      "morfessor": "kutran@@ ka@@ u@@ tulay",
+      "morfessor_vc": "kutran@@ kau@@ tulay",
+      "nllb_input_morfessor": "▁ku tran @ @ ▁ka @ @ ▁u @ @ ▁tu lay",
+      "nllb_input_morfessor_vc": "▁ku tran @ @ ▁kau @ @ ▁tu lay",
+      "kau_word_initial_id": 5898,
+      "kau_mid_word_id": 22381
+    },
+    "comet_rounding_corrected": [
+      "comet-results Standard BPE 3.3B es-arn: computed 0.682, published 0.681",
+      "comet-results Optuna BPE 1.3B es-arn: computed 0.673, published 0.672",
+      "comet-results Morfessor 3.3B es-arn: computed 0.681, published 0.680",
+      "comet-results Zero-shot NLLB 1.3B es-arn: computed 0.488, published 0.489"
+    ],
+    "bootstrap": {
+      "n": 10000,
+      "seed": 42
+    }
   }
 }

@@ -1,0 +1,128 @@
+{
+  "600M-blocks-arn-es-joint_bpe": {
+    "condition": "Joint-5K BPE",
+    "size": "600M",
+    "comet_raw_src": 0.6376,
+    "comet_published_marked_src": 0.6358
+  },
+  "1.3B-blocks-arn-es-joint_bpe": {
+    "condition": "Joint-5K BPE",
+    "size": "1.3B",
+    "comet_raw_src": 0.6559,
+    "comet_published_marked_src": 0.6538
+  },
+  "3.3B-blocks-arn-es-joint_bpe": {
+    "condition": "Joint-5K BPE",
+    "size": "3.3B",
+    "comet_raw_src": 0.6608,
+    "comet_published_marked_src": 0.6587
+  },
+  "600M-blocks-arn-es-mono_bpe": {
+    "condition": "Mono BPE",
+    "size": "600M",
+    "comet_raw_src": 0.6318,
+    "comet_published_marked_src": 0.6281
+  },
+  "1.3B-blocks-arn-es-mono_bpe": {
+    "condition": "Mono BPE",
+    "size": "1.3B",
+    "comet_raw_src": 0.6482,
+    "comet_published_marked_src": 0.644
+  },
+  "3.3B-blocks-arn-es-mono_bpe": {
+    "condition": "Mono BPE",
+    "size": "3.3B",
+    "comet_raw_src": 0.6573,
+    "comet_published_marked_src": 0.6531
+  },
+  "nllb-600M-blocks-arn-es-optuna_bpe": {
+    "condition": "Optuna BPE",
+    "size": "600M",
+    "comet_raw_src": 0.639,
+    "comet_published_marked_src": 0.6376
+  },
+  "nllb-1.3B-blocks-arn-es-optuna_bpe": {
+    "condition": "Optuna BPE",
+    "size": "1.3B",
+    "comet_raw_src": 0.6559,
+    "comet_published_marked_src": 0.6543
+  },
+  "nllb-200-3.3B-blocks-arn-es-optuna_bpe": {
+    "condition": "Optuna BPE",
+    "size": "3.3B",
+    "comet_raw_src": 0.6639,
+    "comet_published_marked_src": 0.6624
+  },
+  "600M-arn-es-morfessor": {
+    "condition": "Morfessor",
+    "size": "600M",
+    "comet_raw_src": 0.6448,
+    "comet_published_marked_src": 0.6437
+  },
+  "1.3B-arn-es-morfessor": {
+    "condition": "Morfessor",
+    "size": "1.3B",
+    "comet_raw_src": 0.6616,
+    "comet_published_marked_src": 0.6605
+  },
+  "3.3B-arn-es-morfessor": {
+    "condition": "Morfessor",
+    "size": "3.3B",
+    "comet_raw_src": 0.6651,
+    "comet_published_marked_src": 0.664
+  },
+  "600M-blocks-arn-es-morfessor_vc": {
+    "condition": "Morfessor-VC",
+    "size": "600M",
+    "comet_raw_src": 0.6454,
+    "comet_published_marked_src": 0.6442
+  },
+  "1.3B-blocks-arn-es-morfessor_vc": {
+    "condition": "Morfessor-VC",
+    "size": "1.3B",
+    "comet_raw_src": 0.6618,
+    "comet_published_marked_src": 0.6607
+  },
+  "3.3B-blocks-arn-es-morfessor_vc": {
+    "condition": "Morfessor-VC",
+    "size": "3.3B",
+    "comet_raw_src": 0.6664,
+    "comet_published_marked_src": 0.6653
+  },
+  "nllb-600M-blocks-arn-es-morfessor_bpe": {
+    "condition": "Morfessor-BPE",
+    "size": "600M",
+    "comet_raw_src": 0.6414,
+    "comet_published_marked_src": 0.6399
+  },
+  "nllb-1.3B-blocks-arn-es-morfessor_bpe": {
+    "condition": "Morfessor-BPE",
+    "size": "1.3B",
+    "comet_raw_src": 0.6565,
+    "comet_published_marked_src": 0.6548
+  },
+  "nllb-200-3.3B-blocks-arn-es-morfessor_bpe": {
+    "condition": "Morfessor-BPE",
+    "size": "3.3B",
+    "comet_raw_src": 0.6641,
+    "comet_published_marked_src": 0.6624
+  },
+  "nllb-600M-blocks-arn-es-unigram_lm": {
+    "condition": "UnigramLM",
+    "size": "600M",
+    "comet_raw_src": 0.6353,
+    "comet_published_marked_src": 0.6335
+  },
+  "nllb-1.3B-blocks-arn-es-unigram_lm": {
+    "condition": "UnigramLM",
+    "size": "1.3B",
+    "comet_raw_src": 0.6527,
+    "comet_published_marked_src": 0.6504
+  },
+  "nllb-200-3.3B-blocks-arn-es-unigram_lm": {
+    "condition": "UnigramLM",
+    "size": "3.3B",
+    "comet_raw_src": 0.659,
+    "comet_published_marked_src": 0.6569
+  }
+}

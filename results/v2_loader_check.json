@@ -1,0 +1,53 @@
+{
+  "n_sentences": 1000,
+  "models": {
+    "Joint-5K BPE 600M (reference)": {
+      "segmented": {
+        "corpus_chrfpp": 42.43,
+        "mean_sentence_chrfpp": 41.3
+      },
+      "segmented_matches_archived": 974,
+      "raw": {
+        "corpus_chrfpp": 40.89,
+        "mean_sentence_chrfpp": 38.24
+      },
+      "segmented_minus_raw_corpus": 1.54
+    },
+    "Optuna BPE 600M": {
+      "segmented": {
+        "corpus_chrfpp": 42.55,
+        "mean_sentence_chrfpp": 40.87
+      },
+      "segmented_matches_archived": 980,
+      "raw": {
+        "corpus_chrfpp": 41.89,
+        "mean_sentence_chrfpp": 39.22
+      },
+      "segmented_minus_raw_corpus": 0.66
+    },
+    "UnigramLM 1.3B": {
+      "segmented": {
+        "corpus_chrfpp": 42.68,
+        "mean_sentence_chrfpp": 42.45
+      },
+      "segmented_matches_archived": 999,
+      "raw": {
+        "corpus_chrfpp": 40.34,
+        "mean_sentence_chrfpp": 37.21
+      },
+      "segmented_minus_raw_corpus": 2.34
+    },
+    "Morfessor-BPE 1.3B": {
+      "segmented": {
+        "corpus_chrfpp": 44.34,
+        "mean_sentence_chrfpp": 42.67
+      },
+      "segmented_matches_archived": 1000,
+      "raw": {
+        "corpus_chrfpp": 44.24,
+        "mean_sentence_chrfpp": 41.24
+      },
+      "segmented_minus_raw_corpus": 0.1
+    }
+  }
+}
