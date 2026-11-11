@@ -1,0 +1,9 @@
+[
+  {"pattern": "NLLB-200", "reason": "Upstream product/model family name, not an experimental result."},
+  {"pattern": "AmericasNLP 2026", "reason": "Cited venue year."},
+  {"pattern": "Duan et al\\. \\(2020\\)", "reason": "Citation year."},
+  {"pattern": "Transformers 4\\.x", "reason": "Required software major version."},
+  {"pattern": "CC BY-NC-SA 3\\.0", "reason": "Upstream license identifier."},
+  {"pattern": "CC-BY-NC 4\\.0", "reason": "Upstream model license identifier."},
+  {"pattern": "^[1-9]\\. ", "reason": "Ordered-list numbering."}
+]

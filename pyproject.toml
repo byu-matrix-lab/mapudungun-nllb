@@ -5,7 +5,7 @@ description = "Fine-tuning NLLB-200 for Mapudungun–Spanish machine translation
 requires-python = ">=3.10"
 dependencies = [
     "torch>=2.1.0",
-    "transformers>=4.40.0",
+    "transformers>=4.40.0,<5",
     "datasets>=2.18.0",
     "accelerate>=0.28.0",
     "sentencepiece>=0.2.0",
@@ -19,7 +19,7 @@ dependencies = [
     "jupyter>=1.0.0",
     "bitsandbytes>=0.49.2",
     "unbabel-comet>=2.2.7",
-    "setuptools>=82.0.0",
+    "setuptools>=68.0.0,<81",
     "fasttext>=0.9.3",
     "optuna>=4.8.0",
 ]

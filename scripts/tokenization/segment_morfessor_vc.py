@@ -9,10 +9,9 @@ adjacent morphemes where their concatenation is already a single token in NLLB's
 SentencePiece vocabulary.  Boundaries that span two separate NLLB vocabulary items
 are kept with @@.
 
-The result has fewer @@ markers than plain Morfessor, reducing double-tokenization:
-NLLB's internal BPE no longer sees "mapu@@" as a spurious string — boundaries are
-only kept where the split is linguistically meaningful AND corresponds to a genuine
-NLLB subword boundary.
+The result has fewer @@ markers than plain Morfessor, reducing the amount of
+additional segmentation before NLLB's internal tokenizer. It does not guarantee
+that every retained boundary aligns with a single NLLB subword boundary.
 
 Algorithm (greedy left-to-right within each word):
   Given morphemes [m0, m1, m2, ...] in a word:

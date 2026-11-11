@@ -1,0 +1,23 @@
+{
+  "collection": "byumatrixlab/mapudungun-nllb-6a0b99ce4bbdd3b46531c6b4",
+  "organization": "byumatrixlab",
+  "sizes": {
+    "600M": {"base_model": "facebook/nllb-200-distilled-600M", "archive_prefix": "nllb-600M-blocks"},
+    "1.3B": {"base_model": "facebook/nllb-200-distilled-1.3B", "archive_prefix": "nllb-1.3B-blocks"},
+    "3.3B": {"base_model": "facebook/nllb-200-3.3B", "archive_prefix": "nllb-200-3.3B-blocks"}
+  },
+  "directions": {
+    "arn-es": {"source": "arn_Latn", "target": "spa_Latn", "label": "Mapudungun to Spanish"},
+    "es-arn": {"source": "spa_Latn", "target": "arn_Latn", "label": "Spanish to Mapudungun"}
+  },
+  "conditions": {
+    "standard-bpe": {"label": "Standard BPE", "archive_suffix": "", "asset": null},
+    "joint-bpe": {"label": "Joint-5K BPE", "archive_suffix": "-joint_bpe", "asset": "blocks_duan_bpe.model"},
+    "mono-bpe": {"label": "Mono BPE", "archive_suffix": "-mono_bpe", "asset": "blocks_large_bpe_1000.model"},
+    "optuna-bpe": {"label": "Optuna BPE", "archive_suffix": "-optuna_bpe", "asset": "blocks_mono_bpe_5829.model"},
+    "morfessor": {"label": "Morfessor", "archive_suffix": "-morfessor", "asset": "mapudungun_morfessor_model.bin"},
+    "morfessor-vc": {"label": "Morfessor-VC", "archive_suffix": "-morfessor_vc", "asset": "mapudungun_morfessor_model.bin"},
+    "morfessor-bpe": {"label": "Morfessor-BPE", "archive_suffix": "-morfessor_bpe", "asset": ["mapudungun_morfessor_model.bin", "blocks_morfessor_bpe_4000.model"]},
+    "unigram-lm": {"label": "UnigramLM", "archive_suffix": "-unigram_lm", "asset": "blocks_unigram_lm_1000.model"}
+  }
+}

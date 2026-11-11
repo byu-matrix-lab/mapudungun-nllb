@@ -82,5 +82,14 @@ poster/*.log
 poster/*.nav
 poster/*.snm
 poster/*.toc
+poster/poster.pdf
+poster/figures/*_final.png
 poster/figures/__MACOSX/
 poster/medallion.zip
+poster/EMNLP-MRL 2025 Poster.pptx.svg
+poster/LREC 2026 Poster.pptx.svg
+poster/EMNLP-MRL 2025 Poster.pdf
+poster/LREC 2026 Poster.pdf
+poster/figures/Medallion/EPS/
+poster/figures/Medallion/PNG/
+poster/figures/Medallion/SVG/
