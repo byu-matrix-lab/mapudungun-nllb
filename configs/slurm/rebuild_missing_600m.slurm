@@ -6,12 +6,13 @@
 #SBATCH --array=0-3
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1
-# Matrix A100s are often occupied by the lab's other arrays; permit the CS
-# A100/H100/B200 pools for this reproducibility repair.
-#SBATCH --partition=cs,cs2,cs3
+# A100 only, like the paper's original runs. Choose the queue at submission:
+#   sbatch --partition=dw --qos=matrix ...   or   sbatch --partition=cs --qos=cs ...
+#SBATCH --partition=cs
 #SBATCH --qos=cs
 #SBATCH --account=ekr8
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:a100:1
+#SBATCH --exclude=cs-1-2
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
 #SBATCH --time=10:00:00
@@ -36,6 +37,12 @@ export HF_DATASETS_OFFLINE=1
 export HF_HUB_OFFLINE=1
 
 cd "$PROJECT_DIR"
+# Refuse to train into a folder that already holds a run: two concurrent submissions of
+# this array once trained into the same folders and mixed their checkpoints (2026-11-11).
+if [ -e "$OUTPUT_DIR/run_config.json" ]; then
+  echo "ERROR: $OUTPUT_DIR already holds a run; move it aside first." >&2
+  exit 1
+fi
 mkdir -p logs "$OUTPUT_DIR"
 "$PROJECT_DIR/.venv/bin/python" scripts/training/finetune_nllb.py \
   --model facebook/nllb-200-distilled-600M \
