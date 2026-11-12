@@ -1,0 +1,345 @@
+{
+  "expected_packages": 48,
+  "validated_packages": 48,
+  "missing_packages": [],
+  "unexpected_packages": [],
+  "errors": [],
+  "packages": {
+    "mapudungun-nllb-600M-arn-es-standard-bpe": {
+      "file_count": 11,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-arn-es-joint-bpe": {
+      "file_count": 12,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-arn-es-mono-bpe": {
+      "file_count": 12,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-arn-es-optuna-bpe": {
+      "file_count": 12,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-arn-es-morfessor": {
+      "file_count": 12,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-arn-es-morfessor-vc": {
+      "file_count": 12,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-arn-es-morfessor-bpe": {
+      "file_count": 13,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-arn-es-unigram-lm": {
+      "file_count": 12,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-es-arn-standard-bpe": {
+      "file_count": 11,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-es-arn-joint-bpe": {
+      "file_count": 12,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-es-arn-mono-bpe": {
+      "file_count": 12,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-es-arn-optuna-bpe": {
+      "file_count": 12,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-es-arn-morfessor": {
+      "file_count": 12,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-es-arn-morfessor-vc": {
+      "file_count": 12,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-es-arn-morfessor-bpe": {
+      "file_count": 13,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-600M-es-arn-unigram-lm": {
+      "file_count": 12,
+      "weight_files": [
+        "model.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-arn-es-standard-bpe": {
+      "file_count": 13,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-arn-es-joint-bpe": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-arn-es-mono-bpe": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-arn-es-optuna-bpe": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-arn-es-morfessor": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-arn-es-morfessor-vc": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-arn-es-morfessor-bpe": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-arn-es-unigram-lm": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-es-arn-standard-bpe": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-es-arn-joint-bpe": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-es-arn-mono-bpe": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-es-arn-optuna-bpe": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-es-arn-morfessor": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-es-arn-morfessor-vc": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-es-arn-morfessor-bpe": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-1.3B-es-arn-unigram-lm": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-arn-es-standard-bpe": {
+      "file_count": 14,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-arn-es-joint-bpe": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-arn-es-mono-bpe": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-arn-es-optuna-bpe": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-arn-es-morfessor": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-arn-es-morfessor-vc": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-arn-es-morfessor-bpe": {
+      "file_count": 16,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-arn-es-unigram-lm": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-es-arn-standard-bpe": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-es-arn-joint-bpe": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-es-arn-mono-bpe": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-es-arn-optuna-bpe": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-es-arn-morfessor": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-es-arn-morfessor-vc": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-es-arn-morfessor-bpe": {
+      "file_count": 18,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    },
+    "mapudungun-nllb-3.3B-es-arn-unigram-lm": {
+      "file_count": 15,
+      "weight_files": [
+        "model-00001-of-00003.safetensors",
+        "model-00002-of-00003.safetensors",
+        "model-00003-of-00003.safetensors"
+      ]
+    }
+  }
+}

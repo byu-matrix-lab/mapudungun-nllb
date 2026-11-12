@@ -18,6 +18,7 @@ REPO = Path(__file__).resolve().parents[1]
 ARCHIVE = Path("/nobackup/archive/usr") / getpass.getuser()
 MATRIX_PATH = REPO / "release/model_matrix.json"
 STATS_PATH = REPO / "results/paper_stats.json"
+RECONSTRUCTION_CHECK_PATH = REPO / "results/release_reconstruction_check.json"
 INFERENCE = REPO / "scripts/model_inference.py"
 
 PAPER_CITE = """@inproceedings{thompson2026mapudungun,
@@ -136,7 +137,20 @@ def asset_paths(args, condition_spec):
     return paths
 
 
-def make_card(matrix, stats, size, direction, condition, repo_id, provenance):
+def reconstruction_note(check):
+    if not check:
+        return ""
+    if check["all_identical"]:
+        return (f"\n\nRelease verification reproduced all {check['n']:,} archived test predictions "
+                "from the paper-era checkpoint exactly.")
+    return (f"\n\nThe complete original checkpoint was unavailable, so this release was reconstructed with the "
+            f"paper recipe and exact original data. It reproduced {check['identical_lines']:,} of "
+            f"{check['n']:,} archived test predictions. The archived checkpoint's mean sentence-level "
+            f"chrF++ was {check['archived_mean_sentence_chrfpp']:.2f}; this reconstructed release scores "
+            f"{check['rebuilt_mean_sentence_chrfpp']:.2f} under the same evaluation.")
+
+
+def make_card(matrix, stats, size, direction, condition, repo_id, provenance, check):
     size_spec = matrix["sizes"][size]
     direction_spec = matrix["directions"][direction]
     condition_spec = matrix["conditions"][condition]
@@ -167,7 +181,7 @@ Fine-tuned {size_spec['base_model']} checkpoint for {direction_spec['label']}.
 
 The corrected paper pipeline reports mean sentence-level chrF++ **{result:.2f}** for this condition, size, and direction. This card was generated from the repository's results/paper_stats.json source of truth.
 
-Checkpoint provenance: {provenance}.
+Checkpoint provenance: {provenance}.{reconstruction_note(check)}
 
 ## Inference
 
@@ -192,7 +206,7 @@ def copy_asset(stage, name, source):
     shutil.copy2(source, stage / target_name)
 
 
-def stage_model(args, matrix, stats, size, direction, condition, source, provenance):
+def stage_model(args, matrix, stats, reconstruction_checks, size, direction, condition, source, provenance):
     repo_id = f"{matrix['organization']}/mapudungun-nllb-{size}-{direction}-{condition}"
     destination = args.stage_dir / repo_id.split("/", 1)[1]
     if destination.exists():
@@ -206,6 +220,7 @@ def stage_model(args, matrix, stats, size, direction, condition, source, provena
     for name, path in asset_paths(args, matrix["conditions"][condition]):
         copy_asset(destination, name, path)
     shutil.copy2(INFERENCE, destination / "inference.py")
+    check = reconstruction_checks.get(archive_name(matrix, size, direction, condition))
     metadata = {
         "condition": condition,
         "condition_label": matrix["conditions"][condition]["label"],
@@ -216,9 +231,15 @@ def stage_model(args, matrix, stats, size, direction, condition, source, provena
         "base_model": matrix["sizes"][size]["base_model"],
         "checkpoint_provenance": provenance,
     }
+    if check:
+        metadata["reconstruction_verification"] = {
+            key: value for key, value in check.items() if key != "rebuilt_predictions"
+        }
     (destination / "release_metadata.json").write_text(json.dumps(metadata, indent=2) + "\n", encoding="utf-8")
     (destination / "README.md").write_text(
-        make_card(matrix, stats, size, direction, condition, repo_id, provenance), encoding="utf-8")
+        make_card(matrix, stats, size, direction, condition, repo_id, provenance,
+                  check),
+        encoding="utf-8")
     return repo_id, destination
 
 
@@ -241,6 +262,13 @@ def main():
         args.stage = True
     matrix = json.loads(args.matrix.read_text(encoding="utf-8"))
     stats = json.loads(STATS_PATH.read_text(encoding="utf-8"))["paper_v2"]
+    reconstruction_checks = (json.loads(RECONSTRUCTION_CHECK_PATH.read_text(encoding="utf-8"))
+                             if RECONSTRUCTION_CHECK_PATH.exists() else {})
+    required_check_fields = {
+        "n", "identical_lines", "all_identical",
+        "archived_mean_sentence_chrfpp", "rebuilt_mean_sentence_chrfpp",
+        "archived_prediction_sha256", "rebuilt_prediction_sha256",
+    }
     resolved, errors = [], []
     for size, direction, condition in selections(args, matrix):
         source, provenance = resolve_source(args, matrix, size, direction, condition)
@@ -251,6 +279,13 @@ def main():
         try:
             validate_model(source)
             asset_paths(args, matrix["conditions"][condition])
+            if provenance == "reconstructed release run":
+                check = reconstruction_checks.get(archive_name(matrix, size, direction, condition), {})
+                missing_check_fields = required_check_fields - check.keys()
+                if missing_check_fields:
+                    raise ValueError(
+                        "reconstruction verification incomplete: missing "
+                        + ", ".join(sorted(missing_check_fields)))
         except Exception as exc:
             errors.append(f"{repo_id}: {exc}")
             continue
@@ -265,7 +300,7 @@ def main():
     staged = []
     if args.stage:
         for values in resolved:
-            staged.append(stage_model(args, matrix, stats, *values))
+            staged.append(stage_model(args, matrix, stats, reconstruction_checks, *values))
         print(f"Staged {len(staged)} models under {args.stage_dir}")
 
     if args.upload:
