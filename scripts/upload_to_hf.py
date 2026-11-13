@@ -52,6 +52,8 @@ def parse_args():
     parser.add_argument("--stage-dir", type=Path, default=ARCHIVE / "mapudungun_hf_stage")
     parser.add_argument("--stage", action="store_true")
     parser.add_argument("--upload", action="store_true")
+    parser.add_argument("--upload-staged", action="store_true",
+                        help="Upload already-staged packages without copying checkpoints again")
     parser.add_argument("--allow-partial", action="store_true")
     parser.add_argument("--condition")
     parser.add_argument("--size")
@@ -160,7 +162,7 @@ language:
 - arn
 - es
 license: other
-license_name: NLLB and corpus-derived terms
+license_name: nllb-and-corpus-derived-terms
 pipeline_tag: translation
 base_model: {size_spec['base_model']}
 tags:
@@ -258,6 +260,8 @@ def selections(args, matrix):
 
 def main():
     args = parse_args()
+    if args.upload and args.upload_staged:
+        raise SystemExit("choose either --upload or --upload-staged")
     if args.upload:
         args.stage = True
     matrix = json.loads(args.matrix.read_text(encoding="utf-8"))
@@ -302,8 +306,18 @@ def main():
         for values in resolved:
             staged.append(stage_model(args, matrix, stats, reconstruction_checks, *values))
         print(f"Staged {len(staged)} models under {args.stage_dir}")
+    elif args.upload_staged:
+        for size, direction, condition, _source, _provenance in resolved:
+            repo_id = f"{matrix['organization']}/mapudungun-nllb-{size}-{direction}-{condition}"
+            directory = args.stage_dir / repo_id.split("/", 1)[1]
+            validate_model(directory)
+            for required in ("README.md", "inference.py", "release_metadata.json"):
+                if not (directory / required).is_file():
+                    raise FileNotFoundError(directory / required)
+            staged.append((repo_id, directory))
+        print(f"Using {len(staged)} validated staged models under {args.stage_dir}")
 
-    if args.upload:
+    if args.upload or args.upload_staged:
         api = HfApi()
         for repo_id, directory in staged:
             create_repo(repo_id, repo_type="model", exist_ok=True, private=False)

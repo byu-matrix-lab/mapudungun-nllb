@@ -4,11 +4,13 @@
 import argparse
 import getpass
 import json
+import re
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 DEFAULT_STAGE = Path("/nobackup/archive/usr") / getpass.getuser() / "mapudungun_hf_stage"
 FORBIDDEN = {"optimizer.pt", "scheduler.pt", "training_args.bin", "rng_state.pth"}
+LICENSE_NAME_RE = re.compile(r"^[a-z0-9-.]+$")
 
 
 def parse_args():
@@ -58,6 +60,12 @@ def main():
                     errors.append(f"{name}: missing {', '.join(sorted(set(missing)))}")
                 if forbidden:
                     errors.append(f"{name}: forbidden training files {', '.join(forbidden)}")
+                card_path = path / "README.md"
+                if card_path.is_file():
+                    card = card_path.read_text(encoding="utf-8")
+                    match = re.search(r"^license_name:\s*(\S+)\s*$", card, re.MULTILINE)
+                    if not match or not LICENSE_NAME_RE.fullmatch(match.group(1)):
+                        errors.append(f"{name}: invalid lowercase license_name slug")
                 if (path / "release_metadata.json").is_file():
                     metadata = json.loads((path / "release_metadata.json").read_text(encoding="utf-8"))
                     wanted = {"size": size, "direction": direction, "condition": condition}
