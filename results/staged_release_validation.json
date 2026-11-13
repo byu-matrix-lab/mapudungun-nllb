@@ -158,7 +158,7 @@
       ]
     },
     "mapudungun-nllb-1.3B-es-arn-standard-bpe": {
-      "file_count": 14,
+      "file_count": 13,
       "weight_files": [
         "model-00001-of-00002.safetensors",
         "model-00002-of-00002.safetensors"
@@ -278,7 +278,7 @@
       ]
     },
     "mapudungun-nllb-3.3B-es-arn-standard-bpe": {
-      "file_count": 15,
+      "file_count": 14,
       "weight_files": [
         "model-00001-of-00003.safetensors",
         "model-00002-of-00003.safetensors",
@@ -326,7 +326,7 @@
       ]
     },
     "mapudungun-nllb-3.3B-es-arn-morfessor-bpe": {
-      "file_count": 18,
+      "file_count": 16,
       "weight_files": [
         "model-00001-of-00003.safetensors",
         "model-00002-of-00003.safetensors",

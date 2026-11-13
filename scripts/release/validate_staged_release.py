@@ -9,8 +9,21 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 DEFAULT_STAGE = Path("/nobackup/archive/usr") / getpass.getuser() / "mapudungun_hf_stage"
-FORBIDDEN = {"optimizer.pt", "scheduler.pt", "training_args.bin", "rng_state.pth"}
+ALLOWED_METADATA = {
+    "README.md", "added_tokens.json", "config.json", "generation_config.json", "inference.py",
+    "mapudungun_morfessor_model.bin", "mapudungun_segmenter.model", "release_metadata.json",
+    "sentencepiece.bpe.model", "special_tokens_map.json", "tokenizer.json", "tokenizer_config.json",
+}
 LICENSE_NAME_RE = re.compile(r"^[a-z0-9-.]+$")
+
+
+def is_allowed_file(path):
+    name = path.name
+    return (name in ALLOWED_METADATA
+            or name.endswith(".safetensors")
+            or name.endswith(".safetensors.index.json")
+            or (name.startswith("pytorch_model") and name.endswith(".bin"))
+            or name == "pytorch_model.bin.index.json")
 
 
 def parse_args():
@@ -55,7 +68,8 @@ def main():
                                        else "mapudungun_segmenter.model")
                         if not (path / staged_name).is_file():
                             missing.append(staged_name)
-                forbidden = sorted(item.name for item in path.iterdir() if item.name in FORBIDDEN)
+                forbidden = sorted(item.name for item in path.iterdir()
+                                   if item.is_file() and not is_allowed_file(item))
                 if missing:
                     errors.append(f"{name}: missing {', '.join(sorted(set(missing)))}")
                 if forbidden:

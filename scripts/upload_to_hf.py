@@ -39,6 +39,21 @@ DESCRIPTIONS = {
     "unigram-lm": "A Mapudungun-only SentencePiece UnigramLM condition.",
 }
 
+CHECKPOINT_METADATA_FILES = {
+    "added_tokens.json",
+    "config.json",
+    "generation_config.json",
+    "sentencepiece.bpe.model",
+    "special_tokens_map.json",
+    "tokenizer.json",
+    "tokenizer_config.json",
+}
+REMOTE_FORBIDDEN_FILES = [
+    "model.safetensors.OLD_BUGGY_ARN2ES",
+    "scaler.pt",
+    "trainer_state.json",
+]
+
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -68,6 +83,15 @@ def archive_name(matrix, size, direction, condition):
 
 def model_weight_exists(path):
     return any(path.glob("*.safetensors")) or any(path.glob("pytorch_model*.bin"))
+
+
+def is_release_checkpoint_file(path):
+    name = path.name
+    return (name in CHECKPOINT_METADATA_FILES
+            or name.endswith(".safetensors")
+            or name.endswith(".safetensors.index.json")
+            or (name.startswith("pytorch_model") and name.endswith(".bin"))
+            or name == "pytorch_model.bin.index.json")
 
 
 def validate_model(path):
@@ -214,9 +238,8 @@ def stage_model(args, matrix, stats, reconstruction_checks, size, direction, con
     if destination.exists():
         shutil.rmtree(destination)
     destination.mkdir(parents=True)
-    excluded = {"README.md", "training_args.bin", "optimizer.pt", "scheduler.pt", "rng_state.pth"}
     for item in source.iterdir():
-        if item.name not in excluded and item.is_file():
+        if item.is_file() and is_release_checkpoint_file(item):
             shutil.copy2(item, destination / item.name)
     validate_model(destination)
     for name, path in asset_paths(args, matrix["conditions"][condition]):
@@ -322,6 +345,7 @@ def main():
         for repo_id, directory in staged:
             create_repo(repo_id, repo_type="model", exist_ok=True, private=False)
             upload_folder(folder_path=str(directory), repo_id=repo_id, repo_type="model",
+                          delete_patterns=REMOTE_FORBIDDEN_FILES,
                           commit_message="Publish validated Mapudungun NLLB release")
             api.add_collection_item(collection_slug=matrix["collection"], item_id=repo_id,
                                     item_type="model", exists_ok=True)
