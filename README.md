@@ -19,7 +19,7 @@ The experiments use the corpus introduced by Duan et al. (2020). The small track
 ## Models
 
 <!-- BEGIN GENERATED: release-status -->
-The [Hugging Face collection](https://huggingface.co/collections/byumatrixlab/mapudungun-nllb-6a0b99ce4bbdd3b46531c6b4) currently contains **34 of 48** planned checkpoints. See [`results/release_status.json`](results/release_status.json) for the machine-checked list.
+All **48** fine-tuned checkpoints are available in the [Hugging Face collection](https://huggingface.co/collections/byumatrixlab/mapudungun-nllb-6a0b99ce4bbdd3b46531c6b4).
 <!-- END GENERATED: release-status -->
 
 Model repositories include condition metadata and any preprocessing assets required for inference. The model weights inherit the NLLB base model terms and the training data terms described on each model card.
