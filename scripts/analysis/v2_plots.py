@@ -160,8 +160,7 @@ C_MVC = "#E07020"
 
 def plot_heatmap(args):
     cond_display = ["Standard BPE", "Joint-5K BPE", "Mono BPE", "Optuna BPE",
-                    "Morfessor", "Morfessor-VC*", "Morfessor-BPE", "UnigramLM"]
-    mvc_row = 5
+                    "Morfessor", "Morfessor-VC", "Morfessor-BPE", "UnigramLM"]
 
     data_ae = np.array([[d[i][0] for i in range(3)] for _, d in ALL_CONDITIONS])
     data_ea = np.array([[d[i][1] for i in range(3)] for _, d in ALL_CONDITIONS])
@@ -192,9 +191,6 @@ def plot_heatmap(args):
                 ax.text(j, i, f"{v:.1f}", ha="center", va="center",
                         fontsize=9, color="black", fontweight=weight)
 
-        for j in range(3):
-            ax.add_patch(plt.Rectangle((j - 0.5, mvc_row - 0.5), 1, 1,
-                fill=False, edgecolor=C_MVC, lw=2.5, zorder=5))
 
         cb = plt.colorbar(im, ax=ax, label="chrF++", fraction=0.046, pad=0.04)
         cb.ax.tick_params(labelsize=9)

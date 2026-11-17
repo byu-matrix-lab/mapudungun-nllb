@@ -2116,6 +2116,32 @@
     "bootstrap": {
       "n": 10000,
       "seed": 42
+    },
+    "release": {
+      "n_reconstructed": 5,
+      "n_identical": 5,
+      "models": {
+        "nllb-600M-blocks-arn-es-morfessor_bpe": {
+          "identical": true,
+          "checked_on": "A100"
+        },
+        "nllb-600M-blocks-es-arn-morfessor_bpe": {
+          "identical": true,
+          "checked_on": "A100"
+        },
+        "nllb-600M-blocks-arn-es-unigram_lm": {
+          "identical": true,
+          "checked_on": "H200"
+        },
+        "nllb-600M-blocks-es-arn-unigram_lm": {
+          "identical": true,
+          "checked_on": "A100"
+        },
+        "nllb-200-3.3B-blocks-es-arn-unigram_lm": {
+          "identical": true,
+          "checked_on": "H200"
+        }
+      }
     }
   }
 }
