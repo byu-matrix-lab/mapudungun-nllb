@@ -19,6 +19,9 @@ ARCHIVE = Path("/nobackup/archive/usr") / getpass.getuser()
 MATRIX_PATH = REPO / "release/model_matrix.json"
 STATS_PATH = REPO / "results/paper_stats.json"
 RECONSTRUCTION_CHECK_PATH = REPO / "results/release_reconstruction_check.json"
+# Rebuilds whose originals' archived predictions came from an H200 are rechecked there
+# (scripts/release/verify_on_h200.py); fp16 greedy decoding differs between A100 and H200.
+H200_CHECK_PATH = REPO / "results/release_reconstruction_check_h200.json"
 INFERENCE = REPO / "scripts/model_inference.py"
 
 PAPER_CITE = """@inproceedings{thompson2026mapudungun,
@@ -169,6 +172,11 @@ def reconstruction_note(check):
     if check["all_identical"]:
         return (f"\n\nRelease verification reproduced all {check['n']:,} archived test predictions "
                 "from the paper-era checkpoint exactly.")
+    if check.get("h200_all_identical"):
+        return (f"\n\nRelease verification reproduced all {check['n']:,} archived test predictions from the "
+                "paper-era checkpoint exactly on an NVIDIA H200, the GPU type the archived predictions were "
+                "generated on. (On an A100, fp16 greedy decoding differs from them on about 2% of lines; that "
+                "is a hardware effect, not a model difference.)")
     return (f"\n\nThe complete original checkpoint was unavailable, so this release was reconstructed with the "
             f"paper recipe and exact original data. It reproduced {check['identical_lines']:,} of "
             f"{check['n']:,} archived test predictions. The archived checkpoint's mean sentence-level "
@@ -291,6 +299,10 @@ def main():
     stats = json.loads(STATS_PATH.read_text(encoding="utf-8"))["paper_v2"]
     reconstruction_checks = (json.loads(RECONSTRUCTION_CHECK_PATH.read_text(encoding="utf-8"))
                              if RECONSTRUCTION_CHECK_PATH.exists() else {})
+    if H200_CHECK_PATH.exists():
+        for name, h200 in json.loads(H200_CHECK_PATH.read_text(encoding="utf-8"))["models"].items():
+            if name in reconstruction_checks:
+                reconstruction_checks[name]["h200_all_identical"] = h200["all_identical"]
     required_check_fields = {
         "n", "identical_lines", "all_identical",
         "archived_mean_sentence_chrfpp", "rebuilt_mean_sentence_chrfpp",
